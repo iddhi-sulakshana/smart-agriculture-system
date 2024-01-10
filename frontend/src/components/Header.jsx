@@ -136,14 +136,12 @@ export default function Header() {
             >
                 <IconButton
                     size="md"
-                    variant="outlined"
-                    color="neutral"
+                    variant="none"
                     sx={{
                         display: { xs: "none", sm: "inline-flex" },
-                        borderRadius: "50%",
                     }}
                 >
-                    <LanguageRoundedIcon />
+                    <Avatar src="/logo.png" color="none" />
                 </IconButton>
                 <Button
                     variant="plain"
