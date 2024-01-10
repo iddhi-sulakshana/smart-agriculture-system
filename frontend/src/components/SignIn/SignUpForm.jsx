@@ -9,13 +9,46 @@ import {
     Stack,
     Typography,
 } from "@mui/joy";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function SignUpForm({ switchToSignin }) {
+    const [fade, setFade] = useState(true);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [checked, setChecked] = useState(false);
+
+    useEffect(() => {
+        setFade(false);
+    }, []);
+
+    function handleSignUp(event) {
+        event.preventDefault();
+
+        // validate form
+        if (!name || !email || !password) {
+            alert("Please fill out all fields");
+            return;
+        }
+
+        // TODO: Send request to backend to register the user
+        // TODO: If successful, redirect to login page
+        // TODO: If unsuccessful, display error message
+
+        // set to default
+        setName("");
+        setEmail("");
+        setPassword("");
+        setChecked(false);
+    }
+
     return (
         <Box
             sx={{
+                transition: "opacity 0.3s, transform 0.4s",
+                transform: fade ? "translateX(25%)" : "translateX(0)",
+                opacity: fade ? 0 : 1,
                 display: "flex",
                 flexDirection: "column",
                 width: "clamp(800px, (769px - 100vw) * 999, 100%)",
@@ -38,9 +71,6 @@ function SignUpForm({ switchToSignin }) {
                         flexDirection: "column",
                         gap: 2,
                     },
-                    // [`& .${formLabelClasses.asterisk}`]: {
-                    //     visibility: "hidden",
-                    // },
                 }}
             >
                 <Stack gap={1} mb={2}>
@@ -49,7 +79,10 @@ function SignUpForm({ switchToSignin }) {
                     <Button
                         variant="outlined"
                         fullWidth
-                        onClick={switchToSignin}
+                        onClick={() => {
+                            setFade(true);
+                            switchToSignin();
+                        }}
                     >
                         Sign In
                     </Button>

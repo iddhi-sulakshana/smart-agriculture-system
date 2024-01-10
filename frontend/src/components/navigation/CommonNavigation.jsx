@@ -23,6 +23,8 @@ import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import UserContext from "../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function ColorSchemeToggle() {
     const { mode, setMode } = useColorScheme();
@@ -59,6 +61,13 @@ function ColorSchemeToggle() {
     );
 }
 function CommonNavigation() {
+    const { setToken } = UserContext();
+    const navigate = useNavigate();
+    function handleLogout() {
+        localStorage.removeItem("token");
+        setToken(null);
+        navigate("/signin");
+    }
     return (
         <Box
             sx={{
@@ -185,7 +194,7 @@ function CommonNavigation() {
                         <OpenInNewRoundedIcon />
                     </MenuItem>
                     <ListDivider />
-                    <MenuItem>
+                    <MenuItem onClick={handleLogout}>
                         <LogoutRoundedIcon />
                         Log out
                     </MenuItem>

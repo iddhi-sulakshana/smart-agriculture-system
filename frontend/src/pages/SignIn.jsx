@@ -1,16 +1,28 @@
 import { Box } from "@mui/joy";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import SignInForm from "../components/SignIn/SignInForm";
 import SignUpForm from "../components/SignIn/SignUpForm";
+import UserContext from "../contexts/UserContext";
 
 function SignIn() {
+    const { token } = UserContext();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (token) {
+            navigate("/");
+        }
+    }, [token]);
     const [active, setActive] = useState("signin");
     const switchToSignup = () => {
-        setActive("signup");
+        setTimeout(() => {
+            setActive("signup");
+        }, 300);
     };
     const switchToSignin = () => {
-        setActive("signin");
+        setTimeout(() => {
+            setActive("signin");
+        }, 300);
     };
     return (
         <>

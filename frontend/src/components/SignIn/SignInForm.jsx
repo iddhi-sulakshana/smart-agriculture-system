@@ -9,13 +9,50 @@ import {
     Stack,
     Typography,
 } from "@mui/joy";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 
 function SignInForm({ switchToSignup }) {
+    const [fade, setFade] = useState(true);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [checked, setChecked] = useState(false);
+    const { setToken } = UserContext();
+    useEffect(() => {
+        setFade(false);
+    }, []);
+
+    function handleSignIn(event) {
+        event.preventDefault();
+        const token =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTlmMTQxNjZkNGY5MmY3MTI4NmNlYzMiLCJpYXQiOjE1MTYyMzgwMjB9.L42I5wm0NY7naR_5nt0qof-TqB4NYBdLCA3hHMAS_rA";
+
+        // validate form
+        if (!email || !password) {
+            alert("Please fill out all fields");
+            return;
+        }
+
+        // TODO: Send request to backend to verify user credentials
+        // TODO: If successful, set token in local storage
+        localStorage.setItem("token", token);
+        setToken(token);
+        // TODO: If unsuccessful, display error message
+        // TODO: If successful, redirect to home page
+
+        // set to default
+        setEmail("");
+        setPassword("");
+        setChecked(false);
+    }
+
     return (
         <Box
             sx={{
+                transition: "opacity 0.3s, transform 0.4s",
+                transform: fade ? "translateX(-25%)" : "translateX(0)",
+                opacity: fade ? 0 : 1,
                 display: "flex",
                 flexDirection: "column",
                 width: "clamp(800px, (769px - 100vw) * 999, 100%)",
@@ -38,9 +75,6 @@ function SignInForm({ switchToSignup }) {
                         flexDirection: "column",
                         gap: 2,
                     },
-                    // [`& .${formLabelClasses.asterisk}`]: {
-                    //     visibility: "hidden",
-                    // },
                 }}
             >
                 <Stack gap={1} mb={2}>
@@ -49,7 +83,10 @@ function SignInForm({ switchToSignup }) {
                     <Button
                         variant="outlined"
                         fullWidth
-                        onClick={switchToSignup}
+                        onClick={() => {
+                            setFade(true);
+                            switchToSignup();
+                        }}
                     >
                         Sign Up
                     </Button>
@@ -65,25 +102,28 @@ function SignInForm({ switchToSignup }) {
                     or
                 </Divider>
                 <Stack gap={4} mt={2}>
-                    <form
-                        onSubmit={(event) => {
-                            event.preventDefault();
-                            const formElements = event.currentTarget.elements;
-                            const data = {
-                                email: formElements.email.value,
-                                password: formElements.password.value,
-                                persistent: formElements.persistent.checked,
-                            };
-                            alert(JSON.stringify(data, null, 2));
-                        }}
-                    >
+                    <form onSubmit={handleSignIn}>
                         <FormControl required>
                             <FormLabel>Email</FormLabel>
-                            <Input type="email" name="email" />
+                            <Input
+                                type="email"
+                                name="email"
+                                value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                            />
                         </FormControl>
                         <FormControl required>
                             <FormLabel>Password</FormLabel>
-                            <Input type="password" name="password" />
+                            <Input
+                                type="password"
+                                name="password"
+                                value={password}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                            />
                         </FormControl>
                         <Stack gap={4} sx={{ mt: 2 }}>
                             <Box
@@ -97,6 +137,10 @@ function SignInForm({ switchToSignup }) {
                                     size="sm"
                                     label="Remember me"
                                     name="persistent"
+                                    checked={checked}
+                                    onChange={(e) => {
+                                        setChecked(e.target.checked);
+                                    }}
                                 />
                                 <Link
                                     level="title-sm"
