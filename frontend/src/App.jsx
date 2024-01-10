@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 // Joy components
 import { CssVarsProvider } from "@mui/joy/styles";
@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import Layout from "./components/Layout";
 import Header from "./components/navigation/Header";
 import Footer from "./components/navigation/Footer";
+import { Box } from "@mui/joy";
+import SignIn from "./pages/SignIn";
 
 function App() {
     return (
@@ -21,6 +23,7 @@ function App() {
                 <Layout.Main>
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/signin" element={<SignIn />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Layout.Main>

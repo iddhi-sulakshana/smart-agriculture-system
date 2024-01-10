@@ -95,12 +95,7 @@ function Main(props) {
             {...props}
             sx={[
                 {
-                    p: 2,
-                    pt: {
-                        xs: "calc(12px + var(--Header-height))",
-                        sm: "calc(12px + var(--Header-height))",
-                        md: 3,
-                    },
+                    width: "100%",
                     width: "100dvw",
                     maxWidth: "100dvw",
                     overflowX: "hidden",
