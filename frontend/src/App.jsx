@@ -7,7 +7,8 @@ import CssBaseline from "@mui/joy/CssBaseline";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Layout from "./components/Layout";
-import Header from "./components/Header";
+import Header from "./components/navigation/Header";
+import Footer from "./components/navigation/Footer";
 
 function App() {
     return (
@@ -23,6 +24,9 @@ function App() {
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Layout.Main>
+                <Layout.Footer>
+                    <Footer />
+                </Layout.Footer>
             </Layout.Root>
         </CssVarsProvider>
     );

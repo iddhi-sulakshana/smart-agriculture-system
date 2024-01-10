@@ -9,12 +9,8 @@ function Root(props) {
             sx={[
                 {
                     display: "grid",
-                    gridTemplateColumns: {
-                        xs: "1fr",
-                        sm: "minmax(64px, 200px) minmax(450px, 1fr)",
-                        md: "minmax(160px, 300px) minmax(300px, 500px) minmax(500px, 1fr)",
-                    },
-                    gridTemplateRows: "64px 1fr",
+                    gridTemplateColumns: "1fr",
+                    gridTemplateRows: "0fr 1fr 0fr",
                     minHeight: "100vh",
                 },
                 ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
@@ -98,11 +94,39 @@ function Main(props) {
             className="Main"
             {...props}
             sx={[
-                { p: 2 },
+                {
+                    p: 2,
+                    pt: {
+                        xs: "calc(12px + var(--Header-height))",
+                        sm: "calc(12px + var(--Header-height))",
+                        md: 3,
+                    },
+                    width: "100dvw",
+                    maxWidth: "100dvw",
+                    overflowX: "hidden",
+                },
+                ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
+            ]}
+        />
+    );
+}
+function Footer(props) {
+    return (
+        <Box
+            component="footer"
+            className="Footer"
+            {...props}
+            sx={[
+                {
+                    p: 2,
+                    bgcolor: "background.surface",
+                    borderTop: "1px solid",
+                    borderColor: "divider",
+                },
                 ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
             ]}
         />
     );
 }
 
-export default { Root, Header, SideDrawer, Main };
+export default { Root, Header, SideDrawer, Main, Footer };

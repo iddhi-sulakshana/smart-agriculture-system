@@ -2,9 +2,9 @@ import React from "react";
 // Joy components
 import { Box } from "@mui/joy";
 // Local components
-import MobileNavigation from "./navigation/MobileNavigation";
-import DesktopNavigation from "./navigation/DesktopNavigation";
-import CommonNavigation from "./navigation/CommonNavigation";
+import MobileNavigation from "./MobileNavigation";
+import DesktopNavigation from "./DesktopNavigation";
+import CommonNavigation from "./CommonNavigation";
 
 export default function Header() {
     return (
