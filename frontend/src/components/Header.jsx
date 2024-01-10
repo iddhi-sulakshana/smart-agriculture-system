@@ -7,6 +7,7 @@ import {
     Dropdown,
     IconButton,
     Input,
+    Link,
     ListDivider,
     Menu,
     MenuButton,
@@ -31,6 +32,7 @@ import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
 // Local components
 import MobileNavigation from "./MobileNavigation";
+import MobileBottom from "./Navigation/MobileBottom";
 
 function ColorSchemeToggle() {
     const { mode, setMode } = useColorScheme();
@@ -75,58 +77,9 @@ export default function Header() {
                 justifyContent: "space-between",
             }}
         >
-            <Stack
-                id="tab-bar"
-                direction="row"
-                justifyContent="space-around"
-                spacing={1}
-                sx={{
-                    display: { xs: "flex", sm: "none" },
-                    zIndex: "999",
-                    bottom: 0,
-                    position: "fixed",
-                    width: "100dvw",
-                    py: 2,
-                    backgroundColor: "background.body",
-                    borderTop: "1px solid",
-                    borderColor: "divider",
-                }}
-            >
-                <Button
-                    variant="plain"
-                    color="neutral"
-                    aria-pressed="true"
-                    component="a"
-                    href="/joy-ui/getting-started/templates/email/"
-                    size="sm"
-                    startDecorator={<EmailRoundedIcon />}
-                    sx={{ flexDirection: "column", "--Button-gap": 0 }}
-                >
-                    Email
-                </Button>
-                <Button
-                    variant="plain"
-                    color="neutral"
-                    component="a"
-                    href="/joy-ui/getting-started/templates/team/"
-                    size="sm"
-                    startDecorator={<PeopleAltRoundedIcon />}
-                    sx={{ flexDirection: "column", "--Button-gap": 0 }}
-                >
-                    Team
-                </Button>
-                <Button
-                    variant="plain"
-                    color="neutral"
-                    component="a"
-                    href="/joy-ui/getting-started/templates/files/"
-                    size="sm"
-                    startDecorator={<FolderRoundedIcon />}
-                    sx={{ flexDirection: "column", "--Button-gap": 0 }}
-                >
-                    Files
-                </Button>
-            </Stack>
+            {/* Mobile bottom nav */}
+            <MobileBottom />
+            {/* Desktop Navbar */}
             <Stack
                 direction="row"
                 justifyContent="center"
