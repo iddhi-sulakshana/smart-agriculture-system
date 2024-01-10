@@ -53,6 +53,7 @@ function MobileNavigation() {
                                 Menu
                             </ListSubheader>
                             <List aria-labelledby="nav-list-browse">
+                                {/* Mobile Menu items */}
                                 <ListItem>
                                     <ListItemButton selected>
                                         <ListItemDecorator>
