@@ -1,5 +1,7 @@
 import { Avatar, Button, IconButton, Stack } from "@mui/joy";
 import React from "react";
+import Links from "./Links";
+import { NavLink } from "react-router-dom";
 
 function DesktopNavigation() {
     return (
@@ -19,37 +21,28 @@ function DesktopNavigation() {
             >
                 <Avatar src="/logo.png" color="none" />
             </IconButton>
-            <Button
-                variant="plain"
-                color="neutral"
-                aria-pressed="true"
-                component="a"
-                href="/joy-ui/getting-started/templates/email/"
-                size="sm"
-                sx={{ alignSelf: "center" }}
-            >
-                Email
-            </Button>
-            <Button
-                variant="plain"
-                color="neutral"
-                component="a"
-                href="/joy-ui/getting-started/templates/team/"
-                size="sm"
-                sx={{ alignSelf: "center" }}
-            >
-                Team
-            </Button>
-            <Button
-                variant="plain"
-                color="neutral"
-                component="a"
-                href="/joy-ui/getting-started/templates/files/"
-                size="sm"
-                sx={{ alignSelf: "center" }}
-            >
-                Files
-            </Button>
+            {/* Desktop Menu items */}
+            {Links.map(({ name, to }) => (
+                <NavLink
+                    to={to}
+                    key={name}
+                    children={({ isActive }) => {
+                        return (
+                            <Button
+                                variant="plain"
+                                color="neutral"
+                                aria-pressed={isActive}
+                                size="sm"
+                                sx={{
+                                    alignSelf: "center",
+                                }}
+                            >
+                                {name}
+                            </Button>
+                        );
+                    }}
+                />
+            ))}
         </Stack>
     );
 }

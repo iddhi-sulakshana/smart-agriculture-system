@@ -2,15 +2,15 @@ import InboxRoundedIcon from "@mui/icons-material/InboxRounded";
 
 export default [
     {
-        name: "Inbox",
-        to: "/email",
+        name: "Home",
+        to: "/",
     },
     {
-        name: "Files",
-        to: "/files",
+        name: "Sign In",
+        to: "/signin",
     },
     {
-        name: "Photos",
-        to: "/photos",
+        name: "Sign Up",
+        to: "/signup",
     },
 ];

@@ -17,7 +17,9 @@ export default function Header() {
         >
             {/* Desktop Navbar */}
             <DesktopNavigation />
+            {/* Mobile Navbar */}
             <MobileNavigation />
+            {/* Common Navbar in Right Side*/}
             <CommonNavigation />
         </Box>
     );

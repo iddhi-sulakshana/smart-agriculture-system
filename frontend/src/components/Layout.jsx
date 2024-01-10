@@ -22,6 +22,7 @@ function Root(props) {
         />
     );
 }
+
 function Header(props) {
     return (
         <Box
@@ -90,4 +91,18 @@ function SideDrawer({ onClose, children, ...other }) {
     );
 }
 
-export default { Root, Header, SideDrawer };
+function Main(props) {
+    return (
+        <Box
+            component="main"
+            className="Main"
+            {...props}
+            sx={[
+                { p: 2 },
+                ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
+            ]}
+        />
+    );
+}
+
+export default { Root, Header, SideDrawer, Main };
