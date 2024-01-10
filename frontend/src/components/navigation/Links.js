@@ -9,8 +9,4 @@ export default [
         name: "Sign In",
         to: "/signin",
     },
-    {
-        name: "Sign Up",
-        to: "/signup",
-    },
 ];

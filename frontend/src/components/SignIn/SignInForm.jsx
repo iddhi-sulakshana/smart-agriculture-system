@@ -12,6 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
+import SnackBarContext from "../../contexts/SnackBarContext";
 
 function SignInForm({ switchToSignup }) {
     const [fade, setFade] = useState(true);
@@ -19,6 +20,7 @@ function SignInForm({ switchToSignup }) {
     const [password, setPassword] = useState("");
     const [checked, setChecked] = useState(false);
     const { setToken } = UserContext();
+    const { showMessage } = SnackBarContext();
     useEffect(() => {
         setFade(false);
     }, []);
@@ -30,7 +32,11 @@ function SignInForm({ switchToSignup }) {
 
         // validate form
         if (!email || !password) {
-            alert("Please fill out all fields");
+            showMessage("error", "Please fill in all fields");
+            return;
+        }
+        if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) === false) {
+            showMessage("error", "Please enter a valid email address");
             return;
         }
 
@@ -42,6 +48,7 @@ function SignInForm({ switchToSignup }) {
         // TODO: If successful, redirect to home page
 
         // set to default
+        showMessage("success", "Sign in successful");
         setEmail("");
         setPassword("");
         setChecked(false);
@@ -102,7 +109,7 @@ function SignInForm({ switchToSignup }) {
                     or
                 </Divider>
                 <Stack gap={4} mt={2}>
-                    <form onSubmit={handleSignIn}>
+                    <form noValidate onSubmit={handleSignIn}>
                         <FormControl required>
                             <FormLabel>Email</FormLabel>
                             <Input

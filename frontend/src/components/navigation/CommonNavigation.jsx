@@ -25,47 +25,16 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import UserContext from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import SnackBarContext from "../../contexts/SnackBarContext";
 
-function ColorSchemeToggle() {
-    const { mode, setMode } = useColorScheme();
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-    if (!mounted) {
-        return <IconButton size="sm" variant="outlined" color="primary" />;
-    }
-    return (
-        <Tooltip title="Change theme" variant="outlined">
-            <IconButton
-                id="toggle-mode"
-                size="sm"
-                variant="plain"
-                color="neutral"
-                sx={{ alignSelf: "center" }}
-                onClick={() => {
-                    if (mode === "light") {
-                        setMode("dark");
-                    } else {
-                        setMode("light");
-                    }
-                }}
-            >
-                {mode === "light" ? (
-                    <DarkModeRoundedIcon />
-                ) : (
-                    <LightModeRoundedIcon />
-                )}
-            </IconButton>
-        </Tooltip>
-    );
-}
 function CommonNavigation() {
     const { setToken } = UserContext();
     const navigate = useNavigate();
+    const { showMessage } = SnackBarContext();
     function handleLogout() {
         localStorage.removeItem("token");
         setToken(null);
+        showMessage("success", "Sign out successful");
         navigate("/signin");
     }
     return (
@@ -204,4 +173,38 @@ function CommonNavigation() {
     );
 }
 
+function ColorSchemeToggle() {
+    const { mode, setMode } = useColorScheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+    if (!mounted) {
+        return <IconButton size="sm" variant="outlined" color="primary" />;
+    }
+    return (
+        <Tooltip title="Change theme" variant="outlined">
+            <IconButton
+                id="toggle-mode"
+                size="sm"
+                variant="plain"
+                color="neutral"
+                sx={{ alignSelf: "center" }}
+                onClick={() => {
+                    if (mode === "light") {
+                        setMode("dark");
+                    } else {
+                        setMode("light");
+                    }
+                }}
+            >
+                {mode === "light" ? (
+                    <DarkModeRoundedIcon />
+                ) : (
+                    <LightModeRoundedIcon />
+                )}
+            </IconButton>
+        </Tooltip>
+    );
+}
 export default CommonNavigation;
