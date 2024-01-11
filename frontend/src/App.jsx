@@ -10,12 +10,10 @@ import Layout from "./components/Layout";
 import Header from "./components/navigation/Header";
 import Footer from "./components/navigation/Footer";
 import SignIn from "./pages/SignIn";
-import SnackBarContext from "./contexts/SnackBarContext";
-import { IconButton, Snackbar } from "@mui/joy";
 import Profile from "./pages/Profile";
+import Notification from "./components/Notification";
 
 function App() {
-    const { open, message, setOpen } = SnackBarContext();
     return (
         <CssVarsProvider disableTransitionOnChange>
             <CssBaseline />
@@ -35,16 +33,7 @@ function App() {
                     <Footer />
                 </Layout.Footer>
             </Layout.Root>
-            {/* Snackbar */}
-            <Snackbar
-                color={message.color}
-                variant="solid"
-                open={open}
-                autoHideDuration={6000}
-                onClose={() => setOpen(false)}
-            >
-                {message.message}
-            </Snackbar>
+            <Notification />
         </CssVarsProvider>
     );
 }

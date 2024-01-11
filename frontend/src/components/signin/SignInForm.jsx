@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
-import SnackBarContext from "../../contexts/SnackBarContext";
+import { toast } from "react-toastify";
 
 function SignInForm({ switchToSignup }) {
     const [fade, setFade] = useState(true);
@@ -20,7 +20,6 @@ function SignInForm({ switchToSignup }) {
     const [password, setPassword] = useState("");
     const [checked, setChecked] = useState(false);
     const { setToken } = UserContext();
-    const { showMessage } = SnackBarContext();
     useEffect(() => {
         setFade(false);
     }, []);
@@ -32,11 +31,11 @@ function SignInForm({ switchToSignup }) {
 
         // validate form
         if (!email || !password) {
-            showMessage("error", "Please fill in all fields");
+            toast.error("Please fill in all fields");
             return;
         }
         if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) === false) {
-            showMessage("error", "Please enter a valid email address");
+            toast.error("Please enter a valid email address");
             return;
         }
 
@@ -48,7 +47,7 @@ function SignInForm({ switchToSignup }) {
         // TODO: If successful, redirect to home page
 
         // set to default
-        showMessage("success", "Sign in successful");
+        toast.success("Sign in successful");
         setEmail("");
         setPassword("");
         setChecked(false);

@@ -17,8 +17,7 @@ import {
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 // hooks
 import useUserDetails from "../../hooks/useUserDetails";
-// contexts
-import SnackBarContext from "../../contexts/SnackBarContext";
+import { toast } from "react-toastify";
 
 function PersonalCard() {
     const [name, setName] = useState("");
@@ -26,7 +25,6 @@ function PersonalCard() {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [avatar, setAvatar] = useState("");
-    const { showMessage } = SnackBarContext();
     const { userDetails, loading, error } = useUserDetails();
     useEffect(() => {
         if (!loading && !error && userDetails) {
@@ -40,21 +38,21 @@ function PersonalCard() {
     const handleUpdate = () => {
         // validate form data
         if (!name || !email || !phone || !address) {
-            showMessage("error", "Please fill all the fields");
+            toast.error("Please fill all the fields");
             return;
         }
         if (/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(email) === false) {
-            showMessage("error", "Please enter a valid email");
+            toast.error("Please enter a valid email");
             return;
         }
         // TODO: update user details
         // TODO: show snackbar
         // TODO: update user details
-        showMessage("success", "User details updated successfully");
+        toast.success("User details updated successfully");
     };
     return (
         <Card>
-            <Box mb={1}>
+            <Box>
                 <Typography level="title-md">Personal Info</Typography>
             </Box>
             <Divider />

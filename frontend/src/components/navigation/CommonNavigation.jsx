@@ -26,19 +26,18 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // Contexts
 import UserContext from "../../contexts/UserContext";
-import SnackBarContext from "../../contexts/SnackBarContext";
 // Hooks
 import useUserDetails from "../../hooks/useUserDetails";
+import { toast } from "react-toastify";
 
 function CommonNavigation() {
     const { token, setToken } = UserContext();
     const navigate = useNavigate();
-    const { showMessage } = SnackBarContext();
     const { userDetails, loading, error } = useUserDetails();
     function handleLogout() {
         localStorage.removeItem("token");
         setToken(null);
-        showMessage("success", "Sign out successful");
+        toast.success("Sign out successful");
         navigate("/signin");
     }
     return (

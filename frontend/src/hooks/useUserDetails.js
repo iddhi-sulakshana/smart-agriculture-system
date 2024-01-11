@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
-import SnackBarContext from "../contexts/SnackBarContext";
 const user = {
     name: "John Doe",
     email: "jhon@doe.com",
@@ -23,7 +22,6 @@ async function getUserDetails() {
 }
 
 export default function useUserDetails() {
-    const { showMessage } = SnackBarContext();
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -44,10 +42,7 @@ export default function useUserDetails() {
                 setLoading(false);
             })
             .catch((error) => {
-                showMessage(
-                    "error",
-                    "Error fetching user details: " + error.message
-                );
+                toast.error("Error fetching user details: " + error.message);
                 setError(error.message);
                 setLoading(false);
             });
