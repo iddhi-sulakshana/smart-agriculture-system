@@ -1,11 +1,22 @@
 import { Carousel } from "antd";
 import React from "react";
 import { Button, Card, CardContent, CardCover, Typography } from "@mui/joy";
-const images = ["/00001.jpg", "/00002.jpg", "/00003.jpg", "/00004.jpg"];
+const desktopImages = [
+    "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/healthy-food-social-media-post-design-template-988c761f0a262010fb2c3c9ffb86595d_screen.jpg?ts=1619169140",
+    "/00002.jpg",
+    "/00003.jpg",
+    "/00004.jpg",
+];
+const mobileImages = [
+    "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/organic-fresh-food-instagram-post-design-template-22a9bcbe1421b2a3df2e91b1c73dc6ed_screen.jpg?ts=1619170161",
+    "/00002.jpg",
+    "/00003.jpg",
+    "/00004.jpg",
+];
 function CarouselCover() {
     return (
         <Carousel autoplay speed={1000} infinite>
-            {images.map((step, index) => (
+            {desktopImages.map((step, index) => (
                 <Card
                     key={index}
                     variant="solid"
@@ -16,19 +27,34 @@ function CarouselCover() {
                             md: 500,
                         },
                         width: "100%",
-                        borderRadius: "md",
-                        boxShadow: "md",
                     }}
                 >
                     <CardCover>
-                        <img src={step} alt="Iceland" loading="lazy" />
+                        <picture>
+                            {/* Add source elements for different image sources */}
+                            <source
+                                media="(max-width: 600px)"
+                                srcSet={`${mobileImages[index]} 1x`}
+                            />
+                            <img
+                                src={step}
+                                alt="Iceland"
+                                loading="lazy"
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "fill",
+                                }}
+                            />
+                        </picture>
                     </CardCover>
                     <CardCover
                         sx={{
                             background:
-                                "linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)",
+                                "linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 50px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 100px)",
                         }}
                     />
+                    {/* 
                     <CardContent
                         sx={{
                             minHeight: {
@@ -71,7 +97,7 @@ function CarouselCover() {
                         >
                             Shop Now
                         </Button>
-                    </CardContent>
+                    </CardContent> */}
                 </Card>
             ))}
         </Carousel>
