@@ -22,7 +22,7 @@ function Profile() {
                 mx: "auto",
                 px: {
                     xs: 0,
-                    md: 6,
+                    md: 10,
                 },
             }}
         >

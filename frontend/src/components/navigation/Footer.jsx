@@ -6,13 +6,14 @@ function Footer() {
         <Box
             component="footer"
             sx={{
-                p: 2,
                 display: "grid",
                 gridTemplateColumns: {
                     xs: "1fr",
                     md: "2fr 1fr 2fr", // Three columns for about, links, and subscription form
                 },
                 gap: 5,
+                px: { xs: 2, sm: 10 },
+                p: 2,
             }}
         >
             {/* About column */}

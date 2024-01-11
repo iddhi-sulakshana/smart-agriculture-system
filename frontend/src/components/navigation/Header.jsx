@@ -13,6 +13,7 @@ export default function Header() {
                 display: "flex",
                 flexGrow: 1,
                 justifyContent: "space-between",
+                px: { xs: 0, sm: 10 },
             }}
         >
             {/* Desktop Navbar */}
