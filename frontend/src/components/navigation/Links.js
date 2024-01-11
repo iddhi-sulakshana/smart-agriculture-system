@@ -8,5 +8,11 @@ export default [
     {
         name: "Sign In",
         to: "/signin",
+        nonLogged: true,
+    },
+    {
+        name: "Profile",
+        to: "/profile",
+        logged: true,
     },
 ];

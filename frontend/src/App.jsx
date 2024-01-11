@@ -12,6 +12,7 @@ import Footer from "./components/navigation/Footer";
 import SignIn from "./pages/SignIn";
 import SnackBarContext from "./contexts/SnackBarContext";
 import { IconButton, Snackbar } from "@mui/joy";
+import Profile from "./pages/Profile";
 
 function App() {
     const { open, message, setOpen } = SnackBarContext();
@@ -26,6 +27,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/signin" element={<SignIn />} />
+                        <Route path="/profile" element={<Profile />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Layout.Main>

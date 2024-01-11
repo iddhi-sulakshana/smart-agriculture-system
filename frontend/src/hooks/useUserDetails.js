@@ -34,6 +34,7 @@ export default function useUserDetails() {
         if (!token) {
             setError("No token provided");
             setLoading(false);
+            return;
         }
         getUserDetails()
             .then((userDetails) => {

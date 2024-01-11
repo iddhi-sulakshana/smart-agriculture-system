@@ -10,7 +10,7 @@ function SignIn() {
     const navigate = useNavigate();
     useEffect(() => {
         if (token) {
-            navigate("/");
+            navigate("/profile");
         }
     }, [token]);
     const [active, setActive] = useState("signin");
