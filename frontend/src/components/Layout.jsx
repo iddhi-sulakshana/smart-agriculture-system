@@ -96,9 +96,12 @@ function Main(props) {
             sx={[
                 {
                     width: "100%",
-                    width: "100dvw",
                     maxWidth: "100dvw",
                     overflowX: "hidden",
+                    px: {
+                        xs: 2,
+                        md: 0,
+                    },
                 },
                 ...(Array.isArray(props.sx) ? props.sx : [props.sx]),
             ]}

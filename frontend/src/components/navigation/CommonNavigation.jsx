@@ -29,6 +29,7 @@ import UserContext from "../../contexts/UserContext";
 // Hooks
 import useUserDetails from "../../hooks/useUserDetails";
 import { toast } from "react-toastify";
+import CustomAvatar from "../CustomAvatar";
 
 function CommonNavigation() {
     const { token, setToken } = UserContext();
@@ -61,13 +62,13 @@ function CommonNavigation() {
                             borderRadius: "100%",
                         }}
                     >
-                        <Avatar
+                        <CustomAvatar
                             src={!loading ? userDetails?.avatar : ""}
                             srcSet={!loading ? userDetails?.avatar : ""}
                             sx={{ maxWidth: "32px", maxHeight: "32px" }}
                         >
                             <Skeleton loading={loading} />
-                        </Avatar>
+                        </CustomAvatar>
                     </MenuButton>
                     <Menu
                         placement="bottom-end"
@@ -86,13 +87,13 @@ function CommonNavigation() {
                                     alignItems: "center",
                                 }}
                             >
-                                <Avatar
+                                <CustomAvatar
                                     src={!loading ? userDetails?.avatar : ""}
                                     srcSet={!loading ? userDetails?.avatar : ""}
                                     sx={{ maxWidth: "32px", maxHeight: "32px" }}
                                 >
                                     <Skeleton loading={loading} />
-                                </Avatar>
+                                </CustomAvatar>
                                 <Box sx={{ ml: 1.5 }}>
                                     <Typography
                                         level="title-sm"

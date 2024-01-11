@@ -20,7 +20,10 @@ function Profile() {
             sx={{
                 display: "flex",
                 mx: "auto",
-                px: 6,
+                px: {
+                    xs: 0,
+                    md: 6,
+                },
             }}
         >
             <Grid container spacing={4}>

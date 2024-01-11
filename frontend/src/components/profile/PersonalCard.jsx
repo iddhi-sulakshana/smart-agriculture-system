@@ -18,6 +18,7 @@ import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 // hooks
 import useUserDetails from "../../hooks/useUserDetails";
 import { toast } from "react-toastify";
+import CustomAvatar from "../CustomAvatar";
 
 function PersonalCard() {
     const [name, setName] = useState("");
@@ -25,6 +26,7 @@ function PersonalCard() {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [avatar, setAvatar] = useState("");
+    const [role, setRole] = useState("");
     const { userDetails, loading, error } = useUserDetails();
     useEffect(() => {
         if (!loading && !error && userDetails) {
@@ -33,6 +35,7 @@ function PersonalCard() {
             setPhone(userDetails.phone);
             setAddress(userDetails.address);
             setAvatar(userDetails.avatar);
+            setRole(userDetails.role);
         }
     }, [userDetails, loading, error]);
     const handleUpdate = () => {
@@ -56,22 +59,32 @@ function PersonalCard() {
                 <Typography level="title-md">Personal Info</Typography>
             </Box>
             <Divider />
-            <Stack direction="row" spacing={3}>
-                <Stack
-                    direction="row"
-                    sx={{ display: "flex", my: 1 }}
-                    spacing={3}
+            <Stack
+                direction={{ sm: "row", xs: "column" }}
+                spacing={3}
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alighItems: "center",
+                }}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alighItems: "center",
+                        my: 1,
+                        flexGrow: 1,
+                    }}
                 >
-                    <Avatar
-                        sx={{
-                            width: 75,
-                            height: 75,
-                        }}
-                        size="lg"
+                    <CustomAvatar
                         src={avatar}
                         alt={name}
+                        size="lg"
+                        sx={{ width: 75, height: 75 }}
+                        role={role}
                     />
-                </Stack>
+                </Box>
                 <Stack spacing={2} sx={{ flexGrow: 1 }}>
                     <Stack spacing={2}>
                         <FormControl
@@ -82,12 +95,13 @@ function PersonalCard() {
                                 gap: 2,
                             }}
                         >
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel sx={{ flexGrow: 1 }}>Name</FormLabel>
                             <Input
                                 size="sm"
                                 placeholder="Name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                sx={{ flexGrow: 1 }}
                             />
                         </FormControl>
                         <FormControl
@@ -98,18 +112,21 @@ function PersonalCard() {
                                 gap: 2,
                             }}
                         >
-                            <FormLabel>Phone No.</FormLabel>
+                            <FormLabel sx={{ flexGrow: 1 }}>
+                                Phone_No.
+                            </FormLabel>
                             <Input
                                 size="sm"
                                 placeholder="Phone No."
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
+                                sx={{ flexGrow: 1 }}
                             />
                         </FormControl>
                     </Stack>
                 </Stack>
             </Stack>
-            <Stack direction="row" spacing={2}>
+            <Stack direction={{ sm: "row", xs: "column" }} spacing={2}>
                 <FormControl sx={{ flexGrow: 1 }}>
                     <FormLabel>Email</FormLabel>
                     <Input
@@ -119,9 +136,10 @@ function PersonalCard() {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        sx={{ flexGrow: 1 }}
                     />
                 </FormControl>
-                <FormControl>
+                <FormControl sx={{ flexGrow: 1 }}>
                     <FormLabel>Address</FormLabel>
                     <Input
                         size="sm"

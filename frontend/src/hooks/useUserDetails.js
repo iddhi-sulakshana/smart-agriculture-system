@@ -7,6 +7,7 @@ const user = {
     address: "123 Main St",
     avatar:
         "https://i.pravatar.cc/40?img=" + Math.floor(Math.random() * 70 + 1),
+    role: "farmer",
 };
 async function getUserDetails() {
     // moch function to simulate API call with timeout and randomly throwing error

@@ -6,18 +6,20 @@ import {
     FormControl,
     FormLabel,
     Input,
+    Radio,
     Stack,
     Typography,
 } from "@mui/joy";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function SignUpForm({ switchToSignin }) {
     const [fade, setFade] = useState(true);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [checked, setChecked] = useState(false);
+    const [role, setRole] = useState("");
 
     useEffect(() => {
         setFade(false);
@@ -25,10 +27,13 @@ function SignUpForm({ switchToSignin }) {
 
     function handleSignUp(event) {
         event.preventDefault();
-
         // validate form
-        if (!name || !email || !password) {
-            alert("Please fill out all fields");
+        if (!name || !email || !password || !role) {
+            toast.error("Please fill out all fields");
+            return;
+        }
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) === false) {
+            toast.error("Please enter a valid email");
             return;
         }
 
@@ -37,10 +42,13 @@ function SignUpForm({ switchToSignin }) {
         // TODO: If unsuccessful, display error message
 
         // set to default
+        toast.success("Successfully registered");
         setName("");
         setEmail("");
         setPassword("");
-        setChecked(false);
+        setRole("");
+        setFade(true);
+        switchToSignin();
     }
 
     return (
@@ -98,49 +106,57 @@ function SignUpForm({ switchToSignin }) {
                     or
                 </Divider>
                 <Stack gap={4} mt={2}>
-                    <form
-                        onSubmit={(event) => {
-                            event.preventDefault();
-                            const formElements = event.currentTarget.elements;
-                            const data = {
-                                email: formElements.email.value,
-                                password: formElements.password.value,
-                                persistent: formElements.persistent.checked,
-                            };
-                            alert(JSON.stringify(data, null, 2));
-                        }}
-                    >
+                    <form onSubmit={handleSignUp} noValidate>
                         <FormControl required>
                             <FormLabel>Name</FormLabel>
-                            <Input type="text" name="name" />
+                            <Input
+                                type="text"
+                                name="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
                         </FormControl>
                         <FormControl required>
                             <FormLabel>Email</FormLabel>
-                            <Input type="email" name="email" />
+                            <Input
+                                type="email"
+                                name="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                         </FormControl>
                         <FormControl required>
                             <FormLabel>Password</FormLabel>
-                            <Input type="password" name="password" />
+                            <Input
+                                type="password"
+                                name="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
                         </FormControl>
                         <Stack gap={4} sx={{ mt: 2 }}>
                             <Box
                                 sx={{
+                                    px: 2,
                                     display: "flex",
                                     justifyContent: "space-between",
                                     alignItems: "center",
                                 }}
                             >
-                                <Checkbox
+                                <Radio
                                     size="sm"
-                                    label="Remember me"
+                                    label="I'm a Farmer"
                                     name="persistent"
+                                    checked={role === "farmer"}
+                                    onChange={(e) => setRole("farmer")}
                                 />
-                                <Link
-                                    level="title-sm"
-                                    href="#replace-with-a-link"
-                                >
-                                    Forgot your password?
-                                </Link>
+                                <Radio
+                                    size="sm"
+                                    label="I'm a Wholeseller"
+                                    name="persistent"
+                                    checked={role === "wholeseller"}
+                                    onChange={(e) => setRole("wholeseller")}
+                                />
                             </Box>
                             <Button type="submit" fullWidth>
                                 Sign Up
