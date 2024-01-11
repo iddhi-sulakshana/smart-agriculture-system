@@ -1,4 +1,4 @@
-import { Box } from "@mui/joy";
+import { Box, Divider } from "@mui/joy";
 import React from "react";
 import CarouselCover from "../components/home/CarouselCover";
 import Features from "../components/home/Features";
@@ -18,6 +18,7 @@ function Home() {
         >
             <CarouselCover />
             <Features />
+            <Divider />
             <Featured />
         </Box>
     );

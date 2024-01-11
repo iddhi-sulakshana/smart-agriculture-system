@@ -1,4 +1,4 @@
-import { Avatar, Box, Stack } from "@mui/joy";
+import { Box, Stack } from "@mui/joy";
 import React from "react";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import DinnerDiningOutlinedIcon from "@mui/icons-material/DinnerDiningOutlined";
