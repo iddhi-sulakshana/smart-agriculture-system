@@ -10,7 +10,21 @@ export function SnackBarProvider({ children }) {
         message: "",
     });
     const showMessage = (state = false, message = "") => {
-        const newColor = state === "success" ? "success" : "danger";
+        // switch case to change the color of the snackbar
+        let newColor;
+        switch (state) {
+            case "success":
+                newColor = "success";
+                break;
+            case "error":
+                newColor = "danger";
+                break;
+            case "warning":
+                newColor = "warning";
+                break;
+            default:
+                newColor = "neutral";
+        }
         setMessage({ color: newColor, message });
         setOpen(true);
     };

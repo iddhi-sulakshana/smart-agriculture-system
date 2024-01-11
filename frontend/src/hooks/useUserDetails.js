@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
-
+import SnackBarContext from "../contexts/SnackBarContext";
+const user = {
+    name: "John Doe",
+    email: "jhon@doe.com",
+    phone: "0123456789",
+    address: "123 Main St",
+    avatar:
+        "https://i.pravatar.cc/40?img=" + Math.floor(Math.random() * 70 + 1),
+};
 async function getUserDetails() {
     // moch function to simulate API call with timeout and randomly throwing error
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            if (Math.random() > 0.3) {
-                resolve({
-                    name: "John Doe",
-                    email: "jhon@doe.com",
-                    // random number between 1 to 70 to end of the url
-                    avatar:
-                        "https://i.pravatar.cc/40?img=" +
-                        Math.floor(Math.random() * 70 + 1),
-                });
+            if (Math.random() > 0.1) {
+                resolve(user);
             } else {
                 reject(new Error("Something went wrong"));
             }
@@ -22,6 +23,7 @@ async function getUserDetails() {
 }
 
 export default function useUserDetails() {
+    const { showMessage } = SnackBarContext();
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -38,12 +40,14 @@ export default function useUserDetails() {
         }
         getUserDetails()
             .then((userDetails) => {
-                console.log(userDetails);
                 setUserDetails(userDetails);
                 setLoading(false);
             })
             .catch((error) => {
-                console.log(error);
+                showMessage(
+                    "error",
+                    "Error fetching user details: " + error.message
+                );
                 setError(error.message);
                 setLoading(false);
             });

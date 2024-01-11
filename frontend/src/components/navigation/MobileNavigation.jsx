@@ -17,8 +17,11 @@ import {
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 // Local components
 import Links from "./Links";
+// contexts
+import UserContext from "../../contexts/UserContext";
 
 function MobileNavigation() {
+    const { token } = UserContext();
     const [open, setOpen] = useState(false);
     return (
         <Box sx={{ display: { xs: "inline-flex", sm: "none" } }}>
@@ -51,7 +54,11 @@ function MobileNavigation() {
                             </ListSubheader>
                             <List aria-labelledby="nav-list-browse">
                                 {/* Mobile Menu items */}
-                                {Links.map(({ name, to }) => {
+                                {Links.map(({ name, to, ...others }) => {
+                                    // if the link is protected and the user is not logged in, don't show the link
+                                    if (others?.logged && !token) return null;
+                                    // if the link is not protected and the user is logged in, don't show the link
+                                    if (others.nonLogged && token) return null;
                                     return (
                                         <NavLink
                                             key={name}

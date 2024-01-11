@@ -1,8 +1,8 @@
 import { Box } from "@mui/joy";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SignInForm from "../components/SignIn/SignInForm";
-import SignUpForm from "../components/SignIn/SignUpForm";
+import SignInForm from "../components/signin/SignInForm";
+import SignUpForm from "../components/signin/SignUpForm";
 import UserContext from "../contexts/UserContext";
 
 function SignIn() {

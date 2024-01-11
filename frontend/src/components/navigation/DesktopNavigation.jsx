@@ -25,7 +25,6 @@ function DesktopNavigation() {
             </IconButton>
             {/* Desktop Menu items */}
             {Links.map(({ name, to, ...others }) => {
-                console.log(others);
                 // if the link is protected and the user is not logged in, don't show the link
                 if (others?.logged && !token) return null;
                 // if the link is not protected and the user is logged in, don't show the link
