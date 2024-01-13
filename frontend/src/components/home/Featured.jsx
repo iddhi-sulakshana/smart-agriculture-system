@@ -12,6 +12,7 @@ import {
     Typography,
 } from "@mui/joy";
 import React from "react";
+import ClickableCard from "../common/ClickableCard";
 
 function Featured() {
     return (
@@ -29,65 +30,26 @@ function Featured() {
                 Far far away, behind the word mountains, far from the countries
                 Vokalia and Consonantia
             </Typography>
-            <Grid container spacing={2} sx={{ mt: 5, width: "100%" }}>
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                    <Grid xs={12} md={3} key={item}>
-                        <Card sx={{ boxShadow: "md" }}>
-                            <CardOverflow>
-                                <AspectRatio ratio="2">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                                        srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
-                                        loading="lazy"
-                                        alt=""
-                                    />
-                                </AspectRatio>
-                            </CardOverflow>
-                            <CardContent>
-                                <Typography level="body-xs">
-                                    Bluetooth Headset
-                                </Typography>
-                                <Link
-                                    href="#product-card"
-                                    fontWeight="md"
-                                    color="neutral"
-                                    textColor="text.primary"
-                                    overlay
-                                >
-                                    Super Rockez A400
-                                </Link>
-                                <Typography
-                                    level="title-lg"
-                                    sx={{ mt: 1, fontWeight: "xl" }}
-                                    endDecorator={
-                                        <Chip
-                                            component="span"
-                                            size="sm"
-                                            variant="soft"
-                                            color="success"
-                                        >
-                                            Lowest price
-                                        </Chip>
-                                    }
-                                >
-                                    2,900 THB
-                                </Typography>
-                                <Typography level="body-sm">
-                                    (Only <b>7</b> left in stock!)
-                                </Typography>
-                            </CardContent>
-                            <CardOverflow>
-                                <Button
-                                    variant="solid"
-                                    color="success"
-                                    size="lg"
-                                >
-                                    Add to cart
-                                </Button>
-                            </CardOverflow>
-                        </Card>
-                    </Grid>
-                ))}
+            <Grid
+                container
+                spacing={3}
+                justifyContent={{ xs: "center", md: "space-between" }}
+                mt={3}
+                sx={{ flexGrow: 1 }}
+            >
+                {/* 1 to 10 array then map */}
+                {Array(5)
+                    .fill(0)
+                    .map((_, i) => (
+                        <ClickableCard
+                            key={i}
+                            loading={false}
+                            title="Bell Pepper"
+                            image="https://themewagon.github.io/vegefoods/images/product-1.jpg"
+                            price={1000}
+                            badge={{ name: "new", color: "success" }}
+                        />
+                    ))}
             </Grid>
         </Box>
     );

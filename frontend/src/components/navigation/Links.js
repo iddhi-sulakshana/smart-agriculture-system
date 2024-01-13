@@ -6,6 +6,10 @@ export default [
         to: "/",
     },
     {
+        name: "Market",
+        to: "/market",
+    },
+    {
         name: "Sign In",
         to: "/signin",
         nonLogged: true,

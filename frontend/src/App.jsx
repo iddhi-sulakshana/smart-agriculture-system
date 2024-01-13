@@ -12,6 +12,7 @@ import Footer from "./components/navigation/Footer";
 import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
 import Notification from "./components/Notification";
+import Market from "./pages/Market";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/signin" element={<SignIn />} />
                         <Route path="/profile" element={<Profile />} />
+                        <Route path="/market" element={<Market />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Layout.Main>
