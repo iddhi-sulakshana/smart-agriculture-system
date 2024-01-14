@@ -4,7 +4,7 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
 function MessageInput() {
     return (
-        <Box sx={{ px: 2, pb: 3 }}>
+        <Box sx={{ px: 2, mb: 1 }}>
             <FormControl>
                 {/* Text Area to input messages to send */}
                 <Textarea
