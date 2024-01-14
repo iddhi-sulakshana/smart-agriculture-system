@@ -1,11 +1,25 @@
 import { Button, Chip, Stack, Typography } from "@mui/joy";
-import React from "react";
+import React, { useState } from "react";
 import AvatarWithStatus from "./AvatarWithStatus";
 import CircleIcon from "@mui/icons-material/Circle";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { Popconfirm } from "antd";
+import { toast } from "react-toastify";
 
 function ChatHeader({ setSelectedChat }) {
+    const [openDelete, setOpenDelete] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+
+    const handleDelete = () => {
+        setConfirmLoading(true);
+
+        setTimeout(() => {
+            setOpenDelete(false);
+            setConfirmLoading(false);
+            toast.success("Conversation deleted successfully");
+        }, 500);
+    };
     return (
         <Stack
             direction="row"
@@ -52,14 +66,26 @@ function ChatHeader({ setSelectedChat }) {
                 </Typography>
             </Stack>
             <Stack direction="row" spacing={2} alignItems="center">
-                <Button
-                    variant="plain"
-                    color="danger"
-                    size="sm"
-                    // onClick
+                <Popconfirm
+                    title="Delete Conversation"
+                    description="Are you sure you want to delete this conversation?"
+                    open={openDelete}
+                    onConfirm={handleDelete}
+                    okButtonProps={{ loading: confirmLoading }}
+                    okText="Yes"
+                    cancelText="No"
                 >
-                    <DeleteOutlineRoundedIcon />
-                </Button>
+                    <Button
+                        variant="plain"
+                        color="danger"
+                        size="sm"
+                        onClick={() => {
+                            setOpenDelete(true);
+                        }}
+                    >
+                        <DeleteOutlineRoundedIcon />
+                    </Button>
+                </Popconfirm>
                 <Button
                     variant="outlined"
                     color="primary"
