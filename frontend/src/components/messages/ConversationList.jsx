@@ -3,7 +3,7 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import React from "react";
 import ConversationItem from "./ConversationItem";
 
-function ConversationList() {
+function ConversationList({ selectedChat, setSelectedChat }) {
     return (
         <Sheet
             sx={{
@@ -11,6 +11,10 @@ function ConversationList() {
                 borderColor: "divider",
                 maxHeight: "60dvh",
                 overflowY: "auto",
+                display: {
+                    xs: selectedChat ? "none" : "block",
+                    md: "block",
+                },
             }}
         >
             <Box
@@ -49,7 +53,10 @@ function ConversationList() {
                 {Array(10)
                     .fill(0)
                     .map((_, i) => (
-                        <ConversationItem key={i} />
+                        <ConversationItem
+                            key={i}
+                            setSelectedChat={setSelectedChat}
+                        />
                     ))}
             </List>
         </Sheet>
