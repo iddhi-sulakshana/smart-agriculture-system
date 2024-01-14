@@ -1,7 +1,7 @@
 import { AspectRatio, Box, Button, Grid, Typography } from "@mui/joy";
 import React from "react";
 import { useParams } from "react-router-dom";
-import CustomAvatar from "../components/CustomAvatar";
+import CustomAvatar from "../components/common/CustomAvatar";
 
 function ProductDetails() {
     const { id } = useParams();

@@ -29,7 +29,7 @@ import UserContext from "../../contexts/UserContext";
 // Hooks
 import useUserDetails from "../../hooks/useUserDetails";
 import { toast } from "react-toastify";
-import CustomAvatar from "../CustomAvatar";
+import CustomAvatar from "../common/CustomAvatar";
 
 function CommonNavigation() {
     const { token, setToken } = UserContext();

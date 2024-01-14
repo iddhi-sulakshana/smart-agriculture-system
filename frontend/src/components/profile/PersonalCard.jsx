@@ -18,7 +18,7 @@ import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 // hooks
 import useUserDetails from "../../hooks/useUserDetails";
 import { toast } from "react-toastify";
-import CustomAvatar from "../CustomAvatar";
+import CustomAvatar from "../common/CustomAvatar";
 
 function PersonalCard() {
     const [name, setName] = useState("");
