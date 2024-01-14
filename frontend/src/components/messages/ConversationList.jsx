@@ -1,9 +1,11 @@
 import { Box, Button, List, Sheet, Typography } from "@mui/joy";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import React from "react";
+import React, { useState } from "react";
 import ConversationItem from "./ConversationItem";
+import NewChatModal from "./NewChatModal";
 
 function ConversationList({ selectedChat, setSelectedChat }) {
+    const [open, setOpen] = useState(false);
     return (
         <Sheet
             sx={{
@@ -41,6 +43,7 @@ function ConversationList({ selectedChat, setSelectedChat }) {
                 >
                     New Chat
                 </Button>
+                <NewChatModal open={open} setOpen={setOpen} />
             </Box>
             {/* List of chats */}
             <List
