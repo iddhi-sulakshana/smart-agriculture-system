@@ -5,6 +5,7 @@ import MessagesPane from "../components/messages/MessagesPane";
 
 function Chat() {
     const [display, setDisplay] = useState(false);
+    const [selectedChat, setSelectedChat] = useState(false);
     return (
         <Box
             sx={{
@@ -30,8 +31,14 @@ function Chat() {
                     boxShadow: 1,
                 }}
             >
-                <ConversationList />
-                <MessagesPane />
+                <ConversationList
+                    selectedChat={selectedChat}
+                    setSelectedChat={setSelectedChat}
+                />
+                <MessagesPane
+                    selectedChat={selectedChat}
+                    setSelectedChat={setSelectedChat}
+                />
             </Sheet>
         </Box>
     );
