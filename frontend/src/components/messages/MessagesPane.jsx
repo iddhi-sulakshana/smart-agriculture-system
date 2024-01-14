@@ -1,16 +1,24 @@
-import { Box, Sheet } from "@mui/joy";
+import { Box, Sheet, Stack } from "@mui/joy";
 import React from "react";
 import ChatHeader from "./ChatHeader";
+import MessageList from "./MessageList";
+import MessageInput from "./MessageInput";
 
-function MessagesPane({ selectedChat }) {
+function MessagesPane({ selectedChat, setSelectedChat }) {
     if (!selectedChat) {
         return (
             <Sheet
                 sx={{
-                    maxHeight: "65dvh",
-                    display: "flex",
+                    maxHeight: {
+                        xs: "80dvh",
+                        md: "65dvh",
+                    },
                     flexDirection: "column",
                     backgroundColor: "background.level1",
+                    display: {
+                        xs: selectedChat ? "flex" : "none",
+                        md: "flex",
+                    },
                 }}
             >
                 <Box
@@ -30,16 +38,41 @@ function MessagesPane({ selectedChat }) {
     return (
         <Sheet
             sx={{
-                maxHeight: "65dvh",
+                maxHeight: {
+                    xs: "80dvh",
+                    md: "65dvh",
+                },
+                height: {
+                    xs: "80dvh",
+                    md: "65dvh",
+                },
                 display: "flex",
                 flexDirection: "column",
                 backgroundColor: "background.level1",
             }}
         >
             {/* Selected Chat User Details */}
-            <ChatHeader />
+            <ChatHeader setSelectedChat={setSelectedChat} />
             {/* Display Chat Messages */}
+            <MessageList
+                loading={false}
+                messages={[
+                    {
+                        id: 1,
+                        message: "Hello",
+                        timestamp: new Date(),
+                        sender: "You",
+                    },
+                    {
+                        id: 2,
+                        message: "Hi",
+                        timestamp: new Date(),
+                        sender: "Jane Doe",
+                    },
+                ]}
+            />
             {/* Message Input */}
+            <MessageInput />
         </Sheet>
     );
 }
