@@ -2,14 +2,14 @@ import { Box, ListItem, ListItemButton, Stack, Typography } from "@mui/joy";
 import React from "react";
 import AvatarWithStatus from "./AvatarWithStatus";
 
-function ConversationItem() {
+function ConversationItem({ setSelectedChat }) {
     return (
         <React.Fragment>
             <ListItem>
                 <ListItemButton
-                    // onClick={() => {
-                    //     setSelectedChat(_id);
-                    // }}
+                    onClick={() => {
+                        setSelectedChat(true);
+                    }}
                     // selected={isSelected}
                     color="neutral"
                     sx={{
