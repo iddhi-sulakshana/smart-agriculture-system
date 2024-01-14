@@ -1,7 +1,10 @@
-import { Box } from "@mui/joy";
-import React from "react";
+import { Box, Sheet } from "@mui/joy";
+import React, { useState } from "react";
+import ConversationList from "../components/messages/ConversationList";
+import MessagesPane from "../components/messages/MessagesPane";
 
 function Chat() {
+    const [display, setDisplay] = useState(false);
     return (
         <Box
             sx={{
@@ -14,7 +17,22 @@ function Chat() {
                 },
             }}
         >
-            Chat
+            <Sheet
+                sx={{
+                    flex: 1,
+                    width: "100%",
+                    mx: "auto",
+                    display: "grid",
+                    gridTemplateColumns: {
+                        xs: "1fr",
+                        md: "1fr 3fr",
+                    },
+                    boxShadow: 1,
+                }}
+            >
+                <ConversationList />
+                <MessagesPane />
+            </Sheet>
         </Box>
     );
 }
