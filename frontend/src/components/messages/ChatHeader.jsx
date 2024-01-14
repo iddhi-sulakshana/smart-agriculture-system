@@ -3,8 +3,9 @@ import React from "react";
 import AvatarWithStatus from "./AvatarWithStatus";
 import CircleIcon from "@mui/icons-material/Circle";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-function ChatHeader() {
+function ChatHeader({ setSelectedChat }) {
     return (
         <Stack
             direction="row"
@@ -51,8 +52,22 @@ function ChatHeader() {
                 </Typography>
             </Stack>
             <Stack direction="row" spacing={2} alignItems="center">
-                <Button variant="plain" color="danger" onClick>
+                <Button
+                    variant="plain"
+                    color="danger"
+                    size="sm"
+                    // onClick
+                >
                     <DeleteOutlineRoundedIcon />
+                </Button>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => {
+                        setSelectedChat(false);
+                    }}
+                >
+                    <CloseRoundedIcon />
                 </Button>
             </Stack>
         </Stack>
