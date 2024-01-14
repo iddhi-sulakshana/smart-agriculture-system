@@ -94,7 +94,7 @@ function Products() {
                     price={item.price}
                     image={item.image}
                     location={item.location}
-                    badge={{ name: "new", color: "success" }}
+                    badge={{ name: "new", color: "green" }}
                     loading={false}
                 />
             ))}

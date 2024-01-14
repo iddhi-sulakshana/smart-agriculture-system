@@ -14,6 +14,7 @@ import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
 import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
 import { useNavigate } from "react-router-dom";
+import { Badge as AntBadge } from "antd";
 
 function ClickableCard({
     id,
@@ -137,13 +138,16 @@ function ClickableCard({
 function ApplyBadge({ badge, children }) {
     if (badge) {
         return (
-            <Badge
-                badgeContent={badge.name}
-                color={badge.color}
-                badgeInset="15%"
-            >
+            // <Badge
+            //     badgeContent={badge.name}
+            //     color={badge.color}
+            //     badgeInset="15%"
+            // >
+            //     {children}
+            // </Badge>
+            <AntBadge.Ribbon text={badge.name} color={badge.color}>
                 {children}
-            </Badge>
+            </AntBadge.Ribbon>
         );
     }
     return <>{children}</>;
