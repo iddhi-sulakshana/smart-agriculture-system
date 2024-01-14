@@ -1,14 +1,7 @@
-import {
-    Box,
-    Grid,
-    Input,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemDecorator,
-} from "@mui/joy";
-import { FastfoodOutlined } from "@mui/icons-material";
+import { Box, Grid, Input } from "@mui/joy";
 import React, { useState } from "react";
+import CategoryList from "./CategoryList";
+import LocationList from "./LocationList";
 
 function TopBar() {
     const [search, setSearch] = useState("");
@@ -16,9 +9,10 @@ function TopBar() {
         <Box>
             <Grid
                 container
-                spacing={3}
+                spacing={2}
                 justifyContent="center"
                 alignItems="center"
+                direction={{ xs: "row", md: "column" }}
                 sx={{ flexGrow: 1 }}
             >
                 <Grid xs={12}>
@@ -30,45 +24,12 @@ function TopBar() {
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </Grid>
-                <List
-                    orientation="horizontal"
-                    sx={{
-                        px: 2,
-                        "--List-gap": "1rem",
-                        "--ListItem-radius": "0.3rem",
-                        overflowY: "auto",
-                        pb: 1,
-                    }}
-                >
-                    <ListItem>
-                        <ListItemButton
-                            variant="plain"
-                            color="primary"
-                            selected
-                        >
-                            <ListItemDecorator>
-                                <FastfoodOutlined />
-                            </ListItemDecorator>
-                            Vegetables
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton variant="plain" color="primary">
-                            <ListItemDecorator>
-                                <FastfoodOutlined />
-                            </ListItemDecorator>
-                            Vegetables
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton variant="plain" color="primary">
-                            <ListItemDecorator>
-                                <FastfoodOutlined />
-                            </ListItemDecorator>
-                            Vegetables
-                        </ListItemButton>
-                    </ListItem>
-                </List>
+                <Grid>
+                    <CategoryList />
+                </Grid>
+                <Grid>
+                    <LocationList />
+                </Grid>
             </Grid>
         </Box>
     );

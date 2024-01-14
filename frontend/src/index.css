@@ -14,6 +14,7 @@
     /* For Webkit (Chrome, Safari, newer versions of Edge) */
     ::-webkit-scrollbar {
         width: 6px; /* Set the width of the scrollbar */
+        height: 6px;
     }
 
     ::-webkit-scrollbar-thumb {

@@ -13,11 +13,7 @@ async function getUserDetails() {
     // moch function to simulate API call with timeout and randomly throwing error
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            if (Math.random() > 0.1) {
-                resolve(user);
-            } else {
-                reject(new Error("Something went wrong"));
-            }
+            resolve(user);
         }, 1000);
     });
 }
