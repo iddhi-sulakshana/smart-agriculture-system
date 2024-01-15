@@ -11,8 +11,8 @@ function ConversationList({ selectedChat, setSelectedChat }) {
             sx={{
                 borderRight: "1px solid",
                 borderColor: "divider",
-                maxHeight: "60dvh",
-                overflowY: "auto",
+                overflowY: "hidden",
+                maxHeight: "65dvh",
                 display: {
                     xs: selectedChat ? "none" : "block",
                     md: "block",
@@ -51,6 +51,8 @@ function ConversationList({ selectedChat, setSelectedChat }) {
                     py: 0,
                     "--ListItem-paddingY": "1rem",
                     "--ListItem-paddingX": "1rem",
+                    height: "100%",
+                    overflowY: "auto",
                 }}
             >
                 {Array(10)
