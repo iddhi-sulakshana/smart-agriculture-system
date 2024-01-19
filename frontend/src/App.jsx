@@ -15,6 +15,7 @@ import Notification from "./components/Notification";
 import Market from "./pages/Market";
 import ProductDetails from "./pages/ProductDetails";
 import Chat from "./pages/Chat";
+import Information from "./pages/Information";
 
 function App() {
     return (
@@ -31,6 +32,7 @@ function App() {
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/market" element={<Market />} />
                         <Route path="/messages" element={<Chat />} />
+                        <Route path="/information" element={<Information />} />
                         <Route
                             path="/product/:id"
                             element={<ProductDetails />}

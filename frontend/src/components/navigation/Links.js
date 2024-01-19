@@ -24,4 +24,9 @@ export default [
         to: "/profile",
         logged: true,
     },
+    {
+        name: "Information",
+        to: "/information",
+        logged: false,
+    },
 ];
