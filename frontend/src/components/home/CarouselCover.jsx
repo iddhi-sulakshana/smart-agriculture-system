@@ -2,16 +2,16 @@ import { Carousel } from "antd";
 import React from "react";
 import { Button, Card, CardContent, CardCover, Typography } from "@mui/joy";
 const desktopImages = [
-    "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/healthy-food-social-media-post-design-template-988c761f0a262010fb2c3c9ffb86595d_screen.jpg?ts=1619169140",
-    "/00002.jpg",
-    "/00003.jpg",
-    "/00004.jpg",
+    "/covers/lg/00001.jpg",
+    "/covers/lg/00002.jpg",
+    "/covers/lg/00003.jpg",
+    "/covers/lg/00004.jpg",
 ];
 const mobileImages = [
-    "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/organic-fresh-food-instagram-post-design-template-22a9bcbe1421b2a3df2e91b1c73dc6ed_screen.jpg?ts=1619170161",
-    "/00002.jpg",
-    "/00003.jpg",
-    "/00004.jpg",
+    "/covers/sm/00001.jpg",
+    "/covers/sm/00002.jpg",
+    "/covers/sm/00003.jpg",
+    "/covers/sm/00004.jpg",
 ];
 function CarouselCover() {
     return (

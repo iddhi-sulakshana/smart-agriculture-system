@@ -1,5 +1,7 @@
 import { Box } from "@mui/joy";
 import React from "react";
+import SearchBar from "../components/common/SearchBar";
+import SectionList from "../components/information/SectionList";
 
 function Information() {
     return (
@@ -13,7 +15,10 @@ function Information() {
                     md: 10,
                 },
             }}
-        ></Box>
+        >
+            <SectionList />
+            <SearchBar />
+        </Box>
     );
 }
 
