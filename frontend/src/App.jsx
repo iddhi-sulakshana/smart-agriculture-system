@@ -32,7 +32,10 @@ function App() {
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/market" element={<Market />} />
                         <Route path="/messages" element={<Chat />} />
-                        <Route path="/information" element={<Information />} />
+                        <Route
+                            path="/information/*"
+                            element={<Information />}
+                        />
                         <Route
                             path="/product/:id"
                             element={<ProductDetails />}
