@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // Joy components
 import {
-    Avatar,
     Box,
     Dropdown,
     IconButton,
-    Input,
     ListDivider,
     Menu,
     MenuButton,
@@ -50,6 +48,7 @@ function CommonNavigation() {
                 alignItems: "center",
             }}
         >
+            <LanguageToggle />
             <ColorSchemeToggle />
             {token && (
                 <Dropdown>
@@ -157,7 +156,42 @@ function CommonNavigation() {
         </Box>
     );
 }
-
+function LanguageToggle() {
+    const [language, setLanguage] = useState("en");
+    const toggleLanguage = () => {
+        if (language === "en") {
+            setLanguage("si");
+            // wait for 5 sec and then change back to default
+            setTimeout(() => {
+                setLanguage("en");
+                toast.warn("Sinhala Language still in under construction");
+            }, 1000);
+        } else {
+            setLanguage("en");
+        }
+    };
+    useEffect(() => {
+        const lang = sessionStorage.getItem("language");
+        console.log(lang);
+        if (lang) {
+            setLanguage(lang);
+        }
+    }, []);
+    return (
+        <Tooltip title="Change language" variant="outlined">
+            <IconButton
+                id="toggle-language"
+                size="sm"
+                variant="plain"
+                color="neutral"
+                sx={{ alignSelf: "center" }}
+                onClick={toggleLanguage}
+            >
+                {language === "en" ? "En" : "සිං"}
+            </IconButton>
+        </Tooltip>
+    );
+}
 function ColorSchemeToggle() {
     const { mode, setMode } = useColorScheme();
     const [mounted, setMounted] = useState(false);

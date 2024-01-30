@@ -33,6 +33,9 @@ function Profile() {
                 <Grid xs={12} md={6}>
                     <PasswordCard />
                 </Grid>
+                <Grid xs={12}>
+                    <PasswordCard />
+                </Grid>
             </Grid>
         </Stack>
     );
