@@ -2,8 +2,9 @@ import { Box, Divider, Grid, Sheet } from "@mui/joy";
 import React, { useEffect } from "react";
 import SectionList from "../components/information/SectionList";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Main from "../components/information/main/Main";
+import Main from "../components/information/Main";
 import News from "../components/information/News";
+import Seeds from "../components/information/Seeds";
 
 function Information() {
     return (
@@ -31,12 +32,13 @@ function Information() {
                         md: "3fr 1fr",
                     },
                     boxShadow: 1,
+                    p: 2,
                     mt: 1,
                 }}
             >
                 <Routes>
                     <Route path="/" element={<Main />} />
-                    <Route path="/seeds" element={<h1>Seeds</h1>} />
+                    <Route path="/seeds" element={<Seeds />} />
                     <Route path="/ferilizers" element={<h1>Fertilizers</h1>} />
                     <Route path="/prices" element={<h1>Prices</h1>} />
                     <Route path="/regulations" element={<h1>Regulations</h1>} />

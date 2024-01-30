@@ -4,8 +4,6 @@ import {
     Sheet,
     Typography,
     CardOverflow,
-    AspectRatio,
-    Skeleton,
     CardContent,
 } from "@mui/joy";
 import React from "react";
@@ -20,12 +18,7 @@ function News() {
             }}
         >
             {/* Title */}
-            <Typography
-                fontSize="lg"
-                level="h1"
-                fontWeight="lg"
-                textAlign="center"
-            >
+            <Typography level="h2" textAlign="center">
                 News
             </Typography>
             <Grid
@@ -55,7 +48,6 @@ function News() {
 function NewsItem() {
     return (
         <Grid
-            item
             xs={12}
             onClick={() => {}}
             style={{ cursor: "pointer", transition: "transform 0.4s" }}
