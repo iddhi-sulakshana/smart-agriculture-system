@@ -6,6 +6,7 @@ import Main from "../components/information/Main";
 import News from "../components/information/News";
 import Seeds from "../components/information/Seeds";
 import Fertilizers from "../components/information/Fertilizers";
+import Practices from "../components/information/Practices";
 
 function Information() {
     return (
@@ -41,7 +42,7 @@ function Information() {
                     <Route path="/" element={<Main />} />
                     <Route path="/seeds" element={<Seeds />} />
                     <Route path="/ferilizers" element={<Fertilizers />} />
-                    <Route path="/prices" element={<h1>Prices</h1>} />
+                    <Route path="/practices" element={<Practices />} />
                     <Route path="/regulations" element={<h1>Regulations</h1>} />
                     <Route path="/storage" element={<h1>Storage</h1>} />
                     <Route path="/*" element={<Redirect />} />

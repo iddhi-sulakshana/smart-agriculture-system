@@ -52,7 +52,7 @@ function Fertilizers() {
         </Box>
     );
 }
-function FertilizerCard({ title, src, description, link }) {
+function FertilizerCard({ title, src, link }) {
     return (
         <Grid
             xs={12}
@@ -94,15 +94,6 @@ function FertilizerCard({ title, src, description, link }) {
                     >
                         {title}
                     </Typography>
-                    {description && (
-                        <Typography
-                            level="body-md"
-                            textAlign="center"
-                            color="textSecondary"
-                        >
-                            {description}
-                        </Typography>
-                    )}
                 </CardContent>
             </Card>
         </Grid>

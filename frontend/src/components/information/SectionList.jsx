@@ -27,8 +27,8 @@ function SectionList() {
             />
             <ClickableAvatar
                 src="/information/prices.jpeg"
-                name="Prices"
-                to="./prices"
+                name="Best Practices"
+                to="./practices"
             />
             <ClickableAvatar
                 src="/information/regulations.jpeg"
