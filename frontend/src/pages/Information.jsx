@@ -5,6 +5,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Main from "../components/information/Main";
 import News from "../components/information/News";
 import Seeds from "../components/information/Seeds";
+import Fertilizers from "../components/information/Fertilizers";
 
 function Information() {
     return (
@@ -39,7 +40,7 @@ function Information() {
                 <Routes>
                     <Route path="/" element={<Main />} />
                     <Route path="/seeds" element={<Seeds />} />
-                    <Route path="/ferilizers" element={<h1>Fertilizers</h1>} />
+                    <Route path="/ferilizers" element={<Fertilizers />} />
                     <Route path="/prices" element={<h1>Prices</h1>} />
                     <Route path="/regulations" element={<h1>Regulations</h1>} />
                     <Route path="/storage" element={<h1>Storage</h1>} />

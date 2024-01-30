@@ -8,35 +8,34 @@ import {
     Typography,
 } from "@mui/joy";
 import React from "react";
+
 const data = [
     {
         id: 1,
-        title: "Government Seed and Planting Material Sales Centers",
+        title: "FERTILIZER RECOMMENDATION ACCORDING TO SOIL ANALYSIS KIT",
         src: "https://doa.gov.lk/wp-content/uploads/2021/08/new1-600x331.jpg",
-        link: "https://doa.gov.lk/spmdc-salescenter-e/",
+        link: "https://doa.gov.lk/rrdi_fertilizerrecomendation_soilkit_rainfed_izdz/",
     },
     {
         id: 2,
-        title: "Seeds-Price index",
+        title: "FERTILIZER RECOMMENDATION BASED ON SOIL ANALYSIS REPORTS",
         src: "https://doa.gov.lk/wp-content/uploads/2020/05/Big-Onion-150x150.jpg",
-        link: "https://doa.gov.lk/spmdc-downloads_en/",
+        link: "https://doa.gov.lk/rrdi_fertilizerrecomendation_soilreport_rainfed_izdz/",
     },
     {
         id: 3,
-        title: "Seed Certification Service",
+        title: "FERTILIZER RECOMMENDATION ACCORDING TO LEAF COLOR INDEX VALUE",
         src: "https://doa.gov.lk/wp-content/uploads/2021/08/IMG_20191001_125430-1024x646.jpg",
-        description:
-            "The Seed Certification Service of the Department of Agriculture was formally established in 1979 with the assistance of the Netherland Government Aid program.",
-        link: "https://doa.gov.lk/scs-home/",
+        link: "https://doa.gov.lk/rrdi_fertilizerrecomendation_leafcolorchart_irrigated_izdz/",
     },
 ];
 
-function Seeds() {
+function Fertilizers() {
     return (
         <Box>
             {/* Title */}
             <Typography level="h2" textAlign="center">
-                Seeds
+                Fertilizers
             </Typography>
             <Grid
                 container
@@ -47,14 +46,13 @@ function Seeds() {
                 }}
             >
                 {data.map((item) => (
-                    <SeedCard key={item.id} {...item} />
+                    <FertilizerCard key={item.id} {...item} />
                 ))}
             </Grid>
         </Box>
     );
 }
-
-function SeedCard({ id, title, src, link, description }) {
+function FertilizerCard({ title, src, description, link }) {
     return (
         <Grid
             xs={12}
@@ -111,4 +109,4 @@ function SeedCard({ id, title, src, link, description }) {
     );
 }
 
-export default Seeds;
+export default Fertilizers;
