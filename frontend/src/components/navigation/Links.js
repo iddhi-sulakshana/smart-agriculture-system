@@ -29,4 +29,9 @@ export default [
         to: "/information",
         logged: false,
     },
+    {
+        name: "Transportation",
+        to: "/transportation",
+        logged: false,
+    },
 ];

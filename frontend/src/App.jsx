@@ -16,6 +16,7 @@ import Market from "./pages/Market";
 import ProductDetails from "./pages/ProductDetails";
 import Chat from "./pages/Chat";
 import Information from "./pages/Information";
+import Transportation from "./pages/Transportation";
 
 function App() {
     return (
@@ -32,6 +33,10 @@ function App() {
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/market" element={<Market />} />
                         <Route path="/messages" element={<Chat />} />
+                        <Route
+                            path="/transportation"
+                            element={<Transportation />}
+                        />
                         <Route
                             path="/information/*"
                             element={<Information />}
