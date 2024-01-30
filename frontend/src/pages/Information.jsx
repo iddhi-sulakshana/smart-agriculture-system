@@ -28,7 +28,7 @@ function Information() {
                     display: "grid",
                     gridTemplateColumns: {
                         xs: "1fr",
-                        md: "15fr 7fr",
+                        md: "3fr 1fr",
                     },
                     boxShadow: 1,
                     mt: 1,

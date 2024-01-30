@@ -11,6 +11,7 @@ function SectionList() {
             px={1}
             justifyContent={{ xs: "normal", md: "center" }}
             sx={{
+                overflowY: "hidden",
                 overflowX: "auto",
             }}
         >
@@ -47,17 +48,25 @@ function ClickableAvatar({ name, to, src }) {
         <Box
             component={Link}
             to={`./${to || ""}`}
-            sx={{
+            sx={(theme) => ({
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 textDecoration: "none",
                 color: "text.primary",
-            }}
+                "&:hover": {
+                    "& .avatar": {
+                        boxShadow: theme.shadow.md,
+                        transform: "scale(1.06)",
+                    },
+                },
+            })}
         >
             <Avatar
                 src={src}
+                className="avatar"
                 sx={{
+                    transition: "0.4s",
                     width: { xs: 70, md: 80 },
                     height: { xs: 70, md: 80 },
                 }}

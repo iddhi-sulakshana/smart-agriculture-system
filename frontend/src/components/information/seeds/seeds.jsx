@@ -1,7 +1,7 @@
 import { Sheet, Typography } from "@mui/joy";
 import React from "react";
 
-function Main() {
+function seeds() {
     return (
         <Sheet>
             {/* Title */}
@@ -18,4 +18,4 @@ function Main() {
     );
 }
 
-export default Main;
+export default seeds;
