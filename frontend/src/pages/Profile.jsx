@@ -6,6 +6,7 @@ import { Grid, Stack } from "@mui/joy";
 import UserContext from "../contexts/UserContext";
 import PersonalCard from "../components/profile/PersonalCard";
 import PasswordCard from "../components/profile/PasswordCard";
+import CropListingCard from "../components/profile/CropListingCard";
 function Profile() {
     const { token } = UserContext();
     const navigate = useNavigate();
@@ -34,7 +35,7 @@ function Profile() {
                     <PasswordCard />
                 </Grid>
                 <Grid xs={12}>
-                    <PasswordCard />
+                    <CropListingCard />
                 </Grid>
             </Grid>
         </Stack>

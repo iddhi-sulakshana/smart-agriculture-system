@@ -39,6 +39,24 @@ function CommonNavigation() {
         toast.success("Sign out successful");
         navigate("/signin");
     }
+    useEffect(() => {
+        // check if google translate script already exists
+        const exist = document.getElementsByTagName("script");
+        for (let i = 0; i < exist.length; i++) {
+            if (
+                exist[i].getAttribute("src") ===
+                "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+            ) {
+                return;
+            }
+        }
+        var addScript = document.createElement("script");
+        addScript.setAttribute(
+            "src",
+            "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+        );
+        document.body.appendChild(addScript);
+    }, []);
     return (
         <Box
             sx={{
@@ -48,6 +66,7 @@ function CommonNavigation() {
                 alignItems: "center",
             }}
         >
+            <Box id="google_translate_element" />
             <LanguageToggle />
             <ColorSchemeToggle />
             {token && (
@@ -156,15 +175,30 @@ function CommonNavigation() {
         </Box>
     );
 }
+function changeLanguage() {
+    // check if translatelement already exists
+    if (!document.getElementById("google_translate_element").hasChildNodes()) {
+        new window.google.translate.TranslateElement(
+            {
+                pageLanguage: "en",
+                autoDisplay: false,
+            },
+            "google_translate_element"
+        );
+    }
+}
 function LanguageToggle() {
     const [language, setLanguage] = useState("en");
     const toggleLanguage = () => {
+        changeLanguage();
         if (language === "en") {
             setLanguage("si");
             // wait for 5 sec and then change back to default
             setTimeout(() => {
                 setLanguage("en");
-                toast.warn("Sinhala Language still in under construction");
+                toast.warn(
+                    "Sinhala Language still in under construction, You can use Google Translator Third Party API"
+                );
             }, 1000);
         } else {
             setLanguage("en");
