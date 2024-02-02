@@ -1,19 +1,16 @@
 import {
-    AspectRatio,
     Box,
     Button,
     Card,
-    CardActions,
     CardContent,
-    CardOverflow,
     Divider,
     Grid,
-    Skeleton,
-    Stack,
     Typography,
 } from "@mui/joy";
-import React from "react";
-import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
+import React, { useState } from "react";
+import CropClickableCard from "./CropClickableCard";
+import NewCropModal from "./NewCropModal";
+import AddIcon from "@mui/icons-material/Add";
 
 const data = [
     {
@@ -131,7 +128,12 @@ const data = [
 ];
 
 function CropListingCard() {
-    const handleAdd = () => {};
+    const [open, setOpen] = useState(false);
+    const [selected, setSelected] = useState(null);
+    const handleAdd = (select) => {
+        setSelected(select || null);
+        setOpen(true);
+    };
     return (
         <Card>
             <Box
@@ -141,8 +143,13 @@ function CropListingCard() {
                     alignItems: "center",
                 }}
             >
-                <Typography level="title-md">Change Password</Typography>
-                <Button size="sm" variant="solid" onClick={handleAdd}>
+                <Typography level="title-md">Crop Listing</Typography>
+                <Button
+                    endDecorator={<AddIcon />}
+                    size="sm"
+                    variant="solid"
+                    onClick={() => handleAdd()}
+                >
                     Add New Item
                 </Button>
             </Box>
@@ -150,7 +157,7 @@ function CropListingCard() {
             <CardContent>
                 <Grid container spacing={1} sx={{ flexGrow: 1 }}>
                     {data.map((item) => (
-                        <ClickableCard
+                        <CropClickableCard
                             key={item.id}
                             loading={false}
                             {...item}
@@ -158,134 +165,13 @@ function CropListingCard() {
                     ))}
                 </Grid>
             </CardContent>
+            <NewCropModal
+                open={open}
+                setOpen={setOpen}
+                selected={selected}
+                setSelected={setSelected}
+            />
         </Card>
-    );
-}
-
-function ClickableCard({
-    loading = true,
-    title,
-    price,
-    image,
-    stock,
-    unit = "kg",
-    location,
-}) {
-    const onClick = () => {};
-    return (
-        <Grid
-            onClick={onClick}
-            style={{ cursor: "pointer", transition: "transform 0.4s" }}
-        >
-            <Card
-                orientation="vertical"
-                variant="outlined"
-                sx={(theme) => ({
-                    transition: "0.4s",
-                    minWidth: "14rem",
-                    "&:hover": {
-                        boxShadow: theme.shadow.xl,
-                        transform: "scale(1.04)",
-                    },
-                })}
-            >
-                <CardOverflow>
-                    <AspectRatio ratio={2 / 1}>
-                        {loading ? (
-                            <Skeleton>
-                                <img src="" alt="loading" />
-                            </Skeleton>
-                        ) : (
-                            <img src={image} loading="lazy" alt={title} />
-                        )}
-                    </AspectRatio>
-                </CardOverflow>
-                <CardContent sx={{ textAlign: "center" }}>
-                    {loading ? (
-                        <Typography level="body-md" textAlign="center">
-                            <Skeleton>Loading</Skeleton>
-                        </Typography>
-                    ) : (
-                        <Typography
-                            textAlign="center"
-                            level="body-md"
-                            fontWeight="lg"
-                            textColor="primary.plainColor"
-                        >
-                            {title}
-                        </Typography>
-                    )}
-                    {loading ? (
-                        <Typography textAlign="center" level="body-md">
-                            <Skeleton>Loading</Skeleton>
-                        </Typography>
-                    ) : (
-                        <Box
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <Typography
-                                textAlign="center"
-                                level="body-md"
-                                startDecorator="Rs."
-                                endDecorator={`/${unit}`}
-                            >
-                                {Number(price).toFixed(2)}
-                            </Typography>
-                        </Box>
-                    )}
-                    {loading ? (
-                        <Typography textAlign="center" level="body-md">
-                            <Skeleton>Loading</Skeleton>
-                        </Typography>
-                    ) : (
-                        <Box
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <Typography
-                                textAlign="center"
-                                level="body-md"
-                                endDecorator={`${unit}`}
-                            >
-                                {Number(stock).toFixed(2)}
-                            </Typography>
-                        </Box>
-                    )}
-                </CardContent>
-                <CardOverflow>
-                    {loading ? (
-                        <Skeleton>Loading</Skeleton>
-                    ) : (
-                        <Box
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "flex-start",
-                            }}
-                            mb={1}
-                        >
-                            <Typography
-                                textAlign="center"
-                                level="body-sm"
-                                startDecorator={<PlaceRoundedIcon />}
-                            >
-                                {location}
-                            </Typography>
-                        </Box>
-                    )}
-                </CardOverflow>
-            </Card>
-        </Grid>
     );
 }
 

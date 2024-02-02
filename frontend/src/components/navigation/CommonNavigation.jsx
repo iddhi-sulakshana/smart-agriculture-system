@@ -206,7 +206,6 @@ function LanguageToggle() {
     };
     useEffect(() => {
         const lang = sessionStorage.getItem("language");
-        console.log(lang);
         if (lang) {
             setLanguage(lang);
         }
