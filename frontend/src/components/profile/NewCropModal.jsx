@@ -1,5 +1,6 @@
 import {
     AspectRatio,
+    Box,
     Button,
     DialogContent,
     DialogTitle,
@@ -10,6 +11,9 @@ import {
     Modal,
     ModalClose,
     ModalDialog,
+    Option,
+    Radio,
+    Select,
     Stack,
 } from "@mui/joy";
 import React, { useEffect, useState } from "react";
@@ -17,6 +21,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Upload } from "antd";
 
 import { toast } from "react-toastify";
+import useLocations from "../../hooks/useLocations";
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -25,6 +30,9 @@ function getBase64(img, callback) {
 }
 
 function NewCropModal({ open, setOpen, selected, setSelected }) {
+    // get location data
+    const locationData = useLocations();
+
     // form data
     const [file, setFile] = useState(null);
     const [title, setTitle] = useState("");
@@ -67,9 +75,24 @@ function NewCropModal({ open, setOpen, selected, setSelected }) {
         e.preventDefault();
         // form validation
         if (!file) return toast.error("Image is required");
+        if (!title) return toast.error("Title is required");
+        if (!stock) return toast.error("Stock is required");
+        if (!price) return toast.error("Price is required");
+        if (!location) return toast.error("Location is required");
+        if (!description) return toast.error("Description is required");
+
         const formData = new FormData();
         formData.append("file", file);
-        console.log(file);
+        formData.append("title", title);
+        formData.append("stock", stock);
+        formData.append("price", price);
+        formData.append("unit", unit);
+        formData.append("location", location);
+        formData.append("description", description);
+
+        // TODO: send the form data to the server
+        // TODO: handle the response
+        // TODO: update the crops list
     };
     return (
         <Modal
@@ -79,7 +102,13 @@ function NewCropModal({ open, setOpen, selected, setSelected }) {
                 setSelected(null);
             }}
         >
-            <ModalDialog variant="outlined">
+            <ModalDialog
+                variant="outlined"
+                layout="center"
+                sx={{
+                    overflowY: "scroll",
+                }}
+            >
                 <ModalClose />
                 <DialogTitle>Add new Crop</DialogTitle>
                 <DialogContent>
@@ -87,7 +116,7 @@ function NewCropModal({ open, setOpen, selected, setSelected }) {
                 </DialogContent>
                 <form noValidate onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
-                        <Grid xs={6}>
+                        <Grid xs={12} md={6}>
                             <FormControl>
                                 <FormLabel>Image</FormLabel>
                                 <Upload
@@ -129,24 +158,101 @@ function NewCropModal({ open, setOpen, selected, setSelected }) {
                                 </Upload>
                             </FormControl>
                         </Grid>
-                        <Grid xs={6}>
+                        <Grid xs={12} md={6}>
                             <FormControl>
-                                <FormLabel>Name</FormLabel>
-                                <Input autoFocus required />
+                                <FormLabel>Title</FormLabel>
+                                <Input
+                                    name="title"
+                                    autoFocus
+                                    required
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
                             </FormControl>
                         </Grid>
+                        <Grid xs={12}>
+                            <FormControl>
+                                <FormLabel>Description</FormLabel>
+                                <Input
+                                    name="description"
+                                    value={description}
+                                    onChange={(e) =>
+                                        setDescription(e.target.value)
+                                    }
+                                />
+                            </FormControl>
+                        </Grid>
+                        <Grid xs={12} md={6}>
+                            <FormControl>
+                                <FormLabel>Stock</FormLabel>
+                                <Input
+                                    name="stock"
+                                    type="number"
+                                    value={stock}
+                                    onChange={(e) => setStock(e.target.value)}
+                                />
+                            </FormControl>
+                        </Grid>
+                        <Grid xs={12} md={6}>
+                            <FormControl>
+                                <FormLabel>Price</FormLabel>
+                                <Input
+                                    name="price"
+                                    type="number"
+                                    value={Number.parseFloat(price).toFixed(2)}
+                                    onChange={(e) => setPrice(e.target.value)}
+                                />
+                            </FormControl>
+                        </Grid>
+                        <Grid xs={12} md={6}>
+                            <FormLabel>Unit</FormLabel>
+                            <Box sx={{ display: "flex", gap: 2 }}>
+                                <Radio
+                                    name="unit"
+                                    checked={unit === "kg"}
+                                    value="kg"
+                                    onChange={(e) => {
+                                        setUnit(e.target.value);
+                                    }}
+                                    label="Kilograms"
+                                />
+                                <Radio
+                                    name="unit"
+                                    checked={unit === "t"}
+                                    value="t"
+                                    onChange={(e) => {
+                                        setUnit(e.target.value);
+                                    }}
+                                    label="Tonnes"
+                                />
+                            </Box>
+                        </Grid>
+                        <Grid xs={12} md={6}>
+                            <FormControl>
+                                <FormLabel>Location</FormLabel>
+                                <Select
+                                    name="location"
+                                    placeholder="Select location"
+                                    defaultValue=""
+                                    onChange={(e, newVal) => {
+                                        setLocation(newVal);
+                                    }}
+                                    value={location}
+                                >
+                                    {locationData.map((loc) => (
+                                        <Option key={loc} value={loc}>
+                                            {loc}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid xs={12}>
+                            <Button type="submit" sx={{ width: "100%" }}>
+                                Add Crop
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Stack spacing={2} sx={{ p: 2 }}>
-                        <FormControl>
-                            <FormLabel>Name</FormLabel>
-                            <Input autoFocus required />
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Description</FormLabel>
-                            <Input required />
-                        </FormControl>
-                        <Button type="submit">Submit</Button>
-                    </Stack>
                 </form>
             </ModalDialog>
         </Modal>
