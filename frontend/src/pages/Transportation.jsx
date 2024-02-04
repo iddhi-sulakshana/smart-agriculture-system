@@ -1,4 +1,4 @@
-import { Button } from "@mui/joy";
+import { Button, Typography } from "@mui/joy";
 import { Result } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,12 @@ function Transportation() {
     return (
         <Result
             status="403"
-            title="302"
-            subTitle="Sorry, This page under construction."
+            title={<Typography level="h3">302</Typography>}
+            subTitle={
+                <Typography level="h4">
+                    Sorry, This page is in under construction.
+                </Typography>
+            }
             extra={
                 <Button
                     onClick={() => {

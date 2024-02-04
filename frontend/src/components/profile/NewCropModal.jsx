@@ -198,9 +198,26 @@ function NewCropModal({ open, setOpen, selected, setSelected }) {
                                 <FormLabel>Price</FormLabel>
                                 <Input
                                     name="price"
+                                    slotProps={{ input: { min: 0 } }}
                                     type="number"
-                                    value={Number.parseFloat(price).toFixed(2)}
-                                    onChange={(e) => setPrice(e.target.value)}
+                                    value={price}
+                                    onChange={(e) => {
+                                        if (
+                                            e.target.value &&
+                                            e.target.value < 0
+                                        )
+                                            return;
+                                        // check if the price has more than two decimals and limit it to two
+                                        if (
+                                            e.target.value.includes(".") &&
+                                            e.target.value.split(".")[1]
+                                                ?.length > 2
+                                        )
+                                            e.target.value = Number(
+                                                e.target.value
+                                            ).toFixed(2);
+                                        setPrice(e.target.value);
+                                    }}
                                 />
                             </FormControl>
                         </Grid>

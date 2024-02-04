@@ -8,9 +8,9 @@ function NotFound() {
     return (
         <Result
             status={404}
-            title={<Typography>404</Typography>}
+            title={<Typography level="h3">404</Typography>}
             subTitle={
-                <Typography>
+                <Typography level="h4">
                     Sorry, the page you visited does not exist.
                 </Typography>
             }
