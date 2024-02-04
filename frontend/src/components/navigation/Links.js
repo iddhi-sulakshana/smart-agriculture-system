@@ -23,6 +23,11 @@ export default [
         logged: true,
     },
     {
+        name: "Insights",
+        to: "/insights",
+        logged: false,
+    },
+    {
         name: "Information",
         to: "/information",
         logged: false,
