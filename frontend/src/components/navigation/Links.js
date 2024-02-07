@@ -28,6 +28,11 @@ export default [
         logged: false,
     },
     {
+        name: "Crop Recommendation",
+        to: "/recommendation",
+        logged: true,
+    },
+    {
         name: "Information",
         to: "/information",
         logged: false,

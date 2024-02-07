@@ -18,6 +18,7 @@ import Chat from "./pages/Chat";
 import Information from "./pages/Information";
 import Transportation from "./pages/Transportation";
 import Insights from "./pages/Insights";
+import Recommendation from "./pages/Recommendation";
 
 function App() {
     return (
@@ -38,6 +39,10 @@ function App() {
                         <Route
                             path="/transportation"
                             element={<Transportation />}
+                        />
+                        <Route
+                            path="/recommendation"
+                            element={<Recommendation />}
                         />
                         <Route
                             path="/information/*"
