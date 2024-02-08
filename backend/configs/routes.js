@@ -5,6 +5,7 @@ import error from "../middlewares/error.js";
 
 // import routes from the routes folder
 import example from "../routes/example.js";
+import users from "../routes/users.js";
 
 export default function (app) {
     // enable cross origin resource sharing middleware
@@ -27,6 +28,7 @@ export default function (app) {
 
     // assign route paths
     app.use("/example", example);
+    app.use("/users", users);
 
     // initialize error middleware
     app.use(error);

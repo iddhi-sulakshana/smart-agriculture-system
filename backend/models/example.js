@@ -1,6 +1,13 @@
 import Joi from "joi";
-import { model } from "mongoose";
-import exampleSchema from "./schemas/example.js";
+import { model, Schema } from "mongoose";
+
+// model for example model
+const exampleSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+});
 
 // Creating a Mongoose model
 const Example = model("Example", exampleSchema);
