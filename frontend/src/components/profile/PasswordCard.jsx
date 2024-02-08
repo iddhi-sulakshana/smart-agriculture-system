@@ -14,11 +14,17 @@ import {
     Typography,
 } from "@mui/joy";
 import { toast } from "react-toastify";
+import UserContext from "../../contexts/UserContext";
+import axios from "axios";
+import { getURL } from "../../Utils/Url";
 
 function PasswordCard() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
+
+    const { token } = UserContext();
+
     const handleUpdate = () => {
         // validate form data
         if (!currentPassword) {
@@ -29,11 +35,28 @@ function PasswordCard() {
             toast.error("Passwords do not match");
             return;
         }
-        // TODO: update password
-        // TODO: clear form
-        // TODO: show success message
-        // TODO: show error message
-        toast.success("Password updated successfully");
+        axios
+            .request({
+                method: "PUT",
+                url: getURL("users/me/password"),
+                headers: {
+                    "x-auth-token": token,
+                },
+                data: {
+                    currentPassword,
+                    password,
+                },
+            })
+            .then((response) => {
+                toast.success(response.data);
+                // clear form
+                setCurrentPassword("");
+                setPassword("");
+                setConfirmPassword("");
+            })
+            .catch((error) => {
+                toast.error(error.response.data || "An error occurred");
+            });
     };
     return (
         <Card>
