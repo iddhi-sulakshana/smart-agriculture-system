@@ -12,7 +12,7 @@ export default async function (req, res, next) {
         // check if the token is valid
         if (!decoded) return res.status(400).send("Invalid token");
         // find the user with the provided id from database
-        const user = await Users.findById(decoded._id).select("-password");
+        const user = await Users.findById(decoded._id);
         // if not user exist return an error message
         if (!user) return res.status(400).send("Invalid token");
         // expose the user object to the request object

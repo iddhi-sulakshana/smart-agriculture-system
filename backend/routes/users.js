@@ -90,4 +90,32 @@ router.put("/me", authentication, async (req, res) => {
     }
 });
 
+// update password
+router.put("/me/password", authentication, async (req, res) => {
+    // validate the old password
+    const valid = await validPassword(
+        req.body.currentPassword,
+        req.user.password
+    );
+    // if the password is invalid, return an error message
+    if (!valid) return res.status(400).send("Invalid password");
+    // hash the new password
+    try {
+        req.body.password = await encrypt(req.body.password);
+    } catch (error) {
+        winston.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+    // update the user password
+    try {
+        await Users.findByIdAndUpdate(req.user._id, {
+            password: req.body.password,
+        });
+        res.send("Password updated!");
+    } catch (error) {
+        winston.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
 export default router;
