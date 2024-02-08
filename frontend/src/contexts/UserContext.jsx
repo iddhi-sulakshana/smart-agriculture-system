@@ -1,4 +1,7 @@
+import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { getURL } from "../Utils/Url";
+import { toast } from "react-toastify";
 
 const UserContext = createContext();
 
@@ -11,9 +14,23 @@ export const UserProvider = ({ children }) => {
             localStorage.removeItem("token");
             setToken(null);
         }
-        if (token) {
-            setToken(token);
-        }
+        if (!token) return;
+        axios
+            .request({
+                method: "post",
+                url: getURL("users/verify"),
+                headers: {
+                    "x-auth-token": token,
+                },
+            })
+            .then((res) => {
+                setToken(token);
+            })
+            .catch((err) => {
+                localStorage.removeItem("token");
+                setToken(null);
+                toast.warn("Session expired. Please login again.");
+            });
     }, []);
     return (
         <UserContext.Provider value={{ token, setToken }}>
