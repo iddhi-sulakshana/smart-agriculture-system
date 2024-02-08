@@ -27,8 +27,8 @@ export default function (app) {
     app.use(express.static("public"));
 
     // assign route paths
-    app.use("/example", example);
-    app.use("/users", users);
+    app.use("/api/example", example);
+    app.use("/api/users", users);
 
     // initialize error middleware
     app.use(error);

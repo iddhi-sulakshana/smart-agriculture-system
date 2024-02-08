@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { Schema, model } from "mongoose";
+import jwt from "jsonwebtoken";
 
 // Schema for the user collection
 const usersSchema = new Schema({
@@ -10,6 +11,7 @@ const usersSchema = new Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
     },
     password: {
         type: String,
@@ -22,6 +24,16 @@ const usersSchema = new Schema({
         enum: ["farmer", "wholesaler"],
     },
 });
+
+// generate auth token function for the user schema
+usersSchema.methods.generateAuthToken = function () {
+    // generate a token using the user id and the secret key
+    const token = jwt.sign(
+        { _id: this._id, role: this.role },
+        process.env.JWT_PRIVATE_KEY
+    );
+    return token;
+};
 
 // create a model for the user schema
 const Users = model("Users", usersSchema);
