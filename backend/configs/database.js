@@ -1,5 +1,6 @@
 import winston from "winston";
 import mongoose from "mongoose";
+import firstRun from "./firstRun.js";
 
 export default async function () {
     winston.info("Initializing MongoDB Connection");
@@ -29,6 +30,9 @@ export default async function () {
             writeConcern: { w: "majority" },
         });
         winston.info("Successfully Connected  to the Database");
+        winston.info("Inserting default data into the database");
+        firstRun();
+        winston.info("Default data inserted successfully");
     } catch (ex) {
         // Logging failure to connect and exiting the process with an error code
         winston.error("Failed to connect to MongoDB,", ex);

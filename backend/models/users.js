@@ -23,6 +23,16 @@ const usersSchema = new Schema({
         required: true,
         enum: ["farmer", "wholesaler"],
     },
+    phone: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    avatar: {
+        type: String,
+        default: `https://robohash.org/set_set5/bgset_bg1/${Math.random()}?size=100x100`,
+    },
 });
 
 // generate auth token function for the user schema
@@ -45,6 +55,9 @@ const schema = new Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
     role: Joi.string().valid("farmer", "wholesaler").required(),
+    phone: Joi.string(),
+    address: Joi.string(),
+    avatar: Joi.string(),
 });
 
 // function for validating the schema
