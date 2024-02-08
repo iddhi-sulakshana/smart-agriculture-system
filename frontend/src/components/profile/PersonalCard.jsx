@@ -19,6 +19,9 @@ import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import useUserDetails from "../../hooks/useUserDetails";
 import { toast } from "react-toastify";
 import CustomAvatar from "../common/CustomAvatar";
+import axios from "axios";
+import { getURL } from "../../Utils/Url";
+import UserContext from "../../contexts/UserContext";
 
 function PersonalCard() {
     const [name, setName] = useState("");
@@ -28,12 +31,14 @@ function PersonalCard() {
     const [avatar, setAvatar] = useState("");
     const [role, setRole] = useState("");
     const { userDetails, loading, error } = useUserDetails();
+
+    const { token } = UserContext();
     useEffect(() => {
         if (!loading && !error && userDetails) {
             setName(userDetails.name);
             setEmail(userDetails.email);
-            setPhone(userDetails.phone);
-            setAddress(userDetails.address);
+            setPhone(userDetails.phone ? userDetails.phone : "");
+            setAddress(userDetails.address ? userDetails.address : "");
             setAvatar(userDetails.avatar);
             setRole(userDetails.role);
         }
@@ -48,10 +53,26 @@ function PersonalCard() {
             toast.error("Please enter a valid email");
             return;
         }
-        // TODO: update user details
-        // TODO: show snackbar
-        // TODO: update user details
-        toast.success("User details updated successfully");
+        axios
+            .request({
+                method: "put",
+                url: getURL("users/me"),
+                headers: {
+                    "x-auth-token": token,
+                },
+                data: {
+                    name,
+                    email,
+                    phone,
+                    address,
+                },
+            })
+            .then((res) => {
+                toast.success("User details updated successfully");
+            })
+            .catch((err) => {
+                toast.error(err.response.data);
+            });
     };
     return (
         <Card>

@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
         if (!token) return;
         axios
             .request({
-                method: "post",
+                method: "get",
                 url: getURL("users/verify"),
                 headers: {
                     "x-auth-token": token,
@@ -27,6 +27,7 @@ export const UserProvider = ({ children }) => {
                 setToken(token);
             })
             .catch((err) => {
+                console.log(err);
                 localStorage.removeItem("token");
                 setToken(null);
                 toast.warn("Session expired. Please login again.");
