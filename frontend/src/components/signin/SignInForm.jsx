@@ -13,12 +13,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { getURL } from "../../Utils/Url";
 
 function SignInForm({ switchToSignup }) {
     const [fade, setFade] = useState(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(true);
     const { setToken } = UserContext();
     useEffect(() => {
         setFade(false);
@@ -26,9 +28,6 @@ function SignInForm({ switchToSignup }) {
 
     function handleSignIn(event) {
         event.preventDefault();
-        const token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTlmMTQxNjZkNGY5MmY3MTI4NmNlYzMiLCJpYXQiOjE1MTYyMzgwMjB9.L42I5wm0NY7naR_5nt0qof-TqB4NYBdLCA3hHMAS_rA";
-
         // validate form
         if (!email || !password) {
             toast.error("Please fill in all fields");
@@ -38,19 +37,37 @@ function SignInForm({ switchToSignup }) {
             toast.error("Please enter a valid email address");
             return;
         }
-
-        // TODO: Send request to backend to verify user credentials
-        // TODO: If successful, set token in local storage
-        localStorage.setItem("token", token);
-        setToken(token);
-        // TODO: If unsuccessful, display error message
-        // TODO: If successful, redirect to home page
-
-        // set to default
-        toast.success("Sign in successful");
-        setEmail("");
-        setPassword("");
-        setChecked(false);
+        axios
+            .request({
+                method: "POST",
+                url: getURL("users/signin"),
+                data: {
+                    email: email,
+                    password: password,
+                },
+            })
+            .then((response) => {
+                // set token
+                setToken(response.headers["x-auth-token"]);
+                //  if remember is checked store token in local storage
+                if (checked) {
+                    localStorage.setItem(
+                        "token",
+                        response.headers["x-auth-token"]
+                    );
+                }
+                // set to default
+                setEmail("");
+                setPassword("");
+                setChecked(false);
+            })
+            .catch((error) => {
+                toast.error(
+                    error.response.data
+                        ? error.response.data
+                        : "An error occurred"
+                );
+            });
     }
 
     return (

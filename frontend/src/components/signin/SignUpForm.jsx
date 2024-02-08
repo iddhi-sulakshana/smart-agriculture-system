@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    Checkbox,
     Divider,
     FormControl,
     FormLabel,
@@ -10,9 +9,10 @@ import {
     Stack,
     Typography,
 } from "@mui/joy";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getURL } from "../../Utils/Url.js";
 
 function SignUpForm({ switchToSignin }) {
     const [fade, setFade] = useState(true);
@@ -36,19 +36,34 @@ function SignUpForm({ switchToSignin }) {
             toast.error("Please enter a valid email");
             return;
         }
-
-        // TODO: Send request to backend to register the user
-        // TODO: If successful, redirect to login page
-        // TODO: If unsuccessful, display error message
-
-        // set to default
-        toast.success("Successfully registered");
-        setName("");
-        setEmail("");
-        setPassword("");
-        setRole("");
-        setFade(true);
-        switchToSignin();
+        axios
+            .request({
+                method: "POST",
+                url: getURL("users/signup"),
+                data: {
+                    name: name,
+                    email: email,
+                    password: password,
+                    role: role,
+                },
+            })
+            .then((response) => {
+                // set to default
+                toast.success(response.data);
+                setName("");
+                setEmail("");
+                setPassword("");
+                setRole("");
+                setFade(true);
+                switchToSignin();
+            })
+            .catch((error) => {
+                toast.error(
+                    error.response.data
+                        ? error.response.data
+                        : "An error occurred"
+                );
+            });
     }
 
     return (
