@@ -22,6 +22,10 @@ import { Upload } from "antd";
 
 import { toast } from "react-toastify";
 import useLocations from "../../hooks/useLocations";
+import axios from "axios";
+import { getURL } from "../../Utils/Url";
+import UserContext from "../../contexts/UserContext";
+import useGetCategory from "../../hooks/useGetCategory";
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -29,7 +33,16 @@ function getBase64(img, callback) {
     reader.readAsDataURL(img);
 }
 
-function NewCropModal({ open, setOpen, selected, setSelected }) {
+function NewCropModal({
+    open,
+    setOpen,
+    selected,
+    setSelected,
+    refresh,
+    setRefresh,
+}) {
+    const { token } = UserContext();
+    const categoryData = useGetCategory();
     // get location data
     const locationData = useLocations();
 
@@ -41,6 +54,7 @@ function NewCropModal({ open, setOpen, selected, setSelected }) {
     const [unit, setUnit] = useState("kg");
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
+    const [category, setCategory] = useState("");
 
     const [previewUrl, setPreviewUrl] = useState();
     useEffect(() => {
@@ -80,19 +94,51 @@ function NewCropModal({ open, setOpen, selected, setSelected }) {
         if (!price) return toast.error("Price is required");
         if (!location) return toast.error("Location is required");
         if (!description) return toast.error("Description is required");
+        if (!category) return toast.error("Category is required");
 
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("image", file);
         formData.append("title", title);
         formData.append("stock", stock);
         formData.append("price", price);
         formData.append("unit", unit);
         formData.append("location", location);
         formData.append("description", description);
+        formData.append("category", category);
 
-        // TODO: send the form data to the server
-        // TODO: handle the response
+        axios
+            .request({
+                method: "POST",
+                url: getURL("crops"),
+                data: formData,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "x-auth-token": token,
+                },
+            })
+            .then((res) => {
+                setOpen(false);
+                setSelected(null);
+                toast.success("Crop added successfully");
+                // clear the form
+                setFile(null);
+                setPreviewUrl(null);
+                setTitle("");
+                setStock(0);
+                setPrice(0);
+                setUnit("kg");
+                setLocation("");
+                setDescription("");
+                setCategory("");
+                // refresh the crops list
+                setRefresh(!refresh);
+            })
+            .catch((err) => {
+                toast.error(err.response.data || "An error occurred");
+            });
+
         // TODO: update the crops list
+        // TODO: close the modal and clear the form
     };
     return (
         <Modal
@@ -170,7 +216,34 @@ function NewCropModal({ open, setOpen, selected, setSelected }) {
                                 />
                             </FormControl>
                         </Grid>
-                        <Grid xs={12}>
+                        <Grid xs={12} md={6}>
+                            <FormControl>
+                                <FormLabel>Category</FormLabel>
+                                <Select
+                                    name="category"
+                                    placeholder="Select category"
+                                    defaultValue=""
+                                    onChange={(e, newVal) => {
+                                        setCategory(newVal);
+                                    }}
+                                    value={category}
+                                >
+                                    {categoryData ? (
+                                        categoryData.map((cat) => (
+                                            <Option
+                                                key={cat._id}
+                                                value={cat._id}
+                                            >
+                                                {cat.name}
+                                            </Option>
+                                        ))
+                                    ) : (
+                                        <Option value="">No categories</Option>
+                                    )}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid xs={12} md={6}>
                             <FormControl>
                                 <FormLabel>Description</FormLabel>
                                 <Input

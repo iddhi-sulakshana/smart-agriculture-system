@@ -10,6 +10,7 @@ import {
 } from "@mui/joy";
 import React from "react";
 import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
+import { getRootURL } from "../../Utils/Url";
 
 function CropClickableCard({
     loading = true,
@@ -45,7 +46,11 @@ function CropClickableCard({
                                 <img src="" alt="loading" />
                             </Skeleton>
                         ) : (
-                            <img src={image} loading="lazy" alt={title} />
+                            <img
+                                src={getRootURL(`crops/${image}`)}
+                                loading="lazy"
+                                alt={title}
+                            />
                         )}
                     </AspectRatio>
                 </CardOverflow>
