@@ -9,11 +9,11 @@ import {
     Select,
 } from "@mui/joy";
 import React, { useState } from "react";
-import useLocations from "../../hooks/useLocations";
+import useGetLocation from "../../hooks/useGetLocation";
 
 function RecommendForm({ setOpen }) {
     const [location, setLocation] = useState("");
-    const locationData = useLocations();
+    const locationData = useGetLocation();
     return (
         <Card
             variant="outlined"
@@ -39,8 +39,8 @@ function RecommendForm({ setOpen }) {
                         }}
                     >
                         {locationData.map((location) => (
-                            <Option key={location} value={location}>
-                                {location}
+                            <Option key={location._id} value={location._id}>
+                                {location.name}
                             </Option>
                         ))}
                     </Select>

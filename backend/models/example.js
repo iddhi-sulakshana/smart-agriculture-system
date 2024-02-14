@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "joi-oid";
 import { model, Schema } from "mongoose";
 
 // model for example model
@@ -13,7 +13,7 @@ const exampleSchema = new Schema({
 const Example = model("Example", exampleSchema);
 // Creating a Joi validation schema
 const schema = new Joi.object({
-    _id: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+    _id: Joi.objectId(),
     name: Joi.string().required(),
 });
 // function for validating the schema

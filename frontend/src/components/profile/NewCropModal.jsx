@@ -21,11 +21,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { Upload } from "antd";
 
 import { toast } from "react-toastify";
-import useLocations from "../../hooks/useLocations";
+import useGetLocation from "../../hooks/useGetLocation";
 import axios from "axios";
-import { getURL } from "../../Utils/Url";
+import { getRootURL, getURL } from "../../Utils/Url";
 import UserContext from "../../contexts/UserContext";
 import useGetCategory from "../../hooks/useGetCategory";
+import useGetCropDetails from "../../hooks/useGetCropDetails";
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -44,7 +45,7 @@ function NewCropModal({
     const { token } = UserContext();
     const categoryData = useGetCategory();
     // get location data
-    const locationData = useLocations();
+    const locationData = useGetLocation();
 
     // form data
     const [file, setFile] = useState(null);
@@ -63,6 +64,23 @@ function NewCropModal({
             setFile(null);
         }
     }, [open]);
+
+    // if selected retrieve the data and display to edit
+    const crop = useGetCropDetails(selected);
+    useEffect(() => {
+        if (!selected) return;
+        if (!crop) return;
+
+        setFile(crop.image);
+        setStock(crop.stock);
+        setPrice(crop.price);
+        setUnit(crop.unit);
+        setTitle(crop.title);
+        setLocation(crop.location);
+        setDescription(crop.description);
+        setCategory(crop.category);
+        setPreviewUrl(getRootURL(`crops/${crop.image}`));
+    }, [selected, crop]);
 
     const beforeUpload = (file) => {
         setFile(null);
@@ -84,7 +102,36 @@ function NewCropModal({
         setFile(file);
         return false;
     };
+    const handleEdit = () => {
+        const formData = new FormData();
+        if (file !== crop.image) formData.append("image", file);
+        if (title !== crop.title) formData.append("title", title);
+        if (stock !== crop.stock) formData.append("stock", stock);
+        if (price !== crop.price) formData.append("price", price);
+        if (unit !== crop.unit) formData.append("unit", unit);
+        if (location !== crop.location) formData.append("location", location);
+        if (description !== crop.description)
+            formData.append("description", description);
+        if (category !== crop.category) formData.append("category", category);
 
+        axios
+            .request({
+                method: "PUT",
+                url: getURL(`crops/${selected}`),
+                data: formData,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "x-auth-token": token,
+                },
+            })
+            .then((res) => {
+                toast.success("Crop updated successfully");
+                clearForm();
+            })
+            .catch((err) => {
+                toast.error(err.response.data || "An error occurred");
+            });
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
         // form validation
@@ -95,6 +142,8 @@ function NewCropModal({
         if (!location) return toast.error("Location is required");
         if (!description) return toast.error("Description is required");
         if (!category) return toast.error("Category is required");
+
+        if (selected) return handleEdit();
 
         const formData = new FormData();
         formData.append("image", file);
@@ -117,37 +166,29 @@ function NewCropModal({
                 },
             })
             .then((res) => {
-                setOpen(false);
-                setSelected(null);
                 toast.success("Crop added successfully");
-                // clear the form
-                setFile(null);
-                setPreviewUrl(null);
-                setTitle("");
-                setStock(0);
-                setPrice(0);
-                setUnit("kg");
-                setLocation("");
-                setDescription("");
-                setCategory("");
-                // refresh the crops list
-                setRefresh(!refresh);
+                clearForm();
             })
             .catch((err) => {
                 toast.error(err.response.data || "An error occurred");
             });
-
-        // TODO: update the crops list
-        // TODO: close the modal and clear the form
+    };
+    const clearForm = () => {
+        setFile(null);
+        setPreviewUrl(null);
+        setTitle("");
+        setStock(0);
+        setPrice(0);
+        setUnit("kg");
+        setLocation("");
+        setDescription("");
+        setCategory("");
+        setRefresh(!refresh);
+        setOpen(false);
+        setSelected(null);
     };
     return (
-        <Modal
-            open={open}
-            onClose={() => {
-                setOpen(false);
-                setSelected(null);
-            }}
-        >
+        <Modal open={open} onClose={clearForm}>
             <ModalDialog
                 variant="outlined"
                 layout="center"
@@ -330,8 +371,8 @@ function NewCropModal({
                                     value={location}
                                 >
                                     {locationData.map((loc) => (
-                                        <Option key={loc} value={loc}>
-                                            {loc}
+                                        <Option key={loc._id} value={loc._id}>
+                                            {loc.name}
                                         </Option>
                                     ))}
                                 </Select>

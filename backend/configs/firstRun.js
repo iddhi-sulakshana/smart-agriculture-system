@@ -1,6 +1,7 @@
 import winston from "winston";
 import { Users } from "../models/users.js";
 import { Category } from "../models/category.js";
+import { Location } from "../models/location.js";
 
 const defaultUserData = [
     {
@@ -28,6 +29,18 @@ const defaultCatergoryData = [
     { name: "Medicinal plants" },
     { name: "Ornamentals" },
 ];
+const defaultLocationData = [
+    { name: "Anuradhapura" },
+    { name: "Badulla" },
+    { name: "Batticaloa" },
+    { name: "Colombo" },
+    { name: "Galle" },
+    { name: "Gampaha" },
+    { name: "Hambantota" },
+    { name: "Jaffna" },
+    { name: "Kalutara" },
+    { name: "Kandy" },
+];
 export default async function () {
     // insert default user data into the database
     try {
@@ -39,6 +52,13 @@ export default async function () {
     // insert default category data into the database
     try {
         await Category.insertMany(defaultCatergoryData);
+    } catch (error) {
+        winston.error(error.message);
+    }
+
+    // insert default location data into the database
+    try {
+        await Location.insertMany(defaultLocationData);
     } catch (error) {
         winston.error(error.message);
     }

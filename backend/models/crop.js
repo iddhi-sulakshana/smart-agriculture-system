@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "joi-oid";
 import { model, Schema } from "mongoose";
 
 // model for Crops model
@@ -38,8 +38,9 @@ const cropSchema = new Schema({
         default: Date.now,
     },
     location: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true,
+        ref: "Location",
     },
     unit: {
         type: String,
@@ -60,20 +61,16 @@ const cropSchema = new Schema({
 const Crop = model("Crop", cropSchema);
 // Creating a Joi validation schema
 const schema = new Joi.object({
-    _id: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+    _id: Joi.objectId(),
     title: Joi.string().required(),
-    user: Joi.string()
-        .regex(/^[0-9a-fA-F]{24}$/)
-        .required(),
-    category: Joi.string()
-        .regex(/^[0-9a-fA-F]{24}$/)
-        .required(),
+    user: Joi.objectId().required(),
+    category: Joi.objectId().required(),
     description: Joi.string().required(),
     price: Joi.number().required(),
     stock: Joi.number().required(),
     image: Joi.string().required(),
     date: Joi.date(),
-    location: Joi.string().required(),
+    location: Joi.objectId().required(),
     unit: Joi.string().required(),
     tags: Joi.array().items(Joi.string()).required(),
     isSold: Joi.boolean().required(),

@@ -1,9 +1,10 @@
-import { Router } from "express";
+import { Router, response } from "express";
 import { Crop, validateCrop } from "../models/crop.js";
 import multer from "multer";
 import path from "path";
 import authentication from "../middlewares/authentication.js";
 import fs from "fs";
+import cropLocationExtract from "../pipes/cropLocationExtract.js";
 const router = Router();
 
 // Initialize multer with the defined storage
@@ -25,7 +26,7 @@ router.get("/", async (req, res) => {
 
 // get all the listed crops for farmer
 router.get("/listed", authentication, async (req, res) => {
-    const listedCrops = await Crop.find({ user: req.user._id });
+    const listedCrops = await Crop.aggregate(cropLocationExtract(req.user._id));
     res.send(listedCrops);
 });
 
@@ -73,6 +74,111 @@ router.post("/", authentication, upload.single("image"), async (req, res) => {
         );
         await crop.save();
         res.send(crop);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+// delete a listed crop
+router.delete("/:id", authentication, async (req, res) => {
+    const crop = await Crop.findById(req.params.id);
+    if (!crop)
+        return res
+            .status(404)
+            .send("The crop with the given ID was not found.");
+
+    if (crop.user.toString() !== req.user._id.toString())
+        return res.status(403).send("Access denied.");
+
+    try {
+        // delete the image file
+        fs.unlink(`public/crops/${crop.image}`, (err) => {
+            if (err) throw err;
+        });
+        await Crop.findByIdAndDelete(crop._id);
+        return res.send("Crop deleted successfully");
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+// mark as sold a crop
+router.patch("/sold/:id", authentication, async (req, res) => {
+    const crop = await Crop.findById(req.params.id);
+    if (!crop)
+        return res
+            .status(404)
+            .send("The crop with the given ID was not found.");
+
+    if (crop.user.toString() !== req.user._id.toString())
+        return res.status(403).send("Access denied.");
+
+    try {
+        crop.isSold = true;
+        await crop.save();
+        res.send(crop);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+// edit a crop
+router.put("/:id", authentication, upload.single("image"), async (req, res) => {
+    const crop = await Crop.findById(req.params.id).select("-__v");
+    if (!crop)
+        return res
+            .status(404)
+            .send("The crop with the given ID was not found.");
+
+    if (crop.user.toString() !== req.user._id.toString())
+        return res.status(403).send("Access denied.");
+
+    if (req.body?.title) crop.title = req.body.title;
+    if (req.body?.category) crop.category = req.body.category;
+    if (req.body?.description) crop.description = req.body.description;
+    if (req.body?.price) crop.price = req.body.price;
+    if (req.body?.stock) crop.stock = req.body.stock;
+    if (req.body?.location) crop.location = req.body.location;
+    if (req.body?.unit) crop.unit = req.body.unit;
+
+    const newCrop = {
+        title: crop.title,
+        user: crop.user,
+        category: crop.category,
+        description: crop.description,
+        price: crop.price,
+        image: crop.image,
+        stock: crop.stock,
+        location: crop.location,
+        unit: crop.unit,
+        tags: crop.tags,
+        isSold: crop.isSold,
+    };
+
+    const error = validateCrop(newCrop);
+    if (error) return res.status(400).send(error);
+
+    try {
+        if (req.file) {
+            // delete the old image file
+            fs.unlink(`public/crops/${crop.image}`, (err) => {
+                if (err) return res.status(500).send(err.message);
+            });
+            crop.image = crop._id.toString() + path.extname(req.file.filename);
+            // rename the file to the crop id
+            fs.rename(
+                req.file.path,
+                path.join(
+                    req.file.destination,
+                    crop._id.toString() + path.extname(req.file.filename)
+                ),
+                (err) => {
+                    if (err) return res.status(500).send(err.message);
+                }
+            );
+        }
+        await crop.save();
+        res.send("Successfully updated");
     } catch (error) {
         res.status(400).send(error.message);
     }

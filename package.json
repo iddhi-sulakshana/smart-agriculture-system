@@ -1,0 +1,17 @@
+{
+    "name": "smart-agriculture-system",
+    "version": "1.0.0",
+    "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+    "scripts": {
+        "start": "concurrently \"cd backend/ && npm run dev\" \"cd frontend/ && npm start\""
+    },
+    "keywords": [],
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "joi-oid": "^1.1.2"
+    }
+}

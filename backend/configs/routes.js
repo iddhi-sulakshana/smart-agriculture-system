@@ -8,6 +8,7 @@ import example from "../routes/example.js";
 import users from "../routes/users.js";
 import crops from "../routes/crops.js";
 import categories from "../routes/category.js";
+import locations from "../routes/location.js";
 
 export default function (app) {
     // enable cross origin resource sharing middleware
@@ -33,6 +34,7 @@ export default function (app) {
     app.use("/api/users", users);
     app.use("/api/crops", crops);
     app.use("/api/categories", categories);
+    app.use("/api/locations", locations);
 
     // initialize error middleware
     app.use(error);

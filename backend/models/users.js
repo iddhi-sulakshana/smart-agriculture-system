@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "joi-oid";
 import { Schema, model } from "mongoose";
 import jwt from "jsonwebtoken";
 
@@ -50,7 +50,7 @@ const Users = model("Users", usersSchema);
 
 // create a Joi validation schema
 const schema = new Joi.object({
-    _id: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+    _id: Joi.objectId(),
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),

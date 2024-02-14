@@ -1,7 +1,9 @@
 import {
     AspectRatio,
     Box,
+    Button,
     Card,
+    CardActions,
     CardContent,
     CardOverflow,
     Grid,
@@ -10,18 +12,60 @@ import {
 } from "@mui/joy";
 import React from "react";
 import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
-import { getRootURL } from "../../Utils/Url";
+import { getRootURL, getURL } from "../../Utils/Url";
+import axios from "axios";
+import UserContext from "../../contexts/UserContext";
+import { toast } from "react-toastify";
 
 function CropClickableCard({
     loading = true,
+    _id,
     title,
     price,
     image,
     stock,
     unit = "kg",
     location,
+    refresh,
+    setRefresh,
+    handleEdit,
 }) {
+    const { token } = UserContext();
     const onClick = () => {};
+    const deleteCrop = () => {
+        axios
+            .request({
+                method: "DELETE",
+                url: getURL(`crops/${_id}`),
+                headers: {
+                    "x-auth-token": token,
+                },
+            })
+            .then((response) => {
+                toast.success(response.data);
+                setRefresh(!refresh);
+            })
+            .catch((error) => {
+                toast.error(error.response.data);
+            });
+    };
+    const soldCrop = () => {
+        axios
+            .request({
+                method: "PATCH",
+                url: getURL(`crops/sold/${_id}`),
+                headers: {
+                    "x-auth-token": token,
+                },
+            })
+            .then((response) => {
+                toast.success(response.data);
+                setRefresh(!refresh);
+            })
+            .catch((error) => {
+                toast.error(error.response.data);
+            });
+    };
     return (
         <Grid
             onClick={onClick}
@@ -138,6 +182,40 @@ function CropClickableCard({
                         </Box>
                     )}
                 </CardOverflow>
+                <CardActions
+                    sx={{
+                        display: "flex",
+                        flexDirection: {
+                            md: "row",
+                            xs: "column",
+                        },
+                    }}
+                >
+                    <Button
+                        fullWidth
+                        variant="solid"
+                        color="danger"
+                        onClick={deleteCrop}
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        fullWidth
+                        variant="solid"
+                        color="warning"
+                        onClick={soldCrop}
+                    >
+                        Mark as Sold
+                    </Button>
+                    <Button
+                        fullWidth
+                        variant="outlined"
+                        color="neutral"
+                        onClick={() => handleEdit(_id)}
+                    >
+                        Edit
+                    </Button>
+                </CardActions>
             </Card>
         </Grid>
     );
