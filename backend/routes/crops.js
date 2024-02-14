@@ -20,8 +20,27 @@ const upload = multer({ storage });
 
 // get all the listed crops
 router.get("/", async (req, res) => {
-    const crops = await Crop.find({});
-    res.send(crops);
+    // try to parse the page and page size
+    if (isNaN(req.query.page) || isNaN(req.query.page_size))
+        return res.status(400).send("Invalid page or page size");
+
+    // parse the page and page size
+    const page = Number.parseInt(req.query.page);
+    const pageSize = Number.parseInt(req.query.page_size);
+    const search = req.query.search;
+
+    const skip = (page - 1) * pageSize;
+
+    const query = {};
+
+    const pagination = await Crop.estimatedDocumentCount(query);
+    const crops = await Crop.aggregate(cropLocationExtract())
+        .skip(skip)
+        .limit(pageSize);
+    res.send({
+        pagination,
+        crops,
+    });
 });
 
 // get all the listed crops for farmer

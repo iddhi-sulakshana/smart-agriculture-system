@@ -1,18 +1,9 @@
-import {
-    Box,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemDecorator,
-    Typography,
-} from "@mui/joy";
+import { List, ListItem, ListItemButton, Typography } from "@mui/joy";
 import React from "react";
-import { FastfoodOutlined } from "@mui/icons-material";
+import useGetCategory from "../../hooks/useGetCategory";
 
-const categories = ["Vegetables", "Fruits", "Meat", "Fish", "Beverages"];
-
-function CategoryList() {
-    const [selected, setSelected] = React.useState("");
+function CategoryList({ category, setCategory }) {
+    const categories = useGetCategory();
     return (
         <List
             orientation="horizontal"
@@ -30,18 +21,15 @@ function CategoryList() {
             <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                 Category:
             </Typography>
-            {categories.map((category, i) => (
-                <ListItem key={i}>
+            {categories.map((category) => (
+                <ListItem key={category._id}>
                     <ListItemButton
-                        selected={selected === category}
-                        onClick={() => setSelected(category)}
+                        selected={category === category._id}
+                        onClick={() => setCategory(category._id)}
                         variant="plain"
                         color="primary"
                     >
-                        <ListItemDecorator>
-                            <FastfoodOutlined />
-                        </ListItemDecorator>
-                        {category}
+                        {category.name}
                     </ListItemButton>
                 </ListItem>
             ))}

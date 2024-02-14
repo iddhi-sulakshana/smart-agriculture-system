@@ -15,6 +15,7 @@ import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
 import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
 import { useNavigate } from "react-router-dom";
 import { Badge as AntBadge } from "antd";
+import { getRootURL } from "../../Utils/Url";
 
 function ClickableCard({
     id,
@@ -58,7 +59,7 @@ function ClickableCard({
                                     </Skeleton>
                                 ) : (
                                     <img
-                                        src={image}
+                                        src={getRootURL(`crops/${image}`)}
                                         loading="lazy"
                                         alt={title}
                                     />

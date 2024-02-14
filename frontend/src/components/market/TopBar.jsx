@@ -1,10 +1,16 @@
 import { Box, Grid, Input } from "@mui/joy";
-import React, { useState } from "react";
+import React from "react";
 import CategoryList from "./CategoryList";
 import LocationList from "./LocationList";
 
-function TopBar() {
-    const [search, setSearch] = useState("");
+function TopBar({
+    search,
+    setSearch,
+    category,
+    setCategory,
+    location,
+    setLocation,
+}) {
     return (
         <Box>
             <Grid
@@ -25,10 +31,16 @@ function TopBar() {
                     />
                 </Grid>
                 <Grid>
-                    <CategoryList />
+                    <CategoryList
+                        category={category}
+                        setCategory={setCategory}
+                    />
                 </Grid>
                 <Grid>
-                    <LocationList />
+                    <LocationList
+                        location={location}
+                        setLocation={setLocation}
+                    />
                 </Grid>
             </Grid>
         </Box>

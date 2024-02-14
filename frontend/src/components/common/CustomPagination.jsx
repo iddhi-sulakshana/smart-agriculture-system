@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { ConfigProvider, Pagination } from "antd";
 import { Box, Typography } from "@mui/joy";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
 
-function CustomPagination() {
-    const onChange = (page) => {};
+function CustomPagination({ total, pageSize, setPage, page }) {
+    const onChange = (page) => {
+        setPage(page);
+    };
     const itemRender = (current, type, originalElement) => {
         const commonBoxStyles = {
             height: "100%",
@@ -56,10 +58,11 @@ function CustomPagination() {
                 <Pagination
                     defaultCurrent={1}
                     itemRender={itemRender}
-                    total={500}
-                    defaultPageSize={10}
+                    total={total}
+                    defaultPageSize={pageSize}
                     showSizeChanger={false}
                     onChange={onChange}
+                    current={page}
                 />
             </ConfigProvider>
         </Box>

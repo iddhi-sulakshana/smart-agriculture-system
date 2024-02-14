@@ -12,23 +12,7 @@ const defaultUserData = [
         role: "farmer",
     },
 ];
-const defaultCatergoryData = [
-    { name: "Fruits" },
-    { name: "Vegetables" },
-    { name: "Cereals" },
-    { name: "Legumes" },
-    { name: "Tubers" },
-    { name: "Roots" },
-    { name: "Spices" },
-    { name: "Nuts" },
-    { name: "Beverages" },
-    { name: "Pulses" },
-    { name: "Oilseeds" },
-    { name: "Forages" },
-    { name: "Fibers" },
-    { name: "Medicinal plants" },
-    { name: "Ornamentals" },
-];
+const defaultCatergoryData = [{ name: "Fruits" }, { name: "Vegetables" }];
 const defaultLocationData = [
     { name: "Anuradhapura" },
     { name: "Badulla" },

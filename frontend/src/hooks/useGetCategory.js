@@ -19,7 +19,7 @@ async function getCategories() {
 }
 
 export default function useGetCategory() {
-    const [categories, setCategories] = useState(null);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         getCategories()

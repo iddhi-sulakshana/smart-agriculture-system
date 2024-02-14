@@ -1,40 +1,47 @@
-import { List, ListItem, ListItemButton, Typography } from "@mui/joy";
+import {
+    Box,
+    List,
+    ListItem,
+    ListItemButton,
+    Option,
+    Select,
+    Typography,
+} from "@mui/joy";
 import React from "react";
+import useGetLocation from "../../hooks/useGetLocation";
 
-const locations = ["Anuradhapura", "Colombo", "Galle", "Kandy", "Jaffna"];
-
-function LocationList() {
-    const [selected, setSelected] = React.useState("");
+function LocationList({ location, setLocation }) {
+    const locations = useGetLocation();
     return (
-        <List
+        <Box
             orientation="horizontal"
             sx={{
                 px: 2,
-                "--List-gap": "1rem",
-                "--ListItem-radius": "0.3rem",
-                overflowY: "auto",
                 pb: 1,
                 display: "flex",
                 flexDirection: "row",
+                gap: 2,
                 alignItems: "center",
             }}
         >
             <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                 Location:
             </Typography>
-            {locations.map((location, i) => (
-                <ListItem key={i}>
-                    <ListItemButton
-                        variant="plain"
-                        color="primary"
-                        selected={selected === location}
-                        onClick={() => setSelected(location)}
-                    >
-                        {location}
-                    </ListItemButton>
-                </ListItem>
-            ))}
-        </List>
+            <Select
+                sx={{ minWidth: "10rem" }}
+                value={location}
+                onChange={(e, next) => {
+                    setLocation(next);
+                }}
+            >
+                <Option value="">All</Option>
+                {locations.map((location) => (
+                    <Option key={location._id} value={location._id}>
+                        {location.name}
+                    </Option>
+                ))}
+            </Select>
+        </Box>
     );
 }
 
