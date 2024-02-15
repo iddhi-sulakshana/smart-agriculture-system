@@ -8,29 +8,10 @@ import {
     Typography,
 } from "@mui/joy";
 import React from "react";
-
-const data = [
-    {
-        id: 1,
-        title: "FERTILIZER RECOMMENDATION ACCORDING TO SOIL ANALYSIS KIT",
-        src: "https://doa.gov.lk/wp-content/uploads/2021/08/new1-600x331.jpg",
-        link: "https://doa.gov.lk/rrdi_fertilizerrecomendation_soilkit_rainfed_izdz/",
-    },
-    {
-        id: 2,
-        title: "FERTILIZER RECOMMENDATION BASED ON SOIL ANALYSIS REPORTS",
-        src: "https://doa.gov.lk/wp-content/uploads/2020/05/Big-Onion-150x150.jpg",
-        link: "https://doa.gov.lk/rrdi_fertilizerrecomendation_soilreport_rainfed_izdz/",
-    },
-    {
-        id: 3,
-        title: "FERTILIZER RECOMMENDATION ACCORDING TO LEAF COLOR INDEX VALUE",
-        src: "https://doa.gov.lk/wp-content/uploads/2021/08/IMG_20191001_125430-1024x646.jpg",
-        link: "https://doa.gov.lk/rrdi_fertilizerrecomendation_leafcolorchart_irrigated_izdz/",
-    },
-];
+import useGetInformation from "../../hooks/useGetInformation";
 
 function Fertilizers() {
+    const data = useGetInformation("fertilizers");
     return (
         <Box>
             {/* Title */}
@@ -46,7 +27,7 @@ function Fertilizers() {
                 }}
             >
                 {data.map((item) => (
-                    <FertilizerCard key={item.id} {...item} />
+                    <FertilizerCard key={item._id} {...item} />
                 ))}
             </Grid>
         </Box>
