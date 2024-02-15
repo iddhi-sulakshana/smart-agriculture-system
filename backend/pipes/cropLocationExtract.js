@@ -1,10 +1,9 @@
-export default function (userId) {
-    if (!userId)
+export default function ({ userId, query }) {
+    if (!userId) {
+        query.isSold = false;
         return [
             {
-                $match: {
-                    isSold: false,
-                },
+                $match: query,
             },
             {
                 $lookup: {
@@ -23,6 +22,7 @@ export default function (userId) {
                 },
             },
         ];
+    }
     return [
         {
             $match: {

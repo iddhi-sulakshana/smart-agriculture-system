@@ -21,15 +21,25 @@ function CategoryList({ category, setCategory }) {
             <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                 Category:
             </Typography>
-            {categories.map((category) => (
-                <ListItem key={category._id}>
+            <ListItem>
+                <ListItemButton
+                    selected={!category}
+                    onClick={() => setCategory("")}
+                    variant="plain"
+                    color="primary"
+                >
+                    All
+                </ListItemButton>
+            </ListItem>
+            {categories.map((cat) => (
+                <ListItem key={cat._id}>
                     <ListItemButton
-                        selected={category === category._id}
-                        onClick={() => setCategory(category._id)}
+                        selected={category === cat._id}
+                        onClick={() => setCategory(cat._id)}
                         variant="plain"
                         color="primary"
                     >
-                        {category.name}
+                        {cat.name}
                     </ListItemButton>
                 </ListItem>
             ))}

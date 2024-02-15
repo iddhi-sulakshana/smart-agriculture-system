@@ -63,6 +63,7 @@ function CustomPagination({ total, pageSize, setPage, page }) {
                     showSizeChanger={false}
                     onChange={onChange}
                     current={page}
+                    hideOnSinglePage={true}
                 />
             </ConfigProvider>
         </Box>

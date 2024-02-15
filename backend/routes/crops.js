@@ -5,6 +5,7 @@ import path from "path";
 import authentication from "../middlewares/authentication.js";
 import fs from "fs";
 import cropLocationExtract from "../pipes/cropLocationExtract.js";
+import mongoose from "mongoose";
 const router = Router();
 
 // Initialize multer with the defined storage
@@ -28,15 +29,40 @@ router.get("/", async (req, res) => {
     const page = Number.parseInt(req.query.page);
     const pageSize = Number.parseInt(req.query.page_size);
     const search = req.query.search;
+    const category = req.query.category;
+    const location = req.query.location;
 
     const skip = (page - 1) * pageSize;
 
     const query = {};
 
-    const pagination = await Crop.estimatedDocumentCount(query);
-    const crops = await Crop.aggregate(cropLocationExtract())
+    // Add search query
+    if (search) {
+        query.title = { $regex: search, $options: "i" }; // case-insensitive search by name
+    }
+    // Add category filter
+    if (category) {
+        // check if the category is a valid object id
+        if (!mongoose.Types.ObjectId.isValid(category))
+            return res.status(400).send("Invalid category id");
+        query.category = new mongoose.Types.ObjectId(category);
+    }
+    // Add location filter
+    if (location) {
+        // check if the location is a valid object id
+        if (!mongoose.Types.ObjectId.isValid(location))
+            return res.status(400).send("Invalid location id");
+        query.location = new mongoose.Types.ObjectId(location);
+    }
+    const paginationPromise = Crop.countDocuments(query);
+    const cropsPromise = Crop.aggregate(cropLocationExtract({ query }))
         .skip(skip)
         .limit(pageSize);
+
+    const [pagination, crops] = await Promise.all([
+        paginationPromise,
+        cropsPromise,
+    ]);
     res.send({
         pagination,
         crops,
@@ -45,7 +71,9 @@ router.get("/", async (req, res) => {
 
 // get all the listed crops for farmer
 router.get("/listed", authentication, async (req, res) => {
-    const listedCrops = await Crop.aggregate(cropLocationExtract(req.user._id));
+    const listedCrops = await Crop.aggregate(
+        cropLocationExtract({ useId: req.user._id })
+    );
     res.send(listedCrops);
 });
 

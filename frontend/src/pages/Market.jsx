@@ -36,7 +36,7 @@ function Market() {
             .catch((err) => {
                 console.log(err);
             });
-    }, [page]);
+    }, [page, search, category, location]);
     return (
         <Box
             sx={{
