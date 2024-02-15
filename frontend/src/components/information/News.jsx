@@ -7,9 +7,11 @@ import {
     CardContent,
 } from "@mui/joy";
 import React from "react";
+import useGetNews from "../../hooks/useGetNews";
+import { formatDate } from "../../Utils/FormatDate";
 
 function News() {
-    const loading = false;
+    const news = useGetNews();
     return (
         <Sheet
             sx={{
@@ -30,22 +32,15 @@ function News() {
                     height: "65dvh",
                 }}
             >
-                <NewsItem />
-                <NewsItem />
-                <NewsItem />
-                <NewsItem />
-                <NewsItem />
-                <NewsItem />
-                <NewsItem />
-                <NewsItem />
-                <NewsItem />
-                <NewsItem />
+                {news.map((newsItem) => (
+                    <NewsItem key={newsItem._id} newsItem={newsItem} />
+                ))}
             </Grid>
         </Sheet>
     );
 }
 
-function NewsItem() {
+function NewsItem({ newsItem: { title, description, date } }) {
     return (
         <Grid
             xs={12}
@@ -70,17 +65,13 @@ function NewsItem() {
                         textAlign="center"
                         color="primary"
                     >
-                        Some news about something Some news about something
+                        {title}
                     </Typography>
-                    <Typography level="body-md">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Nobis deleniti dignissimos eligendi fuga minima
-                        temporibus,
-                    </Typography>
+                    <Typography level="body-md">{description}</Typography>
                 </CardContent>
                 <CardOverflow>
                     <Typography textAlign="right" color="neutral">
-                        2023 July 12
+                        {formatDate(date)}
                     </Typography>
                 </CardOverflow>
             </Card>
