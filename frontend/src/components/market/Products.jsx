@@ -16,7 +16,7 @@ function Products({ crops }) {
                 <ClickableCard
                     id={item._id}
                     key={item._id}
-                    priceFluctuation={item.priceFluctuation}
+                    priceFluctuation={item.category.priceFluctuation}
                     title={item.title}
                     price={item.price}
                     image={item.image}

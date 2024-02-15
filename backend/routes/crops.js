@@ -6,6 +6,8 @@ import authentication from "../middlewares/authentication.js";
 import fs from "fs";
 import cropLocationExtract from "../pipes/cropLocationExtract.js";
 import mongoose from "mongoose";
+import cropExtraction from "../pipes/cropExtraction.js";
+import cropQuery from "../pipes/cropQuery.js";
 const router = Router();
 
 // Initialize multer with the defined storage
@@ -55,7 +57,7 @@ router.get("/", async (req, res) => {
         query.location = new mongoose.Types.ObjectId(location);
     }
     const paginationPromise = Crop.countDocuments(query);
-    const cropsPromise = Crop.aggregate(cropLocationExtract({ query }))
+    const cropsPromise = Crop.aggregate(cropQuery(query))
         .skip(skip)
         .limit(pageSize);
 
@@ -71,10 +73,16 @@ router.get("/", async (req, res) => {
 
 // get all the listed crops for farmer
 router.get("/listed", authentication, async (req, res) => {
-    const listedCrops = await Crop.aggregate(
-        cropLocationExtract({ useId: req.user._id })
-    );
+    const listedCrops = await Crop.aggregate(cropLocationExtract(req.user._id));
     res.send(listedCrops);
+});
+
+// get featured crops
+router.get("/featured", async (req, res) => {
+    const featuredCrops = await Crop.find()
+        .populate("category location")
+        .limit(5);
+    res.send(featuredCrops);
 });
 
 // get a single crop
@@ -89,70 +97,7 @@ router.get("/:id", async (req, res) => {
 
 // get a single crop with extracted data
 router.get("/view/:id", async (req, res) => {
-    const crop = await Crop.aggregate([
-        {
-            $match: {
-                _id: new mongoose.Types.ObjectId(req.params.id),
-            },
-        },
-        {
-            $lookup: {
-                from: "users",
-                localField: "user",
-                foreignField: "_id",
-                as: "user",
-            },
-        },
-        {
-            $unwind: "$user",
-        },
-        {
-            $addFields: {
-                user: {
-                    _id: "$user._id",
-                    name: "$user.name",
-                    email: "$user.email",
-                    role: "$user.role",
-                },
-            },
-        },
-        {
-            $lookup: {
-                from: "categories",
-                localField: "category",
-                foreignField: "_id",
-                as: "category",
-            },
-        },
-        {
-            $unwind: "$category",
-        },
-        {
-            $addFields: {
-                category: {
-                    _id: "$category._id",
-                    name: "$category.name",
-                    priceFluctuation: "$category.priceFluctuation",
-                },
-            },
-        },
-        {
-            $lookup: {
-                from: "locations",
-                localField: "location",
-                foreignField: "_id",
-                as: "location",
-            },
-        },
-        {
-            $unwind: "$location",
-        },
-        {
-            $addFields: {
-                location: "$location.name",
-            },
-        },
-    ]);
+    const crop = await Crop.aggregate(cropExtraction(req.params.id));
     if (!crop[0])
         return res
             .status(404)

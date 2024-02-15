@@ -1,20 +1,10 @@
-import {
-    AspectRatio,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CardCover,
-    CardOverflow,
-    Chip,
-    Grid,
-    Link,
-    Typography,
-} from "@mui/joy";
+import { Box, Grid, Typography } from "@mui/joy";
 import React from "react";
 import ClickableCard from "../common/ClickableCard";
+import useGetFeatured from "../../hooks/useGetFeatured";
 
 function Featured() {
+    const featured = useGetFeatured();
     return (
         <Box
             sx={{
@@ -37,19 +27,18 @@ function Featured() {
                 mt={3}
                 sx={{ flexGrow: 1 }}
             >
-                {/* 1 to 10 array then map */}
-                {Array(5)
-                    .fill(0)
-                    .map((_, i) => (
-                        <ClickableCard
-                            key={i}
-                            loading={false}
-                            title="Bell Pepper"
-                            image="https://themewagon.github.io/vegefoods/images/product-1.jpg"
-                            price={1000}
-                            badge={{ name: "new", color: "success" }}
-                        />
-                    ))}
+                {featured.map((item) => (
+                    <ClickableCard
+                        key={item._id}
+                        loading={false}
+                        title={item.title}
+                        image={item.image}
+                        price={item.price}
+                        location={item.location.name}
+                        badge={{ name: "new", color: "success" }}
+                        priceFluctuation={item.category.priceFluctuation}
+                    />
+                ))}
             </Grid>
         </Box>
     );

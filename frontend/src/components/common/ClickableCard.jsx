@@ -154,27 +154,26 @@ function ApplyBadge({ badge, children }) {
     return <>{children}</>;
 }
 function ApplyPriceBadge({ badge, children }) {
-    if ((badge && badge === "up") || badge === "down") {
-        const icon =
-            badge === "up" ? (
-                <ArrowUpwardRoundedIcon />
-            ) : (
-                <ArrowDownwardRoundedIcon />
-            );
-        const color = badge === "up" ? "success" : "danger";
-        return (
-            <Badge
-                badgeContent={icon}
-                variant="outlined"
-                color={color}
-                badgeInset="15%"
-                anchorOrigin={{ vertical: "top", horizontal: "left" }}
-            >
-                {children}
-            </Badge>
+    if (!badge) return <>{children}</>;
+    badge = badge > 0 ? "up" : "down";
+    const icon =
+        badge === "up" ? (
+            <ArrowUpwardRoundedIcon />
+        ) : (
+            <ArrowDownwardRoundedIcon />
         );
-    }
-    return <>{children}</>;
+    const color = badge === "up" ? "success" : "danger";
+    return (
+        <Badge
+            badgeContent={icon}
+            variant="outlined"
+            color={color}
+            badgeInset="15%"
+            anchorOrigin={{ vertical: "top", horizontal: "left" }}
+        >
+            {children}
+        </Badge>
+    );
 }
 
 export default ClickableCard;

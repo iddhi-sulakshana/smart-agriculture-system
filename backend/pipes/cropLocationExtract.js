@@ -1,29 +1,4 @@
-export default function ({ userId, query }) {
-    if (!userId) {
-        if (!query) query = {};
-        query.isSold = false;
-        return [
-            {
-                $match: query,
-            },
-            {
-                $lookup: {
-                    from: "locations",
-                    localField: "location",
-                    foreignField: "_id",
-                    as: "location",
-                },
-            },
-            {
-                $unwind: "$location",
-            },
-            {
-                $addFields: {
-                    location: "$location.name",
-                },
-            },
-        ];
-    }
+export default function (userId) {
     return [
         {
             $match: {
