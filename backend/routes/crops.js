@@ -87,6 +87,79 @@ router.get("/:id", async (req, res) => {
     res.send(crop);
 });
 
+// get a single crop with extracted data
+router.get("/view/:id", async (req, res) => {
+    const crop = await Crop.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(req.params.id),
+            },
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "user",
+            },
+        },
+        {
+            $unwind: "$user",
+        },
+        {
+            $addFields: {
+                user: {
+                    _id: "$user._id",
+                    name: "$user.name",
+                    email: "$user.email",
+                    role: "$user.role",
+                },
+            },
+        },
+        {
+            $lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "category",
+            },
+        },
+        {
+            $unwind: "$category",
+        },
+        {
+            $addFields: {
+                category: {
+                    _id: "$category._id",
+                    name: "$category.name",
+                    priceFluctuation: "$category.priceFluctuation",
+                },
+            },
+        },
+        {
+            $lookup: {
+                from: "locations",
+                localField: "location",
+                foreignField: "_id",
+                as: "location",
+            },
+        },
+        {
+            $unwind: "$location",
+        },
+        {
+            $addFields: {
+                location: "$location.name",
+            },
+        },
+    ]);
+    if (!crop[0])
+        return res
+            .status(404)
+            .send("The crop with the given ID was not found.");
+    res.send(crop[0]);
+});
+
 // create a new crop
 router.post("/", authentication, upload.single("image"), async (req, res) => {
     const newCrop = {

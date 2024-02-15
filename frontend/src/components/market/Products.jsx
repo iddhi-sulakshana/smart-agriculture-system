@@ -12,10 +12,10 @@ function Products({ crops }) {
             sx={{ flexGrow: 1 }}
         >
             {/* 1 to 10 array then map */}
-            {crops.map((item, i) => (
+            {crops.map((item) => (
                 <ClickableCard
-                    id={i}
-                    key={i}
+                    id={item._id}
+                    key={item._id}
                     priceFluctuation={item.priceFluctuation}
                     title={item.title}
                     price={item.price}

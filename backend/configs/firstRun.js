@@ -12,7 +12,13 @@ const defaultUserData = [
         role: "farmer",
     },
 ];
-const defaultCatergoryData = [{ name: "Fruits" }, { name: "Vegetables" }];
+const defaultCatergoryData = [
+    { name: "Tomato", priceFluctuation: 75 },
+    { name: "Carrot", priceFluctuation: 50 },
+    { name: "Onion", priceFluctuation: 0.1 },
+    { name: "Potato", priceFluctuation: -55 },
+    { name: "Cabbage", priceFluctuation: 30 },
+];
 const defaultLocationData = [
     { name: "Anuradhapura" },
     { name: "Badulla" },

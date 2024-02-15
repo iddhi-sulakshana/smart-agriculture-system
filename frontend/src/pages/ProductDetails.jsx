@@ -1,10 +1,19 @@
-import { AspectRatio, Box, Button, Grid, Typography } from "@mui/joy";
-import React from "react";
-import { useParams } from "react-router-dom";
+import { AspectRatio, Box, Button, Grid, Skeleton, Typography } from "@mui/joy";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import CustomAvatar from "../components/common/CustomAvatar";
+import useGetCropViewDetails from "../hooks/useGetCropViewDetails";
+import { getRootURL } from "../Utils/Url";
 
 function ProductDetails() {
     const { id } = useParams();
+
+    const product = useGetCropViewDetails(id);
+    const navigate = useNavigate();
+
+    const handleChat = () => {
+        navigate(`/messages/${product?.user._id}`);
+    };
 
     return (
         <Box
@@ -31,12 +40,15 @@ function ProductDetails() {
                     }}
                 >
                     <AspectRatio ratio={1}>
-                        <img
-                            src={`https://themewagon.github.io/vegefoods/images/product-${
-                                Number(id) + 1
-                            }.jpg`}
-                            alt="product"
-                        />
+                        <Skeleton loading={!product} variant="rectangular">
+                            <img
+                                src={
+                                    product &&
+                                    getRootURL(`crops/${product?.image}`)
+                                }
+                                alt="product"
+                            />
+                        </Skeleton>
                     </AspectRatio>
                 </Grid>
 
@@ -54,55 +66,71 @@ function ProductDetails() {
                     }}
                 >
                     <Typography level="h1" color="primary">
-                        Apple
+                        <Skeleton loading={!product} variant="text">
+                            {product?.title}
+                        </Skeleton>
                     </Typography>
                     <Typography
                         level="h2"
                         startDecorator="Rs."
-                        endDecorator="/kg"
+                        endDecorator={`/${product?.unit}`}
                     >
-                        1800
+                        <Skeleton loading={!product} variant="text">
+                            {product?.price}
+                        </Skeleton>
                     </Typography>
                     <Typography level="body-md">
-                        <strong>100kg</strong> available
+                        <Skeleton loading={!product} variant="text">
+                            <strong>{`${product?.stock}${product?.unit}'s`}</strong>{" "}
+                            available
+                        </Skeleton>
                     </Typography>
 
                     <Typography level="body-md">
-                        <span style={{ color: "green" }}>In stock</span> at
-                        Jaffna
+                        <Skeleton loading={!product} variant="text">
+                            <span style={{ color: "green" }}>In stock</span> at{" "}
+                            {product?.location}
+                        </Skeleton>
                     </Typography>
 
                     <Typography level="body-md" textAlign="justify" my={2}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Dolorum minus accusantium laboriosam nemo vel. At nam
-                        provident dolor qui ipsa consectetur vitae architecto
-                        assumenda corrupti rem aliquam, voluptatibus excepturi
-                        alias? Quam consequatur id in voluptate, non harum,
-                        itaque dolor, corporis repellendus veritatis atque
-                        commodi quia esse impedit veniam dolorem rerum ducimus
-                        provident suscipit accusamus eum repellat molestias?
-                        Quas, deleniti rerum.
+                        <Skeleton loading={!product} variant="text">
+                            {product?.description}
+                        </Skeleton>
                     </Typography>
-                    <CustomAvatar />
+                    <CustomAvatar src={product?.user.avatar} />
                     <Typography level="body-md" mt={1}>
-                        John Doe
+                        <Skeleton loading={!product} variant="text">
+                            {product?.user.name} ({product?.user.role})
+                        </Skeleton>
                     </Typography>
-                    <Typography
-                        level="body-md"
-                        mt={1}
-                        startDecorator={
-                            <span style={{ color: "green" }}>@</span>
-                        }
-                    >
-                        0771234567
-                    </Typography>
-                    <Typography
-                        level="body-md"
-                        mt={1}
-                        startDecorator={<span style={{ color: "red" }}>#</span>}
-                    >
-                        No. 123, Galle Road, Colombo
-                    </Typography>
+                    {product && product.user.phone && (
+                        <Typography
+                            level="body-md"
+                            mt={1}
+                            startDecorator={<span>📞</span>}
+                        >
+                            {product.user.phone}
+                        </Typography>
+                    )}
+                    {product && product.user.email && (
+                        <Typography
+                            level="body-md"
+                            mt={1}
+                            startDecorator={<span>✉️</span>}
+                        >
+                            {product.user.email}
+                        </Typography>
+                    )}
+                    {product && product.user.address && (
+                        <Typography
+                            level="body-md"
+                            mt={1}
+                            startDecorator={<span>📍</span>}
+                        >
+                            {product.user.address}
+                        </Typography>
+                    )}
                     <Box
                         sx={{
                             display: "flex",
@@ -111,7 +139,9 @@ function ProductDetails() {
                             gap: 2,
                         }}
                     >
-                        <Button variant="outlined">Chat now</Button>
+                        <Button variant="outlined" onClick={handleChat}>
+                            Chat now
+                        </Button>
                         <Button variant="solid" disabled>
                             Buy now
                         </Button>
@@ -121,7 +151,19 @@ function ProductDetails() {
                         startDecorator="Price fluctuation: "
                         endDecorator=" from last week"
                     >
-                        <span style={{ color: "green" }}>50% up</span>
+                        <span
+                            style={{
+                                color:
+                                    product?.category.priceFluctuation > 0
+                                        ? "green"
+                                        : "red",
+                            }}
+                        >
+                            {product?.category.priceFluctuation}%{" "}
+                            {product?.category.priceFluctuation > 0
+                                ? "up"
+                                : "down"}
+                        </span>
                     </Typography>
                 </Grid>
             </Grid>

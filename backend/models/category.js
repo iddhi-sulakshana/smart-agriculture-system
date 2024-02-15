@@ -7,6 +7,10 @@ const categorySchema = new Schema({
         type: String,
         required: true,
     },
+    priceFluctuation: {
+        type: Number,
+        required: true,
+    },
 });
 
 // Creating a Mongoose model
@@ -15,6 +19,7 @@ const Category = model("Category", categorySchema);
 const schema = new Joi.object({
     _id: Joi.objectId(),
     name: Joi.string().required(),
+    priceFluctuation: Joi.number().required(),
 });
 // function for validating the schema
 function validate(category) {

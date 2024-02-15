@@ -1,5 +1,6 @@
 export default function ({ userId, query }) {
     if (!userId) {
+        if (!query) query = {};
         query.isSold = false;
         return [
             {
