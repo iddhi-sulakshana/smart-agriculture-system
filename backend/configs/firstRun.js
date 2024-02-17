@@ -4,6 +4,7 @@ import { Category } from "../models/category.js";
 import { Location } from "../models/location.js";
 import { News } from "../models/news.js";
 import { Information } from "../models/information.js";
+import { Cover } from "../models/covers.js";
 
 const defaultUserData = [
     {
@@ -129,6 +130,24 @@ const defaultInformationData = [
         category: "fertilizers",
     },
 ];
+const defaultCoverData = [
+    {
+        desktopCover: "covers/lg/00001.jpg",
+        mobileCover: "covers/sm/00001.jpg",
+    },
+    {
+        desktopCover: "covers/lg/00002.jpg",
+        mobileCover: "covers/sm/00002.jpg",
+    },
+    {
+        desktopCover: "covers/lg/00003.jpg",
+        mobileCover: "covers/sm/00003.jpg",
+    },
+    {
+        desktopCover: "covers/lg/00004.jpg",
+        mobileCover: "covers/sm/00004.jpg",
+    },
+];
 export default async function () {
     // insert default user data into the database
     try {
@@ -161,6 +180,13 @@ export default async function () {
     // insert default information data into the database
     try {
         await Information.insertMany(defaultInformationData);
+    } catch (error) {
+        winston.error(error.message);
+    }
+
+    // insert default cover data into the database
+    try {
+        await Cover.insertMany(defaultCoverData);
     } catch (error) {
         winston.error(error.message);
     }

@@ -10,7 +10,8 @@ import crops from "../routes/crops.js";
 import categories from "../routes/category.js";
 import locations from "../routes/location.js";
 import news from "../routes/news.js";
-import information from "../routes/information.js";
+import informations from "../routes/information.js";
+import covers from "../routes/cover.js";
 
 export default function (app) {
     // enable cross origin resource sharing middleware
@@ -38,7 +39,8 @@ export default function (app) {
     app.use("/api/categories", categories);
     app.use("/api/locations", locations);
     app.use("/api/news", news);
-    app.use("/api/informations", information);
+    app.use("/api/informations", informations);
+    app.use("/api/covers", covers);
 
     // initialize error middleware
     app.use(error);
