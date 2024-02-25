@@ -1,6 +1,123 @@
 code,name,category
+Ash_Plantain_LCVEG_1kg,Ash Plantain  1kg,Low Country Vegetables
+Ash_Pumpkin_LCVEG_1kg,Ash Pumpkin  1kg,Low Country Vegetables
+Bandakka_LCVEG_1kg,Bandakka  1kg,Low Country Vegetables
+Brinjal_LCVEG_1kg,Brinjal  1kg,Low Country Vegetables
+Bitter_Guard_LCVEG_1kg,Bitter Guard  1kg,Low Country Vegetables
+Cucumber_LCVEG_1kg,Cucumber  1kg,Low Country Vegetables
+Red_Pumpkin_LCVEG_1kg,Red Pumpkin  1kg,Low Country Vegetables
+Snake_Gourd_LCVEG_1kg,Snake Gourd  1kg,Low Country Vegetables
+Gotukola_LEAVES_Bunch,Gotukola  Bunch,Leaves
+Kankun_LEAVES_Bunch,Kankun  Bunch,Leaves
+Kathurumurunga_LEAVES_Bunch,Kathurumurunga  Bunch,Leaves
+Kohila_Leaves_LEAVES_Bunch,Kohila Leaves  Bunch,Leaves
+Kohila_Yams_LCVEG_1kg,Kohila Yams  1kg,Low Country Vegetables
+Vetakolu_LCVEG_1kg,Vetakolu  1kg,Low Country Vegetables
+Green_Chillies_LCVEG_1kg,Green Chillies  1kg,Low Country Vegetables
+Cap_Chillies_LCVEG_1kg,Cap Chillies  1kg,Low Country Vegetables
 Leeks_UPCVEG_1kg,Leeks  1kg,Up Country Vegetables
+Limes_LCVEG_1kg,Limes  1kg,Low Country Vegetables
+Coconut_Average_COCONUT_Each,Average Coconuts Each,Coconut
+Coconut_Large_COCONUT_Each,Large Coconuts Each,Coconut
+Coconut_Medium_COCONUT_Each,Medium Coconuts Each,Coconut
+Coconut_small_COCONUT_Each,Small Coconuts  Each,Coconut
+Betel_Leaves_Average_B_LEAVES_100leaves,Betel Leaves - Average 100 leaves,Betel Leaves
+Betel_Leaves_Medium_B_LEAVES_100leaves,Betel Leaves - Medium 100 leaves,Betel Leaves
+Betel_Leaves_Small_B_LEAVES_100leaves,Betel Leaves - Small 100 leaves,Betel Leaves
+Arecanuts_Average_ARECANUTS_100Nuts,Arecanuts - Average 100 Nuts,Arecanuts
+Arecanuts_Medium_ARECANUTS_100Nuts,Arecanuts - Medium 100 Nuts,Arecanuts
+Arecanuts_Small_ARECANUTS_100Nuts,Arecanuts - Small 100Nuts,Arecanuts
 Potatoes_Local_POTATOES_1Kg,Local Potatoes 1Kg,Potatoes
 Potatoes_Imported_POTATOES_1Kg,Imported Potatoes  1Kg,Potatoes
+CoconutOil_OILANDFATS_750ml,Coconut Oil 750ml,Oils and Fats
+Mukunuwenna_LEAVES_Bunch,Mukunuwenna  Bunch,Leaves
+Nivithi_LEAVES_500g,Nivithi  500g,Leaves
+Sarana_LEAVES_Bunch,Sarana  Bunch,Leaves
+Thampala_LEAVES_Bunch,Thampala  Bunch,Leaves
+Beans_Butter_UPCVEG_1kg,Beans Butter  1kg,Up Country Vegetables
+Beans_Green_UPCVEG_1kg,Beans Green  1kg,Up Country Vegetables
+LongBeans_LCVEG_1kg,Long Beans  1kg,Low Country Vegetables
+BeetRoot_UPCVEG_1kg,Beet Root  1kg,Up Country Vegetables
+CabbaggeSeed_UPCVEG_1kg,Cabbagge Seed  1kg,Up Country Vegetables
 Carrot_UPCVEG_1kg,Carrot  1kg,Up Country Vegetables
+Drumstick_LCVEG_1kg,Drumstick  1kg,Low Country Vegetables
+KnolKhol_UPCVEG_1kg,KnolKhol  1kg,Up Country Vegetables
+Raddish_UPCVEG_1kg,Raddish  1kg,Up Country Vegetables
 Tomatoe_No1._UPCVEG_1kg,Tomatoe No1.  1kg,Up Country Vegetables
+Dried_Chillies_No1._SPICES_1Kg,Dried Chillies No1.  1Kg,Spices
+Corriander_SPICES_1Kg,Corriander  1Kg,Spices
+Pepper_Powder_SPICES_1Kg,Pepper Powder  1Kg,Spices
+Turmeric_Powder_SPICES_1Kg,Turmeric Powder 1Kg,Spices
+Garlic_SPICES_1Kg,Garlic  1Kg,Spices
+CumminSeed_SPICES_1Kg,CumminSeed  1Kg,Spices
+Fennel_Seed_SPICES_1Kg,Fennel Seed  1Kg,Spices
+Mustard_SPICES_1Kg,Mustard  1Kg,Spices
+Mathe_Seed_SPICES_1Kg,Mathe Seed  1Kg,Spices
+Cinnamon_SPICES_1Kg,Cinnamon  1Kg,Spices
+Gorakka_SPICES_1Kg,Gorakka  1Kg,Spices
+MaldiveFish_U_SPICES_1Kg,MaldiveFish U 1Kg,Spices
+Salt_U_SPICES_1KgPkt,Salt 1KgPkt,Spices
+Tamarind_SPICES_1Kg,Tamarind  1Kg,Spices
+Red_Onions_Average_REDONIONS_1Kg,Red Onions Average  1Kg,Red Onions
+B.Onions_Local_BIGONIONS_1kg,B.Onions Local  1kg,Big Onions
+B.Onions_Imported_BIGONIONS_1kg,B.Onions Imported  1kg,Big Onions
+Raw_Red_Average_RICE_1Kg,Raw Red Average  1Kg,Rice
+Raw_Red_No1._RICE_1Kg,Raw Red No1.  1Kg,Rice
+Raw_Red_No2._RICE_1Kg,Raw Red No2.  1Kg,Rice
+Raw_Red_Imported_RICE_1Kg,Raw Red Imported  1Kg,Rice
+Raw_White_Local_RICE_1Kg,Raw White Local  1Kg,Rice
+Raw_White_Imported_RICE_1Kg,Raw White Imported  1Kg,Rice
+Raw_White_Average_RICE_1Kg,Raw White Average  1Kg,Rice
+Nadu_Red_RICE_1Kg,Nadu Red  1Kg,Rice
+Nadu_White_RICE_1Kg,Nadu White  1Kg,Rice
+Nadu_White_Imported_RICE_1Kg,Nadu White Imported 1Kg,Rice
+Samba_Average_RICE_1Kg,Samba Average  1Kg,Rice
+Samba_No1._RICE_1Kg,Samba No1.  1Kg,Rice
+Samba_No2._RICE_1Kg,Samba No2.  1Kg,Rice
+Ponni_Samba_Imported_RICE_1Kg,Ponni Samba Imported  1Kg,Rice
+WheatFlour_PULSESANDFLOUR_1Kg,WheatFlour1Kg,Pulses ad Flour
+Mysore_Dhall_Average_PULSESANDFLOUR_1Kg,Mysore Dhall - Average 1Kg,Pulses ad Flour
+Mysore_Dhall_No1._Large_PULSESANDFLOUR_1Kg,Mysore Dhall - No1. Large 1Kg,Pulses ad Flour
+Mysore_Dhall_No2.Medium_PULSESANDFLOUR_1Kg,Mysore Dhall - No2.Medium  1Kg,Pulses ad Flour
+Mysore_Dhall_No3.Small_PULSESANDFLOUR_1Kg,Mysore Dhall - No3.Small  1Kg,Pulses ad Flour
+Cowpea_Whole_Average_PULSESANDFLOUR_1Kg,Cowpea Whole Average  1Kg,Pulses ad Flour
+Green_Gram_Average_PULSESANDFLOUR_1Kg,Green Gram Average  1Kg,Pulses ad Flour
+Kadalai_Average_PULSESANDFLOUR_1Kg,Kadalai Average  1Kg,Pulses ad Flour
+Sugar_SUGER_1Kg,Sugar 1Kg,Sugar
+Paraw_SEAFISH_LARGE_1Kg,Paraw  1Kg,Sea Fish (Large)
+Mullet_SEAFISH_LARGE_1Kg,Mullet  1Kg,Sea Fish (Large)
+Thalapath_SEAFISH_LARGE_1Kg,Thalapath  1Kg,Sea Fish (Large)
+Balaya_SEAFISH_LARGE_1Kg,Balaya  1Kg,Sea Fish (Large)
+Kelewella_SEAFISH_LARGE_1Kg,Kelewella  1Kg,Sea Fish (Large)
+Mora_SEAFISH_LARGE_1Kg,Mora  1Kg,Sea Fish (Large)
+Salaya_SEAFISH_SMALL_1Kg,Salaya  1Kg,Sea Fish (Large)
+Parati_SEAFISH_SMALL_1Kg,Parati  1Kg,Sea Fish (Large)
+SmallMullet_SEAFISH_SMALL_1Kg,Small Mullet  1Kg,Sea Fish (Small)
+Hurulla_SEAFISH_SMALL_1Kg,Hurulla  1Kg,Sea Fish (Small)
+Linna_SEAFISH_SMALL_1Kg,Linna  1Kg,Sea Fish (Small)
+Prawns_SEAFISH_SMALL_1Kg,Prawns  1Kg,Sea Fish (Small)
+Katta_DRIEDFISH_1Kg,Katta  1Kg,Dried Fish
+Spratts_DRIEDFISH_1Kg,Spratts  1Kg,Dried Fish
+Salaya_Average_DRIEDFISH_1Kg,Salaya Average  1Kg,Dried Fish
+Beef_MEAT_1Kg,Beef  1Kg,Meat and Poultry
+Mutton_MEAT_1Kg,Mutton  1Kg,Meat and Poultry
+Chicken_Fresh_MEAT_1Kg,Chicken Fresh  1Kg,Meat and Poultry
+Chicken_Broiler_MEAT_1Kg,Chicken Broiler  1Kg,Meat and Poultry
+Pork_MEAT_1Kg,Pork  1Kg,Meat and Poultry
+Egg_Average_EGGS_Each,Egg - Average  Each,Eggs
+Egg_Red_EGGS_Each,Egg - Red  Each,Eggs
+Egg_White_EGGS_Each,Egg - White  Each,Eggs
+TinFish_U_CANNEDFISH_425g,Tinned Fish 425g,Canned Fish
+Maliban_MILK_POWDER_MILK_400g,Maliban  400g,Milk Powder
+Lakspray_MILK_POWDER_MILK_400g,Lakspray  400g,Milk Powder
+Anchor_MILK_POWDER_MILK_400g,Anchor  400g,Milk Powder
+Pelwatta_MILK_POWDER_MILK_400g,Pelwatta  400g,Milk Powder
+Highland_MILK_POWDER_MILK_400g,Highland  400g,Milk Powder
+Lactogen_II_MILK_POWDER_MILK_400g,Lactogen II  400g,Milk Powder
+Lactogen_I_MILK_POWDER_MILK_400g,Lactogen I  400g,Milk Powder
+Sour_Plantain_FRUITS_1Kg,Sour Plantain  1Kg,Fruits
+Anamalu_FRUITS_1Kg,Anamalu  1Kg,Fruits
+Kolikuttu_FRUITS_1Kg,Kolikuttu  1Kg,Fruits
+Papaw_FRUITS_1Kg,Papaw 1Kg,Fruits
+Pineapple_FRUITS_1Kg,Pineapple 1Kg,Fruits
+Bread_U_BAKERY_450g,Bread  450g,Bakery Goods
