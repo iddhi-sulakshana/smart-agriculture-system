@@ -5,6 +5,7 @@ import { Location } from "../models/location.js";
 import { News } from "../models/news.js";
 import { Information } from "../models/information.js";
 import { Cover } from "../models/covers.js";
+import { Crop } from "../models/crop.js";
 
 const defaultUserData = [
     {
@@ -148,24 +149,133 @@ const defaultCoverData = [
         mobileCover: "covers/sm/00004.jpg",
     },
 ];
+const defaultCropData = [
+    {
+        title: "Tomato",
+        user: null,
+        category: null,
+        description: "lorem ipsum dolor sit amet",
+        price: 100,
+        stock: 10,
+        image: "product-1.test.jpg",
+        location: null,
+        unit: "kg",
+        tags: ["new"],
+        isSold: false,
+    },
+    {
+        title: "Carrot",
+        user: null,
+        category: null,
+        description: "lorem ipsum dolor sit amet",
+        price: 100,
+        stock: 10,
+        image: "product-2.test.jpg",
+        location: null,
+        unit: "kg",
+        tags: ["new"],
+        isSold: false,
+    },
+    {
+        title: "Onion",
+        user: null,
+        category: null,
+        description: "lorem ipsum dolor sit amet",
+        price: 100,
+        stock: 10,
+        image: "product-3.test.jpg",
+        location: null,
+        unit: "kg",
+        tags: ["new"],
+        isSold: false,
+    },
+    {
+        title: "Potato",
+        user: null,
+        category: null,
+        description: "lorem ipsum dolor sit amet",
+        price: 100,
+        stock: 10,
+        image: "product-4.test.jpg",
+        location: null,
+        unit: "kg",
+        tags: ["new"],
+        isSold: false,
+    },
+    {
+        title: "Cabbage",
+        user: null,
+        category: null,
+        description: "lorem ipsum dolor sit amet",
+        price: 100,
+        stock: 10,
+        image: "product-5.test.jpg",
+        location: null,
+        unit: "kg",
+        tags: ["new"],
+        isSold: false,
+    },
+    {
+        title: "Tomato",
+        user: null,
+        category: null,
+        description: "lorem ipsum dolor sit amet",
+        price: 100,
+        stock: 10,
+        image: "product-6.test.jpg",
+        location: null,
+        unit: "kg",
+        tags: ["new"],
+        isSold: false,
+    },
+    {
+        title: "Carrot",
+        user: null,
+        category: null,
+        description: "lorem ipsum dolor sit amet",
+        price: 100,
+        stock: 10,
+        image: "product-7.test.jpg",
+        location: null,
+        unit: "kg",
+        tags: ["new"],
+        isSold: false,
+    },
+    {
+        title: "Onion",
+        user: null,
+        category: null,
+        description: "lorem ipsum dolor sit amet",
+        price: 100,
+        stock: 10,
+        image: "product-8.test.jpg",
+        location: null,
+        unit: "kg",
+        tags: ["new"],
+        isSold: false,
+    },
+];
 export default async function () {
+    let users = [];
     // insert default user data into the database
     try {
-        await Users.insertMany(defaultUserData);
+        users = await Users.insertMany(defaultUserData);
     } catch (error) {
         winston.error(error.message);
     }
 
+    let category = [];
     // insert default category data into the database
     try {
-        await Category.insertMany(defaultCatergoryData);
+        category = await Category.insertMany(defaultCatergoryData);
     } catch (error) {
         winston.error(error.message);
     }
 
+    let location = [];
     // insert default location data into the database
     try {
-        await Location.insertMany(defaultLocationData);
+        location = await Location.insertMany(defaultLocationData);
     } catch (error) {
         winston.error(error.message);
     }
@@ -187,6 +297,20 @@ export default async function () {
     // insert default cover data into the database
     try {
         await Cover.insertMany(defaultCoverData);
+    } catch (error) {
+        winston.error(error.message);
+    }
+
+    defaultCropData.forEach((crop, index) => {
+        crop.user = users[0]._id;
+        crop.category =
+            category[Math.round(Math.random() * (category.length - 1))]._id;
+        crop.location =
+            location[Math.round(Math.random() * (location.length - 1))]._id;
+    });
+    // insert default crop data into the database
+    try {
+        await Crop.insertMany(defaultCropData);
     } catch (error) {
         winston.error(error.message);
     }
