@@ -29,3 +29,6 @@
 *.njsproj
 *.sln
 *.sw?
+
+# catboost info folder
+**/catboost_info
