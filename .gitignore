@@ -32,3 +32,6 @@
 
 # catboost info folder
 **/catboost_info
+
+# .ipynb_checkpoints folder
+**/.ipynb_checkpoints
