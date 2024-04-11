@@ -17,14 +17,10 @@ const defaultUserData = [
     },
 ];
 const defaultCatergoryData = [
-    { name: "Tomato", weekPrice: 100, predictedPrice: 0 },
+    { name: "Green Chillies", weekPrice: 100, predictedPrice: 0 },
     { name: "Carrot", weekPrice: 100, predictedPrice: 0 },
-    { name: "Onion", weekPrice: 100, predictedPrice: 0 },
-    { name: "Potato", weekPrice: 100, predictedPrice: 0 },
-    { name: "Cabbage", weekPrice: 100, predictedPrice: 0 },
-    { name: "Beans", weekPrice: 100, predictedPrice: 0 },
-    { name: "Chilli", weekPrice: 100, predictedPrice: 0 },
-    { name: "Brinjal", weekPrice: 100, predictedPrice: 0 },
+    { name: "Leeks", weekPrice: 100, predictedPrice: 0 },
+    { name: "BeetRoot", weekPrice: 100, predictedPrice: 0 },
 ];
 const defaultLocationData = [
     { name: "Anuradhapura" },

@@ -13,6 +13,9 @@ class pricePredictor:
         self.priceData["Datetime"] = pd.to_datetime(self.priceData[['Year', 'Month']].assign(day=(self.priceData["Week"]-1)*7 +1))
         self.priceData = self.priceData.set_index('Datetime')
 
+    def getUniqueVegetables(self):
+        return self.priceData["Name"].unique()
+
     def preprocessData(self, data):
         data2 = data.copy()
         imputer = SimpleImputer(missing_values = pd.NA, strategy ='mean')
@@ -34,7 +37,7 @@ class pricePredictor:
         # for high accuracy
         # CB_reg =  CatBoostRegressor(iterations=100000, depth=1, learning_rate=0.001, loss_function='RMSE')
         CB_reg =  CatBoostRegressor(iterations=1000, depth=1, learning_rate=0.1, loss_function='RMSE')
-        CB_reg.fit(data[self.FEATURES], data["Price"])
+        CB_reg.fit(data[self.FEATURES], data["Price"], verbose=False)
 
         newData = {}
         newData["Year"] = data.index[-1].year
@@ -51,4 +54,4 @@ class pricePredictor:
 
         prediction = CB_reg.predict(pd.DataFrame(newData, index=[0]))
         
-        return {"predict": prediction[0], "previous": data["Price"].values[-1]}
+        return {"predict": prediction[0].round(2), "previous": data["Price"].values[-1]}
