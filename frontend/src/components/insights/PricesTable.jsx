@@ -3,95 +3,71 @@ import { Table, Tooltip } from "@mui/joy";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import ArrowDropUpRoundedIcon from "@mui/icons-material/ArrowDropUpRounded";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+import useGetCategory from "../../hooks/useGetCategory";
 const data = [
     {
         name: "Tomato",
         yesterdayPrice: 100,
         todayPrice: 90,
-        predictedPrice: 70,
     },
     {
         name: "Onion",
         yesterdayPrice: 50,
         todayPrice: 60,
-        predictedPrice: 50,
     },
     {
         name: "Potato",
         yesterdayPrice: 30,
         todayPrice: 40,
-        predictedPrice: 50,
     },
     {
         name: "Carrot",
         yesterdayPrice: 40,
         todayPrice: 45,
-        predictedPrice: 50,
     },
     {
         name: "Beans",
         yesterdayPrice: 60,
         todayPrice: 70,
-        predictedPrice: 50,
     },
 ];
 
 function PricesTable() {
+    const categories = useGetCategory();
     return (
         <Table>
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>
-                        Yesterday Price
-                        <Tooltip title="Yesterday Price is the price of the product in the market yesterday.">
+                        This Week Price
+                        <Tooltip title="This week prices were gathered from the Department of Statistics.">
                             <HelpOutlineRoundedIcon />
                         </Tooltip>
                     </th>
                     <th>
-                        Today Price
-                        <Tooltip title="Today Price is the price of the product in the market today.">
-                            <HelpOutlineRoundedIcon />
-                        </Tooltip>
-                    </th>
-                    <th>
-                        Predicted Price
-                        <Tooltip title="Predicted Price is calculated based on the previous data and the current market trends.">
+                        Next Week Predicted Price
+                        <Tooltip title="Predicted Price is calculated based on the previous data gathered from the Department of Statistics and may vary.">
                             <HelpOutlineRoundedIcon />
                         </Tooltip>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                {data.map((row) => (
-                    <tr key={row.name}>
+                {categories.map((row) => (
+                    <tr key={row._id}>
                         <td>{row.name}</td>
-                        <td>{row.yesterdayPrice}</td>
+                        <td>{row.weekPrice}</td>
                         <td
                             style={{
                                 color:
-                                    row.todayPrice > row.yesterdayPrice
-                                        ? "green"
-                                        : "red",
-                            }}
-                        >
-                            {row.todayPrice}
-                            {row.todayPrice > row.yesterdayPrice ? (
-                                <ArrowDropUpRoundedIcon color="success" />
-                            ) : (
-                                <ArrowDropDownRoundedIcon color="danger" />
-                            )}
-                        </td>
-                        <td
-                            style={{
-                                color:
-                                    row.predictedPrice > row.todayPrice
+                                    row.predictedPrice > row.weekPrice
                                         ? "green"
                                         : "red",
                             }}
                         >
                             {row.predictedPrice}
-                            {row.predictedPrice > row.todayPrice ? (
+                            {row.predictedPrice > row.weekPrice ? (
                                 <ArrowDropUpRoundedIcon color="success" />
                             ) : (
                                 <ArrowDropDownRoundedIcon color="danger" />
