@@ -7,9 +7,13 @@ const categorySchema = new Schema({
         type: String,
         required: true,
     },
-    priceFluctuation: {
+    weekPrice: {
         type: Number,
         required: true,
+    },
+    predictedPrice: {
+        type: Number,
+        default: 0,
     },
 });
 
@@ -19,7 +23,8 @@ const Category = model("Category", categorySchema);
 const schema = new Joi.object({
     _id: Joi.objectId(),
     name: Joi.string().required(),
-    priceFluctuation: Joi.number().required(),
+    weekPrice: Joi.number().required(),
+    predictedPrice: Joi.number(),
 });
 // function for validating the schema
 function validate(category) {

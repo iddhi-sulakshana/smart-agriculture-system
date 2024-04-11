@@ -17,11 +17,14 @@ const defaultUserData = [
     },
 ];
 const defaultCatergoryData = [
-    { name: "Tomato", priceFluctuation: 75 },
-    { name: "Carrot", priceFluctuation: 50 },
-    { name: "Onion", priceFluctuation: 0.1 },
-    { name: "Potato", priceFluctuation: -55 },
-    { name: "Cabbage", priceFluctuation: 30 },
+    { name: "Tomato", weekPrice: 100, predictedPrice: 0 },
+    { name: "Carrot", weekPrice: 100, predictedPrice: 0 },
+    { name: "Onion", weekPrice: 100, predictedPrice: 0 },
+    { name: "Potato", weekPrice: 100, predictedPrice: 0 },
+    { name: "Cabbage", weekPrice: 100, predictedPrice: 0 },
+    { name: "Beans", weekPrice: 100, predictedPrice: 0 },
+    { name: "Chilli", weekPrice: 100, predictedPrice: 0 },
+    { name: "Brinjal", weekPrice: 100, predictedPrice: 0 },
 ];
 const defaultLocationData = [
     { name: "Anuradhapura" },
