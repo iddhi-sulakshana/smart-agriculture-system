@@ -5,6 +5,7 @@ import envConfig from "./configs/environment.js";
 import winston from "./configs/logger.js";
 import databaseConfig from "./configs/database.js";
 import routes from "./configs/routes.js";
+import socketConfig from "./configs/socket.js";
 
 // initialize environment variables
 envConfig();
@@ -16,12 +17,14 @@ const logger = winston();
 databaseConfig();
 // initialize routes
 routes(app);
+// initialize socket for chat
+const server = socketConfig(app);
 
 // run the server application
-app.listen(process.env.PORT || 3000, () => {
+server.listen(process.env.PORT || 3000, () => {
     logger.info(
         `Server listening on: http://localhost:${process.env.PORT || 3000}`
     );
 });
 
-export default app;
+export default server;
