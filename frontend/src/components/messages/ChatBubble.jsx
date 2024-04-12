@@ -1,8 +1,13 @@
 import { Box, Sheet, Stack, Typography } from "@mui/joy";
 import React from "react";
 import { DisplayRelativeTime } from "../../Utils/DateTime";
+import ClickableCard from "../common/ClickableCard";
+import useGetCropViewDetails from "../../hooks/useGetCropViewDetails";
 
-function ChatBubble({ message, variant, timestamp, sender }) {
+function ChatBubble({ message, variant, timestamp, sender, isProduct }) {
+    let crop;
+    if (isProduct) crop = useGetCropViewDetails(message);
+    console.log(crop);
     const isSent = variant === "sent";
     return (
         <Box>
@@ -33,16 +38,28 @@ function ChatBubble({ message, variant, timestamp, sender }) {
                             : "background.body",
                     }}
                 >
-                    <Typography
-                        level="body-sm"
-                        sx={{
-                            color: isSent
-                                ? "var(--joy-palette-common-white)"
-                                : "var(--joy-palette-text-primary)",
-                        }}
-                    >
-                        {message}
-                    </Typography>
+                    {isProduct ? (
+                        <ClickableCard
+                            id={crop?._id}
+                            title={crop?.title}
+                            price={crop?.price}
+                            unit={crop?.unit}
+                            location={crop?.location}
+                            loading={!crop}
+                            image={crop?.image}
+                        />
+                    ) : (
+                        <Typography
+                            level="body-sm"
+                            sx={{
+                                color: isSent
+                                    ? "var(--joy-palette-common-white)"
+                                    : "var(--joy-palette-text-primary)",
+                            }}
+                        >
+                            {message}
+                        </Typography>
+                    )}
                 </Sheet>
             </Box>
         </Box>
