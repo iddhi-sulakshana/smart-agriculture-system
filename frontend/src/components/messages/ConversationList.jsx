@@ -1,11 +1,8 @@
 import { Box, Button, List, Sheet, Typography } from "@mui/joy";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import React, { useState } from "react";
+import React from "react";
 import ConversationItem from "./ConversationItem";
-import useGetChats from "../../hooks/useGetChats";
 
-function ConversationList({ selectedChat, setSelectedChat }) {
-    const chats = useGetChats();
+function ConversationList({ selectedChat, setSelectedChat, chats }) {
     return (
         <Sheet
             sx={{

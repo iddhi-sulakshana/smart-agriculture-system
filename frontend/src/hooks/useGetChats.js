@@ -41,5 +41,6 @@ export default function useGetChats() {
                 setChats([]);
             });
     }, [token]);
-    return chats;
+
+    return { chats, setChats };
 }

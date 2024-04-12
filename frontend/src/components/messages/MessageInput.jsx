@@ -6,7 +6,7 @@ import axios from "axios";
 import { getURL } from "../../Utils/Url";
 import UserContext from "../../contexts/UserContext";
 
-function MessageInput({ setMessages, selectedChat, messages }) {
+function MessageInput({ setMessages, selectedChat, messages, setChats }) {
     const [textAreaValue, setTextAreaValue] = useState("");
     const { token } = UserContext();
 
@@ -26,6 +26,14 @@ function MessageInput({ setMessages, selectedChat, messages }) {
             })
             .then((res) => {
                 setMessages([...messages, res.data]);
+                setChats((prevChats) => {
+                    const newChats = [...prevChats];
+                    const chatIndex = newChats.findIndex(
+                        (chat) => chat._id === selectedChat
+                    );
+                    newChats[chatIndex].lastMessage = res.data;
+                    return newChats;
+                });
                 setTextAreaValue("");
             })
             .catch((error) => {

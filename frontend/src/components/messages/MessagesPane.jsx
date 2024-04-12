@@ -6,7 +6,7 @@ import MessageInput from "./MessageInput";
 import useGetMessages from "../../hooks/useGetMessages";
 import useGetReciever from "../../hooks/useGetReciever";
 
-function MessagesPane({ selectedChat, setSelectedChat }) {
+function MessagesPane({ selectedChat, setSelectedChat, setChats }) {
     const { messages, setMessages } = useGetMessages(selectedChat);
     const { reciever, error } = useGetReciever(selectedChat);
 
@@ -73,6 +73,7 @@ function MessagesPane({ selectedChat, setSelectedChat }) {
                 setMessages={setMessages}
                 selectedChat={selectedChat}
                 messages={messages}
+                setChats={setChats}
             />
         </Sheet>
     );

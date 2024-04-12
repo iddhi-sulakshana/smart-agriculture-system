@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import ConversationList from "../components/messages/ConversationList";
 import MessagesPane from "../components/messages/MessagesPane";
 import { useParams } from "react-router-dom";
+import useGetChats from "../hooks/useGetChats";
 
 function Chat() {
+    const { chats, setChats } = useGetChats();
+
     const [selectedChat, setSelectedChat] = useState("");
     const { id } = useParams();
     useEffect(() => {
@@ -38,10 +41,12 @@ function Chat() {
                 <ConversationList
                     selectedChat={selectedChat}
                     setSelectedChat={setSelectedChat}
+                    chats={chats}
                 />
                 <MessagesPane
                     selectedChat={selectedChat}
                     setSelectedChat={setSelectedChat}
+                    setChats={setChats}
                 />
             </Sheet>
         </Box>
