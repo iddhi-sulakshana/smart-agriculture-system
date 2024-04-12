@@ -15,6 +15,13 @@ const defaultUserData = [
             "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
         role: "farmer",
     },
+    {
+        name: "saler1",
+        email: "saler1@gmail.com",
+        password:
+            "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
+        role: "wholesaler",
+    },
 ];
 const defaultCatergoryData = [
     { name: "Green Chillies", weekPrice: 100, predictedPrice: 0 },
