@@ -27,6 +27,44 @@ router.get("/", authentication, async (req, res) => {
     res.send(chats);
 });
 
+// get the chat header reciever details
+router.get("/:id/reciever", authentication, async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id))
+        return res.status(400).send("Invalid chat id");
+
+    const chat = await Chat.findOne({
+        _id: req.params.id,
+        participants: { $in: [req.user._id] },
+    }).populate("participants", "name avatar role");
+
+    if (!chat) return res.status(404).send("Chat not found");
+
+    chat.participants = chat.participants.filter(
+        (participant) => participant._id.toString() !== req.user._id.toString()
+    );
+
+    res.send(chat.participants[0]);
+});
+
+// get all the messages for the chat
+router.get("/:id/messages", authentication, async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id))
+        return res.status(400).send("Invalid chat id");
+
+    const chat = await Chat.findOne({
+        _id: req.params.id,
+        participants: { $in: [req.user._id] },
+    });
+
+    if (!chat) return res.status(404).send("Chat not found");
+
+    const messages = await Message.find({ chatId: chat._id }).sort({
+        timestamp: 1,
+    });
+
+    res.send(messages);
+});
+
 // create a new chat for the product and send the initial message
 router.post("/", authentication, async (req, res) => {
     if (!req.body.receiver || !req.body.crop)

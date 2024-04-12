@@ -3,7 +3,7 @@ import React from "react";
 import ChatBubble from "./ChatBubble";
 import AvatarWithStatus from "./AvatarWithStatus";
 
-function MessageList({ loading = true, error, messages }) {
+function MessageList({ loading = true, error, messages, reciever }) {
     if (loading) {
         return (
             <Box
@@ -64,21 +64,20 @@ function MessageList({ loading = true, error, messages }) {
             <Stack spacing={2} justifyContent="flex-end">
                 {messages.map((message) => {
                     // Check if the message is sent by you
-                    const isYou = message.sender === "You";
+                    const isYou = message.senderId != reciever._id;
                     return (
                         <Stack
-                            key={message.id}
+                            key={message._id}
                             direction="row"
                             spacing={2}
                             flexDirection={isYou ? "row-reverse" : "row"}
                         >
-                            {message.sender !== "You" && (
-                                <AvatarWithStatus
-                                // src={selectedChat.participant.avatar}
-                                />
+                            {!isYou && (
+                                <AvatarWithStatus src={reciever.avatar} />
                             )}
                             <ChatBubble
                                 variant={isYou ? "sent" : "received"}
+                                sender={isYou ? "You" : reciever.name}
                                 {...message}
                             />
                         </Stack>

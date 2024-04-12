@@ -12,8 +12,8 @@ function ConversationList({ selectedChat, setSelectedChat }) {
                 borderRight: "1px solid",
                 borderColor: "divider",
                 overflowY: "hidden",
-                maxHeight: "65dvh",
-                minHeight: "65dvh",
+                maxHeight: "85dvh",
+                minHeight: "85dvh",
                 display: {
                     xs: selectedChat ? "none" : "block",
                     md: "block",
@@ -51,6 +51,7 @@ function ConversationList({ selectedChat, setSelectedChat }) {
                     chats.map((chat) => (
                         <ConversationItem
                             key={chat._id}
+                            selectedChat={selectedChat}
                             setSelectedChat={setSelectedChat}
                             chat={chat}
                         />

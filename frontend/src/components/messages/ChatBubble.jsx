@@ -1,5 +1,6 @@
 import { Box, Sheet, Stack, Typography } from "@mui/joy";
 import React from "react";
+import { DisplayRelativeTime } from "../../Utils/DateTime";
 
 function ChatBubble({ message, variant, timestamp, sender }) {
     const isSent = variant === "sent";
@@ -15,8 +16,7 @@ function ChatBubble({ message, variant, timestamp, sender }) {
                     {sender === "You" ? "" : sender.split(" ")[0]}
                 </Typography>
                 <Typography level="body-xs">
-                    Now
-                    {/* {formatTimestamp(timestamp)} */}
+                    {DisplayRelativeTime(timestamp)}
                 </Typography>
             </Stack>
             <Box sx={{ position: "relative" }}>

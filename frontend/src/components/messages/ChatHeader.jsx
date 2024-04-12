@@ -7,7 +7,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Popconfirm } from "antd";
 import { toast } from "react-toastify";
 
-function ChatHeader({ setSelectedChat }) {
+function ChatHeader({ setSelectedChat, reciever }) {
     const [openDelete, setOpenDelete] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -35,7 +35,7 @@ function ChatHeader({ setSelectedChat }) {
                 {/* Display User Picture */}
                 <AvatarWithStatus
                     size="md"
-                    src="https://robohash.org/123"
+                    src={reciever.avatar}
                     online={false}
                 />
                 <Typography
@@ -58,11 +58,11 @@ function ChatHeader({ setSelectedChat }) {
                                 />
                             }
                         >
-                            Admin
+                            {reciever.role}
                         </Chip>
                     }
                 >
-                    Someone
+                    {reciever.name}
                 </Typography>
             </Stack>
             <Stack direction="row" spacing={2} alignItems="center">

@@ -3,15 +3,20 @@ import React from "react";
 import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
+import useGetMessages from "../../hooks/useGetMessages";
+import useGetReciever from "../../hooks/useGetReciever";
 
 function MessagesPane({ selectedChat, setSelectedChat }) {
+    const messages = useGetMessages(selectedChat);
+    const reciever = useGetReciever(selectedChat);
+
     if (!selectedChat) {
         return (
             <Sheet
                 sx={{
                     maxHeight: {
                         xs: "80dvh",
-                        md: "65dvh",
+                        md: "85dvh",
                     },
                     flexDirection: "column",
                     backgroundColor: "background.level1",
@@ -40,11 +45,11 @@ function MessagesPane({ selectedChat, setSelectedChat }) {
             sx={{
                 maxHeight: {
                     xs: "80dvh",
-                    md: "65dvh",
+                    md: "85dvh",
                 },
                 height: {
                     xs: "80dvh",
-                    md: "65dvh",
+                    md: "85dvh",
                 },
                 display: "flex",
                 flexDirection: "column",
@@ -52,24 +57,12 @@ function MessagesPane({ selectedChat, setSelectedChat }) {
             }}
         >
             {/* Selected Chat User Details */}
-            <ChatHeader setSelectedChat={setSelectedChat} />
+            <ChatHeader setSelectedChat={setSelectedChat} reciever={reciever} />
             {/* Display Chat Messages */}
             <MessageList
                 loading={false}
-                messages={[
-                    {
-                        id: 1,
-                        message: "Hello",
-                        timestamp: new Date(),
-                        sender: "You",
-                    },
-                    {
-                        id: 2,
-                        message: "Hi",
-                        timestamp: new Date(),
-                        sender: "Jane Doe",
-                    },
-                ]}
+                messages={messages}
+                reciever={reciever}
             />
             {/* Message Input */}
             <MessageInput />

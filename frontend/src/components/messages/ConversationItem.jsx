@@ -3,15 +3,15 @@ import React from "react";
 import AvatarWithStatus from "./AvatarWithStatus";
 import { DisplayRelativeTime } from "../../Utils/DateTime";
 
-function ConversationItem({ setSelectedChat, chat }) {
+function ConversationItem({ selectedChat, setSelectedChat, chat }) {
     return (
         <React.Fragment>
             <ListItem>
                 <ListItemButton
                     onClick={() => {
-                        setSelectedChat(true);
+                        setSelectedChat(chat._id);
                     }}
-                    // selected={isSelected}
+                    selected={selectedChat === chat._id}
                     color="neutral"
                     sx={{
                         flexDirection: "column",
