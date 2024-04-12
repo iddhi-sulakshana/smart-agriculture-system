@@ -1,8 +1,9 @@
 import { Box, ListItem, ListItemButton, Stack, Typography } from "@mui/joy";
 import React from "react";
 import AvatarWithStatus from "./AvatarWithStatus";
+import { DisplayRelativeTime } from "../../Utils/DateTime";
 
-function ConversationItem({ setSelectedChat }) {
+function ConversationItem({ setSelectedChat, chat }) {
     return (
         <React.Fragment>
             <ListItem>
@@ -21,12 +22,14 @@ function ConversationItem({ setSelectedChat }) {
                     <Stack direction="row" spacing={1.5}>
                         {/* Chat User Icon */}
                         <AvatarWithStatus
-                            src="https://robohash.org/sd"
+                            src={chat?.participants[0]?.avatar}
                             online="true"
                         />
                         <Box sx={{ flex: 1 }}>
                             {/* Display Chat User Name */}
-                            <Typography level="title-sm">Samuel</Typography>
+                            <Typography level="title-sm">
+                                {chat?.participants[0]?.name}
+                            </Typography>
                             {/* Display the last message of the chat */}
                             <Typography
                                 level="body-sm"
@@ -38,7 +41,43 @@ function ConversationItem({ setSelectedChat }) {
                                     textOverflow: "ellipsis",
                                 }}
                             >
-                                No messages yet
+                                {chat?.lastMessage ? (
+                                    chat?.lastMessage?.isProduct ? (
+                                        <React.Fragment>
+                                            <Typography
+                                                component="span"
+                                                level="body-xs"
+                                                sx={{
+                                                    display: "inline",
+                                                }}
+                                            >
+                                                sent a product
+                                            </Typography>
+                                        </React.Fragment>
+                                    ) : (
+                                        <React.Fragment>
+                                            <Typography
+                                                component="span"
+                                                level="body-xs"
+                                                sx={{
+                                                    display: "inline",
+                                                }}
+                                            >
+                                                {` : ${chat?.lastMessage?.message}`}
+                                            </Typography>
+                                        </React.Fragment>
+                                    )
+                                ) : (
+                                    <Typography
+                                        component="span"
+                                        level="body-xs"
+                                        sx={{
+                                            display: "inline",
+                                        }}
+                                    >
+                                        {"No messages yet"}
+                                    </Typography>
+                                )}
                             </Typography>
                         </Box>
                         <Box
@@ -47,9 +86,11 @@ function ConversationItem({ setSelectedChat }) {
                                 textAlign: "right",
                             }}
                         >
-                            {/* Display Sent Time */}
+                            {/* Display Sent Time ex: "just now" if within 1 minute, "1 minute ago", "5 days ago" */}
                             <Typography level="body-xs" display="block" noWrap>
-                                just now
+                                {DisplayRelativeTime(
+                                    chat?.lastMessage?.timestamp
+                                )}
                             </Typography>
                         </Box>
                     </Stack>

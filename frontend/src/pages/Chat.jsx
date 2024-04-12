@@ -4,7 +4,6 @@ import ConversationList from "../components/messages/ConversationList";
 import MessagesPane from "../components/messages/MessagesPane";
 
 function Chat() {
-    const [display, setDisplay] = useState(false);
     const [selectedChat, setSelectedChat] = useState(false);
     return (
         <Box

@@ -8,6 +8,25 @@ import { io } from "../configs/socket.js";
 
 const router = Router();
 
+// get all chats of the user
+router.get("/", authentication, async (req, res) => {
+    const chats = await Chat.find({
+        participants: { $in: [req.user._id] },
+    })
+        .populate("participants", "name avatar")
+        .populate("lastMessage", "message timestamp isProduct");
+
+    // remove current user from participants
+    chats.forEach((chat) => {
+        chat.participants = chat.participants.filter(
+            (participant) =>
+                participant._id.toString() !== req.user._id.toString()
+        );
+    });
+
+    res.send(chats);
+});
+
 // create a new chat for the product and send the initial message
 router.post("/", authentication, async (req, res) => {
     if (!req.body.receiver || !req.body.crop)
@@ -25,7 +44,7 @@ router.post("/", authentication, async (req, res) => {
 
     // check if the chat already exists
     let chat = await Chat.findOne({
-        members: { $all: [req.user._id, req.body.receiver] },
+        participants: { $all: [req.user._id, req.body.receiver] },
     });
 
     // check if the crop exist

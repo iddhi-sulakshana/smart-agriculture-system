@@ -2,10 +2,10 @@ import { Box, Button, List, Sheet, Typography } from "@mui/joy";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import React, { useState } from "react";
 import ConversationItem from "./ConversationItem";
-import NewChatModal from "./NewChatModal";
+import useGetChats from "../../hooks/useGetChats";
 
 function ConversationList({ selectedChat, setSelectedChat }) {
-    const [open, setOpen] = useState(false);
+    const chats = useGetChats();
     return (
         <Sheet
             sx={{
@@ -13,6 +13,7 @@ function ConversationList({ selectedChat, setSelectedChat }) {
                 borderColor: "divider",
                 overflowY: "hidden",
                 maxHeight: "65dvh",
+                minHeight: "65dvh",
                 display: {
                     xs: selectedChat ? "none" : "block",
                     md: "block",
@@ -35,15 +36,6 @@ function ConversationList({ selectedChat, setSelectedChat }) {
                 <Typography fontSize="lg" component="h1" fontWeight="lg">
                     Messages
                 </Typography>
-                <Button
-                    size="md"
-                    variant="outlined"
-                    endDecorator={<AddRoundedIcon />}
-                    onClick={() => setOpen(true)}
-                >
-                    New Chat
-                </Button>
-                <NewChatModal open={open} setOpen={setOpen} />
             </Box>
             {/* List of chats */}
             <List
@@ -55,12 +47,12 @@ function ConversationList({ selectedChat, setSelectedChat }) {
                     overflowY: "auto",
                 }}
             >
-                {Array(10)
-                    .fill(0)
-                    .map((_, i) => (
+                {chats &&
+                    chats.map((chat) => (
                         <ConversationItem
-                            key={i}
+                            key={chat._id}
                             setSelectedChat={setSelectedChat}
+                            chat={chat}
                         />
                     ))}
             </List>
