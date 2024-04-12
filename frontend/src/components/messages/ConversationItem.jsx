@@ -19,17 +19,40 @@ function ConversationItem({ selectedChat, setSelectedChat, chat }) {
                         gap: 1,
                     }}
                 >
-                    <Stack direction="row" spacing={1.5}>
+                    <Stack direction="row" spacing={2} alignItems="center">
                         {/* Chat User Icon */}
+
                         <AvatarWithStatus
                             src={chat?.participants[0]?.avatar}
                             online="true"
                         />
                         <Box sx={{ flex: 1 }}>
-                            {/* Display Chat User Name */}
-                            <Typography level="title-sm">
-                                {chat?.participants[0]?.name}
-                            </Typography>
+                            <Stack
+                                direction="row"
+                                justifyContent="space-between"
+                            >
+                                {/* Display Chat User Name */}
+                                <Typography level="title-sm">
+                                    {chat?.participants[0]?.name}
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        lineHeight: 1.5,
+                                        textAlign: "right",
+                                    }}
+                                >
+                                    {/* Display Sent Time ex: "just now" if within 1 minute, "1 minute ago", "5 days ago" */}
+                                    <Typography
+                                        level="body-xs"
+                                        display="block"
+                                        noWrap
+                                    >
+                                        {DisplayRelativeTime(
+                                            chat?.lastMessage?.timestamp
+                                        )}
+                                    </Typography>
+                                </Box>
+                            </Stack>
                             {/* Display the last message of the chat */}
                             <Typography
                                 level="body-sm"
@@ -63,7 +86,7 @@ function ConversationItem({ selectedChat, setSelectedChat, chat }) {
                                                     display: "inline",
                                                 }}
                                             >
-                                                {` : ${chat?.lastMessage?.message}`}
+                                                {chat?.lastMessage?.message}
                                             </Typography>
                                         </React.Fragment>
                                     )
@@ -77,19 +100,6 @@ function ConversationItem({ selectedChat, setSelectedChat, chat }) {
                                     >
                                         {"No messages yet"}
                                     </Typography>
-                                )}
-                            </Typography>
-                        </Box>
-                        <Box
-                            sx={{
-                                lineHeight: 1.5,
-                                textAlign: "right",
-                            }}
-                        >
-                            {/* Display Sent Time ex: "just now" if within 1 minute, "1 minute ago", "5 days ago" */}
-                            <Typography level="body-xs" display="block" noWrap>
-                                {DisplayRelativeTime(
-                                    chat?.lastMessage?.timestamp
                                 )}
                             </Typography>
                         </Box>

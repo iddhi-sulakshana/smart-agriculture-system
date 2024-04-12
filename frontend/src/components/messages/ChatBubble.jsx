@@ -9,7 +9,7 @@ function ChatBubble({ message, variant, timestamp, sender, isProduct }) {
     if (isProduct) crop = useGetCropViewDetails(message);
     const isSent = variant === "sent";
     return (
-        <Box>
+        <Box sx={{ maxWidth: "60%" }}>
             <Stack
                 direction="row"
                 justifyContent={sender === "You" ? "flex-end" : "flex-start"}
