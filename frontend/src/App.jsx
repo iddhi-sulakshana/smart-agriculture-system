@@ -34,7 +34,8 @@ function App() {
                         <Route path="/signin" element={<SignIn />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/market" element={<Market />} />
-                        <Route path="/messages/*" element={<Chat />} />
+                        <Route path="/messages/" element={<Chat />} />
+                        <Route path="/messages/:id" element={<Chat />} />
                         <Route path="/insights" element={<Insights />} />
                         <Route
                             path="/transportation"

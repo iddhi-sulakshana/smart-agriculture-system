@@ -6,13 +6,24 @@ import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Popconfirm } from "antd";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { getURL } from "../../Utils/Url";
+import UserContext from "../../contexts/UserContext";
 
-function ChatHeader({ setSelectedChat, reciever }) {
+function ChatHeader({ selectedChat, setSelectedChat, reciever }) {
     const [openDelete, setOpenDelete] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-
+    const { token } = UserContext();
     const handleDelete = () => {
         setConfirmLoading(true);
+
+        axios.request({
+            method: "DELETE",
+            url: getURL("chat/" + selectedChat),
+            headers: {
+                "x-auth-token": token,
+            },
+        });
 
         setTimeout(() => {
             setOpenDelete(false);
@@ -68,12 +79,15 @@ function ChatHeader({ setSelectedChat, reciever }) {
             <Stack direction="row" spacing={2} alignItems="center">
                 <Popconfirm
                     title="Delete Conversation"
-                    description="Are you sure you want to delete this conversation?"
+                    description="Delete this conversation?"
                     open={openDelete}
                     onConfirm={handleDelete}
                     okButtonProps={{ loading: confirmLoading }}
                     okText="Yes"
                     cancelText="No"
+                    onCancel={() => {
+                        setOpenDelete(false);
+                    }}
                 >
                     <Button
                         variant="plain"

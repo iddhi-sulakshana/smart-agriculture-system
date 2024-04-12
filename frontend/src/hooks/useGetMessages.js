@@ -41,5 +41,5 @@ export default function useGetMessages(id) {
                 setMessages([]);
             });
     }, [token, id]);
-    return messages;
+    return { messages, setMessages };
 }

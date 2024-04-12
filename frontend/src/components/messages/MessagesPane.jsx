@@ -7,10 +7,10 @@ import useGetMessages from "../../hooks/useGetMessages";
 import useGetReciever from "../../hooks/useGetReciever";
 
 function MessagesPane({ selectedChat, setSelectedChat }) {
-    const messages = useGetMessages(selectedChat);
-    const reciever = useGetReciever(selectedChat);
+    const { messages, setMessages } = useGetMessages(selectedChat);
+    const { reciever, error } = useGetReciever(selectedChat);
 
-    if (!selectedChat) {
+    if (!selectedChat || error) {
         return (
             <Sheet
                 sx={{
@@ -57,7 +57,11 @@ function MessagesPane({ selectedChat, setSelectedChat }) {
             }}
         >
             {/* Selected Chat User Details */}
-            <ChatHeader setSelectedChat={setSelectedChat} reciever={reciever} />
+            <ChatHeader
+                selectedChat={selectedChat}
+                setSelectedChat={setSelectedChat}
+                reciever={reciever}
+            />
             {/* Display Chat Messages */}
             <MessageList
                 loading={false}
@@ -65,7 +69,11 @@ function MessagesPane({ selectedChat, setSelectedChat }) {
                 reciever={reciever}
             />
             {/* Message Input */}
-            <MessageInput />
+            <MessageInput
+                setMessages={setMessages}
+                selectedChat={selectedChat}
+                messages={messages}
+            />
         </Sheet>
     );
 }

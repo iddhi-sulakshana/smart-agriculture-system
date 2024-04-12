@@ -7,7 +7,6 @@ import useGetCropViewDetails from "../../hooks/useGetCropViewDetails";
 function ChatBubble({ message, variant, timestamp, sender, isProduct }) {
     let crop;
     if (isProduct) crop = useGetCropViewDetails(message);
-    console.log(crop);
     const isSent = variant === "sent";
     return (
         <Box>

@@ -25,9 +25,11 @@ async function getReciever(token, id) {
 
 export default function useGetReciever(id) {
     const [reciever, setReciever] = useState([]);
+    const [error, setError] = useState(null);
     const { token } = UserContext();
 
     useEffect(() => {
+        setError(null);
         if (!token || !id) {
             setReciever([]);
             return;
@@ -39,7 +41,8 @@ export default function useGetReciever(id) {
             .catch((error) => {
                 toast.error("Error fetching reciever: " + error.message);
                 setReciever([]);
+                setError(error);
             });
     }, [token, id]);
-    return reciever;
+    return { reciever, error };
 }

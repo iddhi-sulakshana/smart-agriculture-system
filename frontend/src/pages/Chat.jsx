@@ -1,10 +1,15 @@
 import { Box, Sheet } from "@mui/joy";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ConversationList from "../components/messages/ConversationList";
 import MessagesPane from "../components/messages/MessagesPane";
+import { useParams } from "react-router-dom";
 
 function Chat() {
     const [selectedChat, setSelectedChat] = useState("");
+    const { id } = useParams();
+    useEffect(() => {
+        if (id) setSelectedChat(id);
+    }, [id]);
     return (
         <Box
             sx={{

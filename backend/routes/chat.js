@@ -114,4 +114,55 @@ router.post("/", authentication, async (req, res) => {
     res.send(chat._id);
 });
 
+// send a message to the chat
+router.patch("/:id", authentication, async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id))
+        return res.status(400).send("Invalid chat id");
+
+    const chat = await Chat.findOne({
+        _id: req.params.id,
+        participants: { $in: [req.user._id] },
+    });
+
+    if (!chat) return res.status(404).send("Chat not found");
+
+    const message = {
+        chatId: chat._id,
+        senderId: req.user._id,
+        message: req.body.message,
+    };
+
+    const { error } = validateMessage(req.body);
+
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const newMessage = new Message(message);
+    await newMessage.save();
+
+    chat.lastMessage = newMessage._id;
+    await chat.save();
+
+    //io.to(`chat-${chat._id}`).emit("update_chat", newMessage);
+
+    res.send(newMessage);
+});
+
+// delete a chat
+router.delete("/:id", authentication, async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id))
+        return res.status(400).send("Invalid chat id");
+
+    const chat = await Chat.findOneAndDelete({
+        _id: req.params.id,
+        participants: { $in: [req.user._id] },
+    });
+
+    if (!chat) return res.status(404).send("Chat not found");
+
+    // delete all the messages of the chat
+    await Message.deleteMany({ chatId: chat._id });
+
+    res.send("Success");
+});
+
 export default router;

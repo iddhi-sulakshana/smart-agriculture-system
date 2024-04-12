@@ -1,8 +1,37 @@
 import { Box, Button, FormControl, Stack, Textarea } from "@mui/joy";
-import React from "react";
+import React, { useState } from "react";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { getURL } from "../../Utils/Url";
+import UserContext from "../../contexts/UserContext";
 
-function MessageInput() {
+function MessageInput({ setMessages, selectedChat, messages }) {
+    const [textAreaValue, setTextAreaValue] = useState("");
+    const { token } = UserContext();
+
+    const handleSend = () => {
+        if (textAreaValue.trim() === "")
+            return toast.error("Message cannot be empty");
+        axios
+            .request({
+                method: "PATCH",
+                url: getURL("chat/" + selectedChat),
+                headers: {
+                    "x-auth-token": token,
+                },
+                data: {
+                    message: textAreaValue,
+                },
+            })
+            .then((res) => {
+                setMessages([...messages, res.data]);
+                setTextAreaValue("");
+            })
+            .catch((error) => {
+                toast.error("Error sending message: " + error.message);
+            });
+    };
     return (
         <Box sx={{ px: 2, mb: 1 }}>
             <FormControl>
@@ -10,11 +39,10 @@ function MessageInput() {
                 <Textarea
                     placeholder="Type something here…"
                     aria-label="Message"
-                    // ref={textAreaRef}
-                    // onChange={(e) => {
-                    //     setTextAreaValue(e.target.value);
-                    // }}
-                    // value={textAreaValue}
+                    onChange={(e) => {
+                        setTextAreaValue(e.target.value);
+                    }}
+                    value={textAreaValue}
                     minRows={2}
                     maxRows={2}
                     endDecorator={
@@ -32,7 +60,7 @@ function MessageInput() {
                                 size="md"
                                 color="primary"
                                 endDecorator={<SendRoundedIcon />}
-                                // onClick={handleClick}
+                                onClick={handleSend}
                             >
                                 Send
                             </Button>
@@ -42,7 +70,7 @@ function MessageInput() {
                     onKeyDown={(event) => {
                         if (event.key === "Enter") {
                             event.preventDefault();
-                            // handleClick();
+                            handleSend();
                         }
                     }}
                 />
