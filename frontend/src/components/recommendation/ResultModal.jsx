@@ -13,7 +13,7 @@ import {
 import React from "react";
 import ParkIcon from "@mui/icons-material/Park";
 
-function ResultModal({ open, setOpen, loading = true }) {
+function ResultModal({ open, setOpen, loading = true, prediction, error }) {
     return (
         <Modal open={open} onClose={() => setOpen(false)}>
             <ModalDialog sx={{ p: 2 }}>
@@ -33,29 +33,34 @@ function ResultModal({ open, setOpen, loading = true }) {
                                 Getting the best seeds to harvest...
                             </Typography>
                         </>
+                    ) : error ? (
+                        <>
+                            <Typography level="h2">
+                                Something went wrong! 🤯
+                            </Typography>
+                            <Typography level="title-lg" color="error">
+                                {error}
+                            </Typography>
+                        </>
                     ) : (
                         <>
-                            <Typography level="title-lg">
-                                Best Crops for your provided data
+                            <Typography level="h2">
+                                Best Crop to Harvest 🌾
+                            </Typography>
+                            <Typography level="title">
+                                Based on the soil and weather conditions, we
+                                recommend the following crop:
                             </Typography>
                             <List>
                                 <ListItem>
                                     <ListItemDecorator>
                                         <ParkIcon color="success" />
                                     </ListItemDecorator>
-                                    <ListItemContent>Wheat</ListItemContent>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemDecorator>
-                                        <ParkIcon color="success" />
-                                    </ListItemDecorator>
-                                    <ListItemContent>Rice</ListItemContent>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemDecorator>
-                                        <ParkIcon color="success" />
-                                    </ListItemDecorator>
-                                    <ListItemContent>Maize</ListItemContent>
+                                    <ListItemContent>
+                                        <Typography level="h3">
+                                            {prediction}
+                                        </Typography>
+                                    </ListItemContent>
                                 </ListItem>
                             </List>
                         </>

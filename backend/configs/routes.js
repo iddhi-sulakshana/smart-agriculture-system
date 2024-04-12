@@ -12,6 +12,7 @@ import locations from "../routes/location.js";
 import news from "../routes/news.js";
 import informations from "../routes/information.js";
 import covers from "../routes/cover.js";
+import predict from "../routes/predict.js";
 
 export default function (app) {
     // enable cross origin resource sharing middleware
@@ -41,6 +42,7 @@ export default function (app) {
     app.use("/api/news", news);
     app.use("/api/informations", informations);
     app.use("/api/covers", covers);
+    app.use("/api/predict", predict);
 
     // initialize error middleware
     app.use(error);

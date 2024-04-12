@@ -7,13 +7,27 @@ import {
     Input,
     Option,
     Select,
+    Tooltip,
 } from "@mui/joy";
 import React, { useState } from "react";
-import useGetLocation from "../../hooks/useGetLocation";
 
-function RecommendForm({ setOpen }) {
-    const [location, setLocation] = useState("");
-    const locationData = useGetLocation();
+function RecommendForm({
+    setOpen,
+    Nval,
+    setNval,
+    Pval,
+    setPval,
+    Kval,
+    setKval,
+    temperature,
+    setTemperature,
+    humidity,
+    setHumidity,
+    ph,
+    setPh,
+    rainfall,
+    setRainfall,
+}) {
     return (
         <Card
             variant="outlined"
@@ -29,53 +43,145 @@ function RecommendForm({ setOpen }) {
                 }}
             >
                 <FormControl>
-                    <FormLabel>Location</FormLabel>
-                    <Select
-                        placeholder="Select Location"
-                        defaultValue=""
-                        value={location}
-                        onChange={(e, next) => {
-                            setLocation(next);
+                    <FormLabel>
+                        Nitrogen
+                        <Tooltip
+                            color="primary"
+                            title="Ratio of Nitrogen content in soil."
+                        >
+                            <Button variant="text">?</Button>
+                        </Tooltip>
+                    </FormLabel>
+                    <Input
+                        type="number"
+                        placeholder="Nitrogen"
+                        endDecorator="kg/ha"
+                        value={Nval}
+                        onChange={(e) => {
+                            setNval(e.target.value);
                         }}
-                    >
-                        {locationData.map((location) => (
-                            <Option key={location._id} value={location._id}>
-                                {location.name}
-                            </Option>
-                        ))}
-                    </Select>
+                    />
                 </FormControl>
                 <FormControl>
-                    <FormLabel>Soil Type</FormLabel>
-                    <Select placeholder="Select Soil Type">
-                        <Option value="loamy">Loamy</Option>
-                        <Option value="sandy">Sandy</Option>
-                        <Option value="clay">Clay</Option>
-                    </Select>
+                    <FormLabel>
+                        Phosphorus
+                        <Tooltip
+                            color="primary"
+                            title="Ratio of Phosphorus content in soil."
+                        >
+                            <Button variant="text">?</Button>
+                        </Tooltip>
+                    </FormLabel>
+                    <Input
+                        type="number"
+                        placeholder="Phosphorus"
+                        endDecorator="kg/ha"
+                        value={Pval}
+                        onChange={(e) => {
+                            setPval(e.target.value);
+                        }}
+                    />
                 </FormControl>
                 <FormControl>
-                    <FormLabel>Rainfall</FormLabel>
+                    <FormLabel>
+                        Potassium
+                        <Tooltip
+                            color="primary"
+                            title="Ratio of Potassium content in soil."
+                        >
+                            <Button variant="text">?</Button>
+                        </Tooltip>
+                    </FormLabel>
+                    <Input
+                        type="number"
+                        placeholder="Potassium"
+                        endDecorator="kg/ha"
+                        value={Kval}
+                        onChange={(e) => {
+                            setKval(e.target.value);
+                        }}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>
+                        Temperature
+                        <Tooltip
+                            color="primary"
+                            title="temperature in degree Celsius"
+                        >
+                            <Button variant="text">?</Button>
+                        </Tooltip>
+                    </FormLabel>
+                    <Input
+                        type="number"
+                        placeholder="Temperature"
+                        endDecorator="°C"
+                        value={temperature}
+                        onChange={(e) => {
+                            setTemperature(e.target.value);
+                        }}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>
+                        Humidity
+                        <Tooltip color="primary" title="relative humidity in %">
+                            <Button variant="text">?</Button>
+                        </Tooltip>
+                    </FormLabel>
+                    <Input
+                        type="number"
+                        placeholder="Humidity"
+                        endDecorator="%"
+                        value={humidity}
+                        onChange={(e) => {
+                            setHumidity(e.target.value);
+                        }}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>
+                        pH
+                        <Tooltip color="primary" title="pH value of the soil">
+                            <Button variant="text">?</Button>
+                        </Tooltip>
+                    </FormLabel>
+                    <Input
+                        type="number"
+                        placeholder="pH"
+                        value={ph}
+                        onChange={(e) => {
+                            setPh(e.target.value);
+                        }}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>
+                        Rainfall
+                        <Tooltip color="primary" title="Rainfall in mm">
+                            <Button variant="text">?</Button>
+                        </Tooltip>
+                    </FormLabel>
                     <Input
                         type="number"
                         placeholder="Rainfall"
                         endDecorator="mm"
+                        value={rainfall}
+                        onChange={(e) => {
+                            setRainfall(e.target.value);
+                        }}
                     />
                 </FormControl>
-                <FormControl>
-                    <FormLabel>Season</FormLabel>
-                    <Select placeholder="Select Season">
-                        <Option value="summer">Summer</Option>
-                        <Option value="winter">Winter</Option>
-                        <Option value="monsoon">Monsoon</Option>
-                    </Select>
-                </FormControl>
+
                 {/* centered submit button */}
                 <FormControl sx={{ gridColumn: "1 / -1" }}>
                     <Button
                         color="primary"
                         fullWidth
                         sx={{ mx: "auto" }}
-                        onClick={() => setOpen(true)}
+                        onClick={() => {
+                            setOpen(true);
+                        }}
                     >
                         Get Recommendation
                     </Button>
