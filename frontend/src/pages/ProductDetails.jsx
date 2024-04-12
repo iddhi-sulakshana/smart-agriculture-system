@@ -1,18 +1,49 @@
 import { AspectRatio, Box, Button, Grid, Skeleton, Typography } from "@mui/joy";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomAvatar from "../components/common/CustomAvatar";
 import useGetCropViewDetails from "../hooks/useGetCropViewDetails";
-import { getRootURL } from "../Utils/Url";
+import { getRootURL, getURL } from "../Utils/Url";
+import UserContext from "../contexts/UserContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function ProductDetails() {
     const { id } = useParams();
+    const { token } = UserContext();
 
     const product = useGetCropViewDetails(id);
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
+
     const handleChat = () => {
-        navigate(`/messages/${product?.user._id}`);
+        setLoading(true);
+        axios
+            .request({
+                method: "POST",
+                headers: {
+                    "x-auth-token": token,
+                },
+                url: getURL("chat"),
+                data: {
+                    crop: product._id,
+                    receiver: product.user._id,
+                },
+            })
+            .then((res) => {
+                navigate(`/messages/${res.data}`);
+            })
+            .catch((error) => {
+                toast.error(
+                    error.response.data
+                        ? error.response.data
+                        : "An error occurred"
+                );
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return (
@@ -139,9 +170,24 @@ function ProductDetails() {
                             gap: 2,
                         }}
                     >
-                        <Button variant="outlined" onClick={handleChat}>
-                            Chat now
-                        </Button>
+                        {token ? (
+                            <Button
+                                variant="outlined"
+                                onClick={handleChat}
+                                loading={loading}
+                            >
+                                Chat now
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="outlined"
+                                onClick={() => {
+                                    navigate("/signin");
+                                }}
+                            >
+                                Login to Chat
+                            </Button>
+                        )}
                         <Button variant="solid" disabled>
                             Buy now
                         </Button>
