@@ -9,7 +9,7 @@ class pricePredictor:
         self.FEATURES = ["Year", "Month", "Week", "Price_Lag", "Price_Mean"]
 
     def extractData(self):
-        self.priceData = pd.read_csv("../PricePrediction/data/processed/pricesList.csv")
+        self.priceData = pd.read_csv("../../PricePrediction/data/processed/pricesList.csv")
         self.priceData["Datetime"] = pd.to_datetime(self.priceData[['Year', 'Month']].assign(day=(self.priceData["Week"]-1)*7 +1))
         self.priceData = self.priceData.set_index('Datetime')
 
