@@ -6,19 +6,12 @@ const chatSchema = new Schema({
         {
             type: Schema.Types.ObjectId,
             ref: "Users",
+            required: true,
         },
     ],
     lastMessage: {
         type: Schema.Types.ObjectId,
         ref: "Message",
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
     },
 });
 
