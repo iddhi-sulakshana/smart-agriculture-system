@@ -1,16 +1,8 @@
-import { Box, Button, List, Sheet, Typography } from "@mui/joy";
-import React, { useEffect } from "react";
+import { Box, List, Sheet, Typography } from "@mui/joy";
+import React from "react";
 import ConversationItem from "./ConversationItem";
-import useSocket from "../../contexts/SocketContext";
 
 function ConversationList({ selectedChat, setSelectedChat, chats }) {
-    const { isConnected, socket } = useSocket();
-    useEffect(() => {
-        console.log(isConnected, socket);
-        if (!isConnected) return;
-        console.log(socket);
-        socket.emit("message", "Hello from client!");
-    }, [isConnected]);
     return (
         <Sheet
             sx={{

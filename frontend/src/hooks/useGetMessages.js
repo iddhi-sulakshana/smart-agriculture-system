@@ -28,10 +28,12 @@ export default function useGetMessages(id) {
     const { token } = UserContext();
 
     useEffect(() => {
-        if (!token || !id) {
-            setMessages([]);
+        // check if messages are already fetched with same id
+        if (!token) {
             return;
         }
+        if (!id) return;
+        if (messages.length > 0 && messages[0].chatId === id) return;
         getMessages(token, id)
             .then((messages) => {
                 setMessages(messages);

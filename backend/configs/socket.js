@@ -21,6 +21,7 @@ export default function (app) {
         userChats.forEach((chat) => {
             socket.join(`chat-${chat._id}-${socket.handshake.headers.user}`);
         });
+        socket.join(`user-${socket.handshake.headers.user}`);
         socket.on("message", async (data) => {
             console.log(data);
         });

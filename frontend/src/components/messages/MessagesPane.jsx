@@ -1,14 +1,29 @@
 import { Box, Sheet, Stack } from "@mui/joy";
-import React from "react";
+import React, { useEffect } from "react";
 import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
 import useGetMessages from "../../hooks/useGetMessages";
 import useGetReciever from "../../hooks/useGetReciever";
+import SocketContext from "../../contexts/SocketContext";
 
 function MessagesPane({ selectedChat, setSelectedChat, setChats }) {
     const { messages, setMessages } = useGetMessages(selectedChat);
     const { reciever, error } = useGetReciever(selectedChat);
+    const { socket, isConnected } = SocketContext();
+
+    const setMessagesHandler = (newMessage) => {
+        setMessages([...messages, newMessage]);
+    };
+
+    useEffect(() => {
+        if (!isConnected) return;
+        socket.on("new_message", (message) => {
+            if (message.chatId === selectedChat) {
+                setMessagesHandler(message);
+            }
+        });
+    }, [selectedChat, isConnected]);
 
     if (!selectedChat || error) {
         return (

@@ -34,6 +34,12 @@ export default function useGetChats() {
         }
         getChats(token)
             .then((chats) => {
+                // sort the chats by last message timestamp
+                chats.sort((a, b) => {
+                    if (a.lastMessage.timestamp < b.lastMessage.timestamp)
+                        return 1;
+                    return -1;
+                });
                 setChats(chats);
             })
             .catch((error) => {

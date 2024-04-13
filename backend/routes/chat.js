@@ -67,6 +67,7 @@ router.get("/:id/messages", authentication, async (req, res) => {
 
 // create a new chat for the product and send the initial message
 router.post("/", authentication, async (req, res) => {
+    let newChat = false;
     if (!req.body.receiver || !req.body.crop)
         return res.status(400).send("Invalid request");
 
@@ -91,6 +92,7 @@ router.post("/", authentication, async (req, res) => {
 
     // if chat does not exist, create a new chat
     if (!chat) {
+        newChat = true;
         chat = new Chat({
             participants: [req.user._id, req.body.receiver],
         });
@@ -109,7 +111,27 @@ router.post("/", authentication, async (req, res) => {
     chat.lastMessage = message._id;
     await chat.save();
 
-    io.to(`chat-${chat._id}`).emit("update_chat", message);
+    chat = await Chat.findOne({ _id: chat._id })
+        .populate("participants", "name avatar")
+        .populate("lastMessage", "message timestamp isProduct");
+    // remove receiver from participants
+    chat.participants = chat.participants.filter(
+        (participant) =>
+            participant._id.toString() !== req.body.receiver.toString()
+    );
+
+    if (newChat) {
+        io.to(`user-${req.body.receiver}`).emit("new_chat", chat);
+    } else {
+        io.to(`chat-${chat._id}-${req.body.receiver}`).emit(
+            "new_message_update_chat_list",
+            chat
+        );
+        io.to(`chat-${chat._id}-${req.body.receiver}`).emit(
+            "new_message",
+            message
+        );
+    }
 
     res.send(chat._id);
 });
@@ -119,7 +141,7 @@ router.patch("/:id", authentication, async (req, res) => {
     if (!mongoose.isValidObjectId(req.params.id))
         return res.status(400).send("Invalid chat id");
 
-    const chat = await Chat.findOne({
+    let chat = await Chat.findOne({
         _id: req.params.id,
         participants: { $in: [req.user._id] },
     });
@@ -142,7 +164,26 @@ router.patch("/:id", authentication, async (req, res) => {
     chat.lastMessage = newMessage._id;
     await chat.save();
 
-    //io.to(`chat-${chat._id}`).emit("update_chat", newMessage);
+    const reciever = chat.participants.filter(
+        (participant) => participant._id.toString() !== req.user._id.toString()
+    )[0];
+
+    chat = await Chat.findOne({ _id: chat._id })
+        .populate("participants", "name avatar")
+        .populate("lastMessage", "message timestamp isProduct");
+    // remove receiver from participants
+    chat.participants = chat.participants.filter(
+        (participant) => participant._id.toString() === req.user._id.toString()
+    );
+    io.to(`chat-${chat._id}-${reciever.toString()}`).emit(
+        "new_message_update_chat_list",
+        chat
+    );
+
+    io.to(`chat-${chat._id}-${reciever.toString()}`).emit(
+        "new_message",
+        newMessage
+    );
 
     res.send(newMessage);
 });
