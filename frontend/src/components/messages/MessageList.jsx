@@ -73,7 +73,10 @@ function MessageList({ loading = true, error, messages, reciever }) {
                             flexDirection={isYou ? "row-reverse" : "row"}
                         >
                             {!isYou && (
-                                <AvatarWithStatus src={reciever.avatar} />
+                                <AvatarWithStatus
+                                    src={reciever.avatar}
+                                    online={reciever?.online}
+                                />
                             )}
                             <ChatBubble
                                 variant={isYou ? "sent" : "received"}

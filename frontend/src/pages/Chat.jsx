@@ -8,7 +8,6 @@ import SocketContext from "../contexts/SocketContext";
 
 function Chat() {
     const { chats, setChats } = useGetChats();
-    console.log(chats);
     const [selectedChat, setSelectedChat] = useState("");
     const { id } = useParams();
     const { socket, isConnected } = SocketContext();
@@ -42,6 +41,7 @@ function Chat() {
             selectedChat === chatId && setSelectedChat("");
         });
         socket.on("online", (chatId) => {
+            console.log(chatId);
             let newChats = chats.map((c) => {
                 if (c._id === chatId) {
                     c.online = true;

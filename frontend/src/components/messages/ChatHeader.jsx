@@ -25,14 +25,14 @@ function ChatHeader({
 
     useEffect(() => {
         if (!isConnected) return;
-        socket.on("online", (chatId) => {
+        socket.on("online1", (chatId) => {
             if (chatId === selectedChat) {
                 setReciever((prev) => {
                     return { ...prev, online: true };
                 });
             }
         });
-        socket.on("offline", (chatId) => {
+        socket.on("offline2", (chatId) => {
             if (chatId === selectedChat) {
                 setReciever((prev) => {
                     return { ...prev, online: false };
@@ -40,8 +40,8 @@ function ChatHeader({
             }
         });
         return () => {
-            socket.off("online");
-            socket.off("offline");
+            socket.off("online1");
+            socket.off("offline2");
         };
     }, [isConnected, selectedChat, reciever]);
 

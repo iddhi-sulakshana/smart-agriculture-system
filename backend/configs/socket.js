@@ -28,6 +28,7 @@ export default function (app) {
                 );
             })[0];
             io.to(`chat-${chat._id}-${reciever}`).emit("online", chat._id);
+            io.to(`chat-${chat._id}-${reciever}`).emit("online1", chat._id);
         });
         socket.join(`user-${socket.handshake.headers.user}`);
         socket.on("disconnect", () => {
@@ -39,6 +40,10 @@ export default function (app) {
                     );
                 })[0];
                 io.to(`chat-${chat._id}-${reciever}`).emit("offline", chat._id);
+                io.to(`chat-${chat._id}-${reciever}`).emit(
+                    "offline2",
+                    chat._id
+                );
             });
             onlineUsers = onlineUsers.filter(
                 (user) => user !== socket.handshake.headers.user

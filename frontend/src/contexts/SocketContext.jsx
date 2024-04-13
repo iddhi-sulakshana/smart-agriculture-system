@@ -19,11 +19,9 @@ export const SocketProvider = ({ children }) => {
         const newSocket = connectSocket(token);
         setSocket(newSocket);
         newSocket.on("connect", () => {
-            console.log("Socket connected");
             setIsConnected(true);
         });
         newSocket.on("disconnect", () => {
-            console.log("Socket disconnected");
             setIsConnected(false);
         });
 
@@ -49,7 +47,6 @@ const connectSocket = (token) => {
         },
         reconnectionDelay: 500,
     }).on("connect_error", (err) => {
-        console.log(`Socket connection error: ${err.message}`);
         console.log(err);
     });
     return socket;
