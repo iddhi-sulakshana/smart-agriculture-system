@@ -10,7 +10,7 @@ import axios from "axios";
 import { getURL } from "../../Utils/Url";
 import UserContext from "../../contexts/UserContext";
 
-function ChatHeader({ selectedChat, setSelectedChat, reciever }) {
+function ChatHeader({ selectedChat, setSelectedChat, reciever, deleteFunc }) {
     const [openDelete, setOpenDelete] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const { token } = UserContext();
@@ -29,6 +29,7 @@ function ChatHeader({ selectedChat, setSelectedChat, reciever }) {
             setOpenDelete(false);
             setConfirmLoading(false);
             toast.success("Conversation deleted successfully");
+            deleteFunc();
         }, 500);
     };
     return (

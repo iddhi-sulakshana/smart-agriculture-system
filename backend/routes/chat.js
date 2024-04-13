@@ -203,6 +203,12 @@ router.delete("/:id", authentication, async (req, res) => {
     // delete all the messages of the chat
     await Message.deleteMany({ chatId: chat._id });
 
+    const reciever = chat.participants.filter(
+        (participant) => participant._id.toString() !== req.user._id.toString()
+    )[0];
+
+    io.to(`user-${reciever.toString()}`).emit("delete_chat", chat._id);
+
     res.send("Success");
 });
 

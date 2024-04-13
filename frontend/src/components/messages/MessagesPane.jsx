@@ -7,23 +7,25 @@ import useGetMessages from "../../hooks/useGetMessages";
 import useGetReciever from "../../hooks/useGetReciever";
 import SocketContext from "../../contexts/SocketContext";
 
-function MessagesPane({ selectedChat, setSelectedChat, setChats }) {
+function MessagesPane({ selectedChat, setSelectedChat, setChats, chats }) {
     const { messages, setMessages } = useGetMessages(selectedChat);
     const { reciever, error } = useGetReciever(selectedChat);
     const { socket, isConnected } = SocketContext();
 
-    const setMessagesHandler = (newMessage) => {
-        setMessages([...messages, newMessage]);
+    const handleDelete = () => {
+        let newChats = chats.filter((chat) => chat._id !== selectedChat);
+        setChats(newChats);
+        setSelectedChat("");
     };
 
     useEffect(() => {
         if (!isConnected) return;
         socket.on("new_message", (message) => {
             if (message.chatId === selectedChat) {
-                setMessagesHandler(message);
+                setMessages([...messages, message]);
             }
         });
-    }, [selectedChat, isConnected]);
+    }, [selectedChat, isConnected, messages]);
 
     if (!selectedChat || error) {
         return (
@@ -76,6 +78,7 @@ function MessagesPane({ selectedChat, setSelectedChat, setChats }) {
                 selectedChat={selectedChat}
                 setSelectedChat={setSelectedChat}
                 reciever={reciever}
+                deleteFunc={handleDelete}
             />
             {/* Display Chat Messages */}
             <MessageList

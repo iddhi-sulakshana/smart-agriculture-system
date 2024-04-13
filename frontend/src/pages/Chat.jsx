@@ -35,11 +35,17 @@ function Chat() {
             });
             setChats(newChats);
         });
+        socket.on("delete_chat", (chatId) => {
+            console.log(chatId, chats);
+            let newChats = chats.filter((c) => c._id !== chatId);
+            setChats(newChats);
+            selectedChat === chatId && setSelectedChat("");
+        });
         return () => {
             socket.off("new_message_update_chat_list");
             socket.off("new_message");
         };
-    }, [isConnected]);
+    }, [isConnected, chats, selectedChat]);
 
     useEffect(() => {
         if (id) setSelectedChat(id);
@@ -78,6 +84,7 @@ function Chat() {
                     selectedChat={selectedChat}
                     setSelectedChat={setSelectedChat}
                     setChats={setChats}
+                    chats={chats}
                 />
             </Sheet>
         </Box>
