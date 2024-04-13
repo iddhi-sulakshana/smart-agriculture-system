@@ -44,5 +44,5 @@ export default function useGetReciever(id) {
                 setError(error);
             });
     }, [token, id]);
-    return { reciever, error };
+    return { reciever, setReciever, error };
 }

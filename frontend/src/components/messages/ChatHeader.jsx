@@ -1,5 +1,5 @@
 import { Button, Chip, Stack, Typography } from "@mui/joy";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AvatarWithStatus from "./AvatarWithStatus";
 import CircleIcon from "@mui/icons-material/Circle";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
@@ -9,11 +9,42 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { getURL } from "../../Utils/Url";
 import UserContext from "../../contexts/UserContext";
+import SocketContext from "../../contexts/SocketContext";
 
-function ChatHeader({ selectedChat, setSelectedChat, reciever, deleteFunc }) {
+function ChatHeader({
+    selectedChat,
+    setSelectedChat,
+    reciever,
+    deleteFunc,
+    setReciever,
+}) {
     const [openDelete, setOpenDelete] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const { token } = UserContext();
+    const { socket, isConnected } = SocketContext();
+
+    useEffect(() => {
+        if (!isConnected) return;
+        socket.on("online", (chatId) => {
+            if (chatId === selectedChat) {
+                setReciever((prev) => {
+                    return { ...prev, online: true };
+                });
+            }
+        });
+        socket.on("offline", (chatId) => {
+            if (chatId === selectedChat) {
+                setReciever((prev) => {
+                    return { ...prev, online: false };
+                });
+            }
+        });
+        return () => {
+            socket.off("online");
+            socket.off("offline");
+        };
+    }, [isConnected, selectedChat, reciever]);
+
     const handleDelete = () => {
         setConfirmLoading(true);
 
@@ -48,7 +79,7 @@ function ChatHeader({ selectedChat, setSelectedChat, reciever, deleteFunc }) {
                 <AvatarWithStatus
                     size="md"
                     src={reciever.avatar}
-                    online={false}
+                    online={reciever?.online}
                 />
                 <Typography
                     fontWeight="lg"
@@ -66,7 +97,9 @@ function ChatHeader({ selectedChat, setSelectedChat, reciever, deleteFunc }) {
                             startDecorator={
                                 <CircleIcon
                                     sx={{ fontSize: 8 }}
-                                    color="success"
+                                    color={
+                                        reciever?.online ? "success" : "error"
+                                    }
                                 />
                             }
                         >

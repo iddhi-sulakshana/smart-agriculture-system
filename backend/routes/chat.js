@@ -4,7 +4,7 @@ import { Crop } from "../models/crop.js";
 import { Message, validateMessage } from "../models/message.js";
 import authentication from "../middlewares/authentication.js";
 import mongoose from "mongoose";
-import { io } from "../configs/socket.js";
+import { io, onlineUsers } from "../configs/socket.js";
 
 const router = Router();
 
@@ -15,16 +15,22 @@ router.get("/", authentication, async (req, res) => {
     })
         .populate("participants", "name avatar")
         .populate("lastMessage", "message timestamp isProduct");
-
+    let newChats = [];
     // remove current user from participants
     chats.forEach((chat) => {
         chat.participants = chat.participants.filter(
             (participant) =>
                 participant._id.toString() !== req.user._id.toString()
         );
+        let online = false;
+        onlineUsers.forEach((user) => {
+            if (user.toString() === chat.participants[0]._id.toString()) {
+                online = true;
+            }
+        });
+        newChats.push({ ...chat._doc, online });
     });
-
-    res.send(chats);
+    res.send(newChats);
 });
 
 // get the chat header reciever details
@@ -42,8 +48,14 @@ router.get("/:id/reciever", authentication, async (req, res) => {
     chat.participants = chat.participants.filter(
         (participant) => participant._id.toString() !== req.user._id.toString()
     );
+    let online = false;
+    onlineUsers.forEach((user) => {
+        if (user.toString() === chat.participants[0]._id.toString()) {
+            online = true;
+        }
+    });
 
-    res.send(chat.participants[0]);
+    res.send({ ...chat.participants[0]._doc, online });
 });
 
 // get all the messages for the chat

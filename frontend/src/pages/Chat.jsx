@@ -8,6 +8,7 @@ import SocketContext from "../contexts/SocketContext";
 
 function Chat() {
     const { chats, setChats } = useGetChats();
+    console.log(chats);
     const [selectedChat, setSelectedChat] = useState("");
     const { id } = useParams();
     const { socket, isConnected } = SocketContext();
@@ -36,14 +37,34 @@ function Chat() {
             setChats(newChats);
         });
         socket.on("delete_chat", (chatId) => {
-            console.log(chatId, chats);
             let newChats = chats.filter((c) => c._id !== chatId);
             setChats(newChats);
             selectedChat === chatId && setSelectedChat("");
         });
+        socket.on("online", (chatId) => {
+            let newChats = chats.map((c) => {
+                if (c._id === chatId) {
+                    c.online = true;
+                }
+                return c;
+            });
+            setChats(newChats);
+        });
+        socket.on("offline", (chatId) => {
+            let newChats = chats.map((c) => {
+                if (c._id === chatId) {
+                    c.online = false;
+                }
+                return c;
+            });
+            setChats(newChats);
+        });
         return () => {
             socket.off("new_message_update_chat_list");
             socket.off("new_message");
+            socket.off("delete_chat");
+            socket.off("online");
+            socket.off("offline");
         };
     }, [isConnected, chats, selectedChat]);
 

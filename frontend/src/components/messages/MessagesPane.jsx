@@ -9,7 +9,7 @@ import SocketContext from "../../contexts/SocketContext";
 
 function MessagesPane({ selectedChat, setSelectedChat, setChats, chats }) {
     const { messages, setMessages } = useGetMessages(selectedChat);
-    const { reciever, error } = useGetReciever(selectedChat);
+    const { reciever, setReciever, error } = useGetReciever(selectedChat);
     const { socket, isConnected } = SocketContext();
 
     const handleDelete = () => {
@@ -79,6 +79,7 @@ function MessagesPane({ selectedChat, setSelectedChat, setChats, chats }) {
                 setSelectedChat={setSelectedChat}
                 reciever={reciever}
                 deleteFunc={handleDelete}
+                setReciever={setReciever}
             />
             {/* Display Chat Messages */}
             <MessageList

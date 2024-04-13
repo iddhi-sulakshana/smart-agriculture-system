@@ -24,7 +24,7 @@ function ConversationItem({ selectedChat, setSelectedChat, chat }) {
 
                         <AvatarWithStatus
                             src={chat?.participants[0]?.avatar}
-                            online="true"
+                            online={chat?.online}
                         />
                         <Box sx={{ flex: 1 }}>
                             <Stack
