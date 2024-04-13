@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import { Users } from "../models/users.js";
 
-export default async function (req, res, next) {
+export default async function (socket, next) {
     // get the token from the header
-    const token = req.headers["x-auth-token"];
+    const token = socket.handshake.auth["x-auth-token"];
     // if the token is not provided, return an error message
     if (!token) return next(new Error("Access denied. No token provided"));
     // verify the token
@@ -16,7 +16,7 @@ export default async function (req, res, next) {
         // if not user exist return an error message
         if (!user) return next(new Error("Invalid token"));
         // send the user id to the socket
-        req.user = user._id;
+        socket.handshake.headers.user = user._id;
         // call the next middleware
         next();
     } catch (error) {
