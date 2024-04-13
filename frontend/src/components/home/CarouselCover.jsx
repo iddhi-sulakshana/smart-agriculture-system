@@ -5,7 +5,6 @@ import useGetCovers from "../../hooks/useGetCovers";
 import { getRootURL } from "../../Utils/Url";
 function CarouselCover() {
     const covers = useGetCovers();
-    console.log(covers);
     return (
         <Carousel autoplay speed={1000} infinite>
             {covers.map((cover) => (
