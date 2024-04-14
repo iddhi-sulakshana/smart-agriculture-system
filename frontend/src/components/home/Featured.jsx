@@ -22,7 +22,7 @@ function Featured() {
             </Typography>
             <Grid
                 container
-                spacing={3}
+                spacing={6}
                 justifyContent={{ xs: "center", md: "space-between" }}
                 mt={3}
                 sx={{ flexGrow: 1 }}
@@ -35,8 +35,8 @@ function Featured() {
                         image={item.image}
                         price={item.price}
                         location={item.location.name}
-                        badge={{ name: "new", color: "success" }}
-                        priceFluctuation={item.category.priceFluctuation}
+                        badge={{ name: "Featured", color: "primary" }}
+                        category={item.category}
                     />
                 ))}
             </Grid>

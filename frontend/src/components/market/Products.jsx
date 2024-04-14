@@ -6,9 +6,9 @@ function Products({ crops }) {
     return (
         <Grid
             container
-            spacing={3}
-            justifyContent={{ xs: "center", md: "space-between" }}
-            mt={3}
+            spacing={6}
+            justifyContent={{ xs: "center", md: "flex-start" }}
+            mt={0}
             sx={{ flexGrow: 1 }}
         >
             {/* 1 to 10 array then map */}
@@ -16,7 +16,7 @@ function Products({ crops }) {
                 <ClickableCard
                     id={item._id}
                     key={item._id}
-                    priceFluctuation={item.category.priceFluctuation}
+                    category={item.category}
                     title={item.title}
                     price={item.price}
                     image={item.image}

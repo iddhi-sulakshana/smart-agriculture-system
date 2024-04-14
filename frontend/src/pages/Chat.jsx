@@ -41,7 +41,6 @@ function Chat() {
             selectedChat === chatId && setSelectedChat("");
         });
         socket.on("online", (chatId) => {
-            console.log(chatId);
             let newChats = chats.map((c) => {
                 if (c._id === chatId) {
                     c.online = true;

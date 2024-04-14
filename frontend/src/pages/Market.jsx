@@ -9,7 +9,7 @@ import { getURL } from "../Utils/Url";
 function Market() {
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
-    const [pageSize, setPageSize] = useState(4);
+    const [pageSize, setPageSize] = useState(5);
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("");
     const [location, setLocation] = useState("");

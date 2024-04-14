@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // JOY UI Components
 import { Grid, Stack } from "@mui/joy";
@@ -10,6 +10,7 @@ import CropListingCard from "../components/profile/CropListingCard";
 function Profile() {
     const { token } = UserContext();
     const navigate = useNavigate();
+    const [role, setRole] = useState("");
     useEffect(() => {
         if (!token) {
             navigate("/signin");
@@ -29,14 +30,16 @@ function Profile() {
         >
             <Grid container spacing={4}>
                 <Grid xs={12} md={6}>
-                    <PersonalCard />
+                    <PersonalCard role={role} setRole={setRole} />
                 </Grid>
                 <Grid xs={12} md={6}>
                     <PasswordCard />
                 </Grid>
-                <Grid xs={12}>
-                    <CropListingCard />
-                </Grid>
+                {role === "farmer" && (
+                    <Grid xs={12}>
+                        <CropListingCard />
+                    </Grid>
+                )}
             </Grid>
         </Stack>
     );

@@ -22,7 +22,7 @@ function ClickableCard({
     loading = true,
     title,
     price,
-    priceFluctuation,
+    category,
     image,
     unit = "kg",
     location,
@@ -37,7 +37,7 @@ function ClickableCard({
             onClick={onClick}
             style={{ cursor: "pointer", transition: "transform 0.4s" }}
         >
-            <ApplyPriceBadge badge={priceFluctuation}>
+            <ApplyPriceBadge category={category}>
                 <ApplyBadge badge={badge}>
                     <Card
                         orientation="vertical"
@@ -153,9 +153,16 @@ function ApplyBadge({ badge, children }) {
     }
     return <>{children}</>;
 }
-function ApplyPriceBadge({ badge, children }) {
-    if (!badge) return <>{children}</>;
-    badge = badge > 0 ? "up" : "down";
+function ApplyPriceBadge({ category, children }) {
+    if (!category) return <>{children}</>;
+    let badge = "up";
+    if (category.weekPrice > category.predictedPrice) badge = "down";
+    const percentage = Math.abs(
+        ((category.weekPrice - category.predictedPrice) /
+            category.predictedPrice) *
+            100
+    ).toFixed(0);
+    console.log(percentage);
     const icon =
         badge === "up" ? (
             <ArrowUpwardRoundedIcon />
@@ -165,10 +172,15 @@ function ApplyPriceBadge({ badge, children }) {
     const color = badge === "up" ? "success" : "danger";
     return (
         <Badge
-            badgeContent={icon}
+            badgeContent={
+                <Typography level="body-sm" color={color} endDecorator={icon}>
+                    {percentage}%
+                </Typography>
+            }
             variant="outlined"
             color={color}
-            badgeInset="15%"
+            badgeInset="5%"
+            badgePosition="top-end"
             anchorOrigin={{ vertical: "top", horizontal: "left" }}
         >
             {children}

@@ -23,13 +23,12 @@ import axios from "axios";
 import { getURL } from "../../Utils/Url";
 import UserContext from "../../contexts/UserContext";
 
-function PersonalCard() {
+function PersonalCard({ role, setRole }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [avatar, setAvatar] = useState("");
-    const [role, setRole] = useState("");
     const { userDetails, loading, error } = useUserDetails();
 
     const { token } = UserContext();

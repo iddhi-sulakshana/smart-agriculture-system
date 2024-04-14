@@ -200,13 +200,21 @@ function ProductDetails() {
                         <span
                             style={{
                                 color:
-                                    product?.category.priceFluctuation > 0
+                                    product?.category.weekPrice <
+                                    product?.category.predictedPrice
                                         ? "green"
                                         : "red",
                             }}
                         >
-                            {product?.category.priceFluctuation}%{" "}
-                            {product?.category.priceFluctuation > 0
+                            {Math.abs(
+                                ((product?.category.weekPrice -
+                                    product?.category.predictedPrice) /
+                                    product?.category.predictedPrice) *
+                                    100
+                            ).toFixed(2)}
+                            %{" "}
+                            {product?.category.weekPrice <
+                            product?.category.predictedPrice
                                 ? "up"
                                 : "down"}
                         </span>
