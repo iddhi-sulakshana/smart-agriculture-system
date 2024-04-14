@@ -108,8 +108,9 @@ describe("Chat Socket Integration Tests", () => {
                     const socket = socketIo("http://localhost:3000", {
                         auth: { "x-auth-token": userTkn },
                     });
-                    socket.on("connect", () => {
+                    socket.on("connect", async () => {
                         socket.disconnect();
+                        await Users.deleteMany({});
                         done();
                     });
                 });
