@@ -80,6 +80,7 @@ router.get("/:id/messages", authentication, async (req, res) => {
 // create a new chat for the product and send the initial message
 router.post("/", authentication, async (req, res) => {
     let newChat = false;
+    console.log(req.body);
     if (!req.body.receiver || !req.body.crop)
         return res.status(400).send("Invalid request");
 
@@ -166,9 +167,9 @@ router.patch("/:id", authentication, async (req, res) => {
         message: req.body.message,
     };
 
-    const { error } = validateMessage(req.body);
+    const error = validateMessage(message);
 
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send(error);
 
     const newMessage = new Message(message);
     await newMessage.save();

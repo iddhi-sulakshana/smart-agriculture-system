@@ -6,42 +6,38 @@ import mongoose from "mongoose";
 import server from "../server.js";
 
 let server;
-let user1Tkn = "";
-let user2Tkn = "";
-beforeAll(async () => {
-    server.listen(3000);
-    const users = await Users.insertMany([
-        {
-            name: "farmer1",
-            email: "farmer1@gmail.com",
-            password:
-                "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
-            role: "farmer",
-        },
-        {
-            name: "saler1",
-            email: "saler1@gmail.com",
-            password:
-                "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
-            role: "wholesaler",
-        },
-    ]);
-    user1Tkn = await users[0].generateAuthToken();
-    user2Tkn = await users[1].generateAuthToken();
-    // Create a chat
-    await Chat.create({
-        participants: [users[0]._id, users[1]._id],
-    });
-});
-
-afterAll(async () => {
-    await Users.deleteMany({});
-    await Chat.deleteMany({});
-    mongoose.disconnect();
-    server.close();
-});
 
 describe("Chat Socket Integration Tests", () => {
+    beforeAll(async () => {
+        server.listen(3000);
+        const users = await Users.insertMany([
+            {
+                name: "farmer1",
+                email: "farmer1@gmail.com",
+                password:
+                    "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
+                role: "farmer",
+            },
+            {
+                name: "saler1",
+                email: "saler1@gmail.com",
+                password:
+                    "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
+                role: "wholesaler",
+            },
+        ]);
+        // Create a chat
+        await Chat.create({
+            participants: [users[0]._id, users[1]._id],
+        });
+    });
+
+    afterAll(async () => {
+        await Users.deleteMany({});
+        await Chat.deleteMany({});
+        mongoose.disconnect();
+        server.close();
+    });
     describe("Socket Connection", () => {
         it("should connect to the socket server", (done) => {
             const socket = socketIo("http://localhost:3000");
@@ -87,9 +83,20 @@ describe("Chat Socket Integration Tests", () => {
             }));
 
         it("should connect to the socket server with authentication", () =>
-            new Promise((done) => {
+            new Promise(async (done) => {
+                const users = await Users.insertMany([
+                    {
+                        name: "farmer1",
+                        email: "farmer5@gmail.com",
+                        password:
+                            "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
+                        role: "farmer",
+                    },
+                ]);
+                const userTkn = await users[0].generateAuthToken();
+
                 const socket = socketIo("http://localhost:3000", {
-                    auth: { "x-auth-token": user1Tkn },
+                    auth: { "x-auth-token": userTkn },
                 });
                 socket.on("connect", () => {
                     socket.disconnect();
