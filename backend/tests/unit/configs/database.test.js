@@ -18,4 +18,9 @@ describe("Database Configuration", () => {
         environment();
         await database();
     });
+    it("should connect to the database with a different environment", async () => {
+        environment();
+        process.env.NODE_ENV = "development";
+        await database();
+    });
 });
