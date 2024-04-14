@@ -29,4 +29,8 @@ describe("Logging configuration", () => {
         process.env.NODE_ENV = "development";
         const logger = loggerFunc();
     });
+    it("should add a file transport for production environment", () => {
+        process.env.NODE_ENV = "production";
+        const logger = loggerFunc();
+    });
 });
