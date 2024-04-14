@@ -16,7 +16,7 @@ describe("Example Routes Integration Tests", () => {
             const exampleData = { name: "TestExample" };
 
             const response = await request(server)
-                .post("/example")
+                .post("/api/example")
                 .send(exampleData)
                 .expect(200);
 
@@ -27,7 +27,7 @@ describe("Example Routes Integration Tests", () => {
             const invalidExampleData = { invalidField: "InvalidData" };
 
             const response = await request(server)
-                .post("/example")
+                .post("/api/example")
                 .send(invalidExampleData)
                 .expect(400);
         });
@@ -35,7 +35,9 @@ describe("Example Routes Integration Tests", () => {
 
     describe("GET /example", () => {
         it("should return an empty list", async () => {
-            const response = await request(server).get("/example").expect(200);
+            const response = await request(server)
+                .get("/api/example")
+                .expect(200);
 
             expect(response.body).toEqual([]);
         });
@@ -49,7 +51,7 @@ describe("Example Routes Integration Tests", () => {
             const updatedExampleData = { name: "UpdatedExample" };
 
             const response = await request(server)
-                .put("/example/TestExample")
+                .put("/api/example/TestExample")
                 .send(updatedExampleData)
                 .expect(200);
 
@@ -60,7 +62,7 @@ describe("Example Routes Integration Tests", () => {
             const updatedExampleData = { name: "UpdatedExample" };
 
             const response = await request(server)
-                .put("/example/NonExistentExample")
+                .put("/api/example/NonExistentExample")
                 .send(updatedExampleData)
                 .expect(404);
 
@@ -71,7 +73,7 @@ describe("Example Routes Integration Tests", () => {
             const invalidExampleData = { invalidField: "InvalidData" };
 
             const response = await request(server)
-                .put("/example/TestExample")
+                .put("/api/example/TestExample")
                 .send(invalidExampleData)
                 .expect(400);
         });
@@ -83,7 +85,7 @@ describe("Example Routes Integration Tests", () => {
             await Example.create(exampleData);
 
             const response = await request(server)
-                .delete("/example/TestExample")
+                .delete("/api/example/TestExample")
                 .expect(200);
 
             expect(response.body.name).toBe("TestExample");
@@ -91,7 +93,7 @@ describe("Example Routes Integration Tests", () => {
 
         it("should return 404 for deleting a non-existent example", async () => {
             const response = await request(server)
-                .delete("/example/NonExistentExample")
+                .delete("/api/example/NonExistentExample")
                 .expect(404);
 
             expect(response.text).toBe("No instance found");
