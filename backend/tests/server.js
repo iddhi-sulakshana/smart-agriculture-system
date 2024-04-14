@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import express from "express";
 import envConfig from "../configs/environment.js";
 import routes from "../configs/routes.js";
+import configSocket from "../configs/socket.js";
 
 // initialize environment variables
 envConfig();
@@ -23,4 +24,6 @@ const app = express();
 // initialize routes
 routes(app);
 
-export default app;
+const server = configSocket(app);
+
+export default server;
