@@ -1,23 +1,30 @@
-import { it, describe, expect, afterEach, afterAll, beforeAll } from "vitest";
+import {
+    it,
+    describe,
+    expect,
+    afterEach,
+    afterEach,
+    beforeEach,
+    afterAll,
+} from "vitest";
 import request from "supertest";
 import server from "../server.js";
 import mongoose from "mongoose";
 import { Category, validateCategory } from "../../models/category.js";
 
-beforeAll(async () => {
-    await Category.insertMany([
-        { name: "Green Chillies", weekPrice: 100, predictedPrice: 0 },
-        { name: "Carrot", weekPrice: 100, predictedPrice: 0 },
-        { name: "Leeks", weekPrice: 100, predictedPrice: 0 },
-        { name: "BeetRoot", weekPrice: 100, predictedPrice: 0 },
-    ]);
-});
-afterAll(async () => {
-    await Category.deleteMany({});
-    mongoose.disconnect();
-});
-
 describe("Category Routes Integration Tests", () => {
+    beforeEach(async () => {
+        await Category.deleteMany({});
+        await Category.insertMany([
+            { name: "Green Chillies", weekPrice: 100, predictedPrice: 0 },
+            { name: "Carrot", weekPrice: 100, predictedPrice: 0 },
+            { name: "Leeks", weekPrice: 100, predictedPrice: 0 },
+            { name: "BeetRoot", weekPrice: 100, predictedPrice: 0 },
+        ]);
+    });
+    afterAll(async () => {
+        mongoose.disconnect();
+    });
     // get category
     it("GET /api/categories", async () => {
         const res = await request(server).get("/api/categories");
@@ -29,7 +36,7 @@ describe("Category Routes Integration Tests", () => {
         const res = await request(server)
             .patch("/api/categories/price_prediction")
             .send({
-                name: "Green Chillies",
+                name: "Carrot",
                 predict: 200,
                 previous: 100,
             });

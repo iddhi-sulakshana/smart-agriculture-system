@@ -1,13 +1,19 @@
-import { it, describe, expect, afterEach, afterAll, beforeAll } from "vitest";
+import {
+    it,
+    describe,
+    expect,
+    afterEach,
+    afterAll,
+    beforeAll,
+    beforeEach,
+} from "vitest";
 import request from "supertest";
 import server from "../server.js";
 import mongoose from "mongoose";
 import Chat from "../../models/chat.js";
 import { Users } from "../../models/users.js";
 import { Crop } from "../../models/crop.js";
-import { Category } from "../../models/category.js";
 import { Message } from "../../models/message.js";
-import { Location } from "../../models/location.js";
 
 let user1Tkn;
 let user1Id;
@@ -15,15 +21,9 @@ let user2Id;
 let invalidTkn;
 let cropId;
 let invalidCropId;
-describe("Chat Routes Integration Tests", () => {
-    beforeAll(async () => {
-        const category = await Category.create({
-            name: "Tomato",
-            weekPrice: 100,
-            predictedPrice: 0,
-        });
-        const location = await Location.create({ name: "Anuradhapura" });
 
+describe("Chat Routes Integration Tests", () => {
+    beforeEach(async () => {
         const users = await Users.insertMany([
             {
                 name: "saler1",
@@ -55,12 +55,12 @@ describe("Chat Routes Integration Tests", () => {
             {
                 title: "Tomato",
                 user: users[1]._id,
-                category: category._id,
+                category: new mongoose.Types.ObjectId(),
                 description: "lorem ipsum dolor sit amet",
                 price: 100,
                 stock: 10,
                 image: "product-1.test.jpg",
-                location: location._id,
+                location: new mongoose.Types.ObjectId(),
                 unit: "kg",
                 tags: ["new"],
                 isSold: false,
@@ -68,12 +68,12 @@ describe("Chat Routes Integration Tests", () => {
             {
                 title: "Tomato",
                 user: users[1]._id,
-                category: category._id,
+                category: new mongoose.Types.ObjectId(),
                 description: "lorem ipsum dolor sit amet",
                 price: 100,
                 stock: 10,
                 image: "product-1.test.jpg",
-                location: location._id,
+                location: new mongoose.Types.ObjectId(),
                 unit: "kg",
                 tags: ["new"],
                 isSold: false,
@@ -84,12 +84,12 @@ describe("Chat Routes Integration Tests", () => {
         await Crop.deleteOne({ _id: invalidCropId });
         await Users.deleteOne({ email: users[2].email });
     });
-    afterAll(async () => {
+    afterEach(async () => {
         await Users.deleteMany({});
         await Chat.deleteMany({});
         await Crop.deleteMany({});
-        await Category.deleteMany({});
-        await Location.deleteMany({});
+    });
+    afterAll(() => {
         mongoose.disconnect();
     });
 
@@ -119,9 +119,6 @@ describe("Chat Routes Integration Tests", () => {
     });
 
     describe("POST /api/chat", () => {
-        afterAll(async () => {
-            await Chat.deleteMany({});
-        });
         it("should create a new chat", async () => {
             const res = await request(server)
                 .post("/api/chat")
@@ -193,12 +190,6 @@ describe("Chat Routes Integration Tests", () => {
     });
 
     describe("GET /api/chat/:id/reciever", () => {
-        beforeAll(async () => {
-            await Chat.deleteMany({});
-        });
-        afterEach(async () => {
-            await Chat.deleteMany({});
-        });
         it("should give 200 if chat is found", async () => {
             const chat = await Chat.create({
                 participants: [user1Id, user2Id],
@@ -223,12 +214,12 @@ describe("Chat Routes Integration Tests", () => {
     });
 
     describe("GET /api/chat/:id/messages", () => {
-        beforeAll(async () => {
+        beforeEach(async () => {
             await Chat.create({
                 participants: [user1Id, user2Id],
             });
         });
-        afterAll(async () => {
+        afterEach(async () => {
             await Chat.deleteMany({});
             await Message.deleteMany({});
         });
@@ -256,12 +247,12 @@ describe("Chat Routes Integration Tests", () => {
     });
 
     describe("PATCH /api/chat/:id", () => {
-        beforeAll(async () => {
+        beforeEach(async () => {
             await Chat.create({
                 participants: [user1Id, user2Id],
             });
         });
-        afterAll(async () => {
+        afterEach(async () => {
             await Chat.deleteMany({});
             await Message.deleteMany({});
         });

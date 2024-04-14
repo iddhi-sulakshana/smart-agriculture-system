@@ -82,28 +82,6 @@ describe("Chat Socket Integration Tests", () => {
                 } catch (e) {}
             }));
 
-        it("should connect to the socket server with authentication", () =>
-            new Promise(async (done) => {
-                const users = await Users.insertMany([
-                    {
-                        name: "farmer1",
-                        email: "farmer5@gmail.com",
-                        password:
-                            "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
-                        role: "farmer",
-                    },
-                ]);
-                const userTkn = await users[0].generateAuthToken();
-
-                const socket = socketIo("http://localhost:3000", {
-                    auth: { "x-auth-token": userTkn },
-                });
-                socket.on("connect", () => {
-                    socket.disconnect();
-                    done();
-                });
-            }));
-
         it("should not connect to the socket server with invalid authentication", () =>
             new Promise((done) => {
                 const socket = socketIo("http://localhost:3000", {
@@ -111,6 +89,29 @@ describe("Chat Socket Integration Tests", () => {
                 });
                 socket.on("connect_error", () => {
                     done();
+                });
+            }));
+
+        it("should connect to the socket server with authentication", () =>
+            new Promise(async (done) => {
+                Users.insertMany([
+                    {
+                        name: "farmer1",
+                        email: "farmer5@gmail.com",
+                        password:
+                            "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
+                        role: "farmer",
+                    },
+                ]).then(async (users) => {
+                    const userTkn = await users[0].generateAuthToken();
+
+                    const socket = socketIo("http://localhost:3000", {
+                        auth: { "x-auth-token": userTkn },
+                    });
+                    socket.on("connect", () => {
+                        socket.disconnect();
+                        done();
+                    });
                 });
             }));
     });

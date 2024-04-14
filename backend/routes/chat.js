@@ -80,7 +80,6 @@ router.get("/:id/messages", authentication, async (req, res) => {
 // create a new chat for the product and send the initial message
 router.post("/", authentication, async (req, res) => {
     let newChat = false;
-    console.log(req.body);
     if (!req.body.receiver || !req.body.crop)
         return res.status(400).send("Invalid request");
 
