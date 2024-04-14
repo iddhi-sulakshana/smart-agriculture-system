@@ -1,9 +1,9 @@
 import { it, describe, expect, afterEach, afterAll, beforeAll } from "vitest";
 import socketIo from "socket.io-client";
-import { Users } from "../../models/users.js";
-import Chat from "../../models/chat.js";
+import { Users } from "../../../models/users.js";
+import Chat from "../../../models/chat.js";
 import mongoose from "mongoose";
-import server from "../server.js";
+import server from "../../server.js";
 
 let server;
 
