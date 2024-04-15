@@ -1,11 +1,11 @@
 import { it, describe, expect, afterAll, beforeAll } from "vitest";
 import request from "supertest";
-import server from "../../server.js";
+import server from "../server.js";
 import mongoose from "mongoose";
-import { Crop, validateCrop } from "../../../models/crop.js";
-import { Users } from "../../../models/users.js";
-import { Category } from "../../../models/category.js";
-import { Location } from "../../../models/location.js";
+import { Crop, validateCrop } from "../../models/crop.js";
+import { Users } from "../../models/users.js";
+import { Category } from "../../models/category.js";
+import { Location } from "../../models/location.js";
 import fs from "fs";
 
 describe("Crop Routes Integration Tests", () => {
@@ -189,7 +189,7 @@ describe("Crop Routes Integration Tests", () => {
                 .field("location", locationId.toString())
                 .field("unit", "kg")
                 .field("tags", ["new"])
-                .attach("image", "tests/integration/crops/product-1.test.jpg");
+                .attach("image", "tests/integration/product-1.test.jpg");
 
             expect(res.status).toBe(200);
 
@@ -227,7 +227,7 @@ describe("Crop Routes Integration Tests", () => {
                 .field("stock", 10)
                 .field("location", locationId.toString())
                 .field("unit", "kg")
-                .attach("image", "tests/integration/crops/product-1.test.jpg");
+                .attach("image", "tests/integration/product-1.test.jpg");
 
             expect(res.status).toBe(400);
         });
@@ -380,7 +380,7 @@ describe("Crop Routes Integration Tests", () => {
                 .field("location", locationId.toString())
                 .field("unit", "kg")
                 .field("tags", ["new"])
-                .attach("image", "tests/integration/crops/product-1.test.jpg");
+                .attach("image", "tests/integration/product-1.test.jpg");
 
             expect(res.status).toBe(200);
 

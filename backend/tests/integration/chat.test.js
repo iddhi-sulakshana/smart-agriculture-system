@@ -8,12 +8,12 @@ import {
     beforeEach,
 } from "vitest";
 import request from "supertest";
-import server from "../../server.js";
+import server from "../server.js";
 import mongoose from "mongoose";
-import Chat from "../../../models/chat.js";
-import { Users } from "../../../models/users.js";
-import { Crop } from "../../../models/crop.js";
-import { Message } from "../../../models/message.js";
+import Chat from "../../models/chat.js";
+import { Users } from "../../models/users.js";
+import { Crop } from "../../models/crop.js";
+import { Message } from "../../models/message.js";
 
 let user1Tkn;
 let user1Id;

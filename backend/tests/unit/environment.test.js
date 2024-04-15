@@ -1,5 +1,5 @@
 import { it, describe, expect, vi } from "vitest";
-import environment from "../../../configs/environment.js";
+import environment from "../../configs/environment.js";
 
 global.console.log = vi.fn();
 

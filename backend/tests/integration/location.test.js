@@ -1,4 +1,4 @@
-import { it, describe, expect, afterEach, afterAll, beforeAll } from "vitest";
+import { it, describe, expect, afterAll } from "vitest";
 import request from "supertest";
 import server from "../server.js";
 import mongoose from "mongoose";

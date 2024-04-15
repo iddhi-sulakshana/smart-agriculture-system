@@ -1,6 +1,6 @@
 import { it, describe, expect, vi, beforeAll } from "vitest";
 import winston from "winston";
-import loggerFunc from "../../../configs/logger.js";
+import loggerFunc from "../../configs/logger.js";
 
 vi.mock("loggerFunc", async (importOriginal) => {
     const original = await importOriginal();

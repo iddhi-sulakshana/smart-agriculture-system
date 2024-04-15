@@ -19,7 +19,7 @@ export default async function () {
         });
         winston.info("Connected to MongoDB successfully");
 
-        const runFirstRun = false;
+        const runFirstRun = process.env.firstRun || false;
 
         if (process.env.NODE_ENV !== "production" && runFirstRun) {
             // Truncating the database (dropping all collections)
@@ -33,7 +33,7 @@ export default async function () {
             });
             winston.info("Successfully Connected  to the Database");
             winston.info("Inserting default data into the database");
-            firstRun();
+            if (process.env.NODE_ENV !== "test") firstRun();
             winston.info("Default data inserted successfully");
         }
     } catch (ex) {
