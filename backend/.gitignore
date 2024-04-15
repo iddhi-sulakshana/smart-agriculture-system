@@ -1,3 +1,6 @@
+#logs folder
+**/logs/
+
 # dependencies
 **/node_modules/
 

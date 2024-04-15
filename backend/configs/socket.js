@@ -1,7 +1,6 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
 import Chat from "../models/chat.js";
-import { Message, validateMessage } from "../models/message.js";
 import morgan from "morgan";
 import socketAuthentication from "../middlewares/socketAuthentication.js";
 

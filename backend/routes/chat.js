@@ -166,9 +166,9 @@ router.patch("/:id", authentication, async (req, res) => {
         message: req.body.message,
     };
 
-    const { error } = validateMessage(req.body);
+    const error = validateMessage(message);
 
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send(error);
 
     const newMessage = new Message(message);
     await newMessage.save();
