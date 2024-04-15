@@ -6,6 +6,9 @@ import mongoose from "mongoose";
 import server from "../../server.js";
 
 let server;
+let createdUsers;
+let createdChat;
+let userTkn;
 
 describe("Chat Socket Integration Tests", () => {
     beforeAll(async () => {
@@ -13,28 +16,34 @@ describe("Chat Socket Integration Tests", () => {
         const users = await Users.insertMany([
             {
                 name: "farmer1",
-                email: "farmer1@gmail.com",
+                email: "socket.farmer1@gmail.com",
                 password:
                     "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
                 role: "farmer",
             },
             {
                 name: "saler1",
-                email: "saler1@gmail.com",
+                email: "socket.saler1@gmail.com",
                 password:
                     "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
                 role: "wholesaler",
             },
         ]);
         // Create a chat
-        await Chat.create({
+        const chat = await Chat.create({
             participants: [users[0]._id, users[1]._id],
         });
+        createdUsers = users;
+        createdChat = chat;
+
+        userTkn = users[0].generateAuthToken();
     });
 
     afterAll(async () => {
-        await Users.deleteMany({});
-        await Chat.deleteMany({});
+        createdUsers?.forEach(async (user) => {
+            await Users.findByIdAndDelete(user._id);
+        });
+        await Chat.findByIdAndDelete(createdChat?._id);
         mongoose.disconnect();
         server.close();
     });
@@ -92,34 +101,15 @@ describe("Chat Socket Integration Tests", () => {
                 });
             }));
 
-        it(
-            "should connect to the socket server with authentication",
-            () =>
-                new Promise(async (done) => {
-                    setTimeout(() => {
-                        Users.insertMany([
-                            {
-                                name: "farmer1",
-                                email: "farmer5@gmail.com",
-                                password:
-                                    "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
-                                role: "farmer",
-                            },
-                        ]).then(async (users) => {
-                            const userTkn = await users[0].generateAuthToken();
-
-                            const socket = socketIo("http://localhost:3000", {
-                                auth: { "x-auth-token": userTkn },
-                            });
-                            socket.on("connect", async () => {
-                                socket.disconnect();
-                                await Users.deleteMany({});
-                                done();
-                            });
-                        });
-                    }, 2000);
-                }),
-            10000
-        );
+        it("should connect to the socket server with authentication", () =>
+            new Promise(async (done) => {
+                const socket = socketIo("http://localhost:3000", {
+                    auth: { "x-auth-token": userTkn },
+                });
+                socket.on("connect", async () => {
+                    socket.disconnect();
+                    done();
+                });
+            }));
     });
 });

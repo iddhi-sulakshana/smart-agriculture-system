@@ -6,30 +6,37 @@ import {
     afterEach,
     beforeEach,
     afterAll,
+    beforeAll,
 } from "vitest";
 import request from "supertest";
 import server from "../server.js";
 import mongoose from "mongoose";
 import { Category, validateCategory } from "../../models/category.js";
 
+let createdCategories;
 describe("Category Routes Integration Tests", () => {
-    beforeEach(async () => {
-        await Category.deleteMany({});
-        await Category.insertMany([
+    beforeAll(async () => {
+        const categories = await Category.insertMany([
             { name: "Green Chillies", weekPrice: 100, predictedPrice: 0 },
             { name: "Carrot", weekPrice: 100, predictedPrice: 0 },
             { name: "Leeks", weekPrice: 100, predictedPrice: 0 },
             { name: "BeetRoot", weekPrice: 100, predictedPrice: 0 },
         ]);
+        createdCategories = categories;
     });
     afterAll(async () => {
-        mongoose.disconnect();
+        Category.deleteMany({
+            _id: { $in: createdCategories.map((c) => c._id) },
+        }).then(() => {
+            mongoose.disconnect();
+        });
     });
     // get category
     it("GET /api/categories", async () => {
+        const count = await Category.countDocuments();
         const res = await request(server).get("/api/categories");
         expect(res.status).toBe(200);
-        expect(res.body.length).toBe(4);
+        expect(res.body.length).toBe(count);
     });
     // update prediction price
     it("PATCH /api/categories/price_prediction", async () => {

@@ -87,6 +87,8 @@ router.get("/featured", async (req, res) => {
 
 // get a single crop
 router.get("/:id", async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(400).send("Invalid crop id");
     const crop = await Crop.findById(req.params.id);
     if (!crop)
         return res
@@ -97,6 +99,8 @@ router.get("/:id", async (req, res) => {
 
 // get a single crop with extracted data
 router.get("/view/:id", async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(400).send("Invalid crop id");
     const crop = await Crop.aggregate(cropExtraction(req.params.id));
     if (!crop[0])
         return res
