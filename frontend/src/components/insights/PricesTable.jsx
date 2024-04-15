@@ -4,33 +4,6 @@ import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import ArrowDropUpRoundedIcon from "@mui/icons-material/ArrowDropUpRounded";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import useGetCategory from "../../hooks/useGetCategory";
-const data = [
-    {
-        name: "Tomato",
-        yesterdayPrice: 100,
-        todayPrice: 90,
-    },
-    {
-        name: "Onion",
-        yesterdayPrice: 50,
-        todayPrice: 60,
-    },
-    {
-        name: "Potato",
-        yesterdayPrice: 30,
-        todayPrice: 40,
-    },
-    {
-        name: "Carrot",
-        yesterdayPrice: 40,
-        todayPrice: 45,
-    },
-    {
-        name: "Beans",
-        yesterdayPrice: 60,
-        todayPrice: 70,
-    },
-];
 
 function PricesTable() {
     const categories = useGetCategory();
