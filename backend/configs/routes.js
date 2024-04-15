@@ -4,7 +4,6 @@ import cors from "cors";
 import error from "../middlewares/error.js";
 
 // import routes from the routes folder
-import example from "../routes/example.js";
 import users from "../routes/users.js";
 import crops from "../routes/crops.js";
 import categories from "../routes/category.js";
@@ -35,7 +34,6 @@ export default function (app) {
     app.use(express.static("public"));
 
     // assign route paths
-    app.use("/api/example", example);
     app.use("/api/users", users);
     app.use("/api/crops", crops);
     app.use("/api/categories", categories);
