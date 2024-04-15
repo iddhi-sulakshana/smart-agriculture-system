@@ -15,28 +15,14 @@ router.post("/signup", async (req, res) => {
     const exist = await Users.findOne({ email: req.body.email });
     if (exist) return res.status(400).send("User already exists");
     // hash the password
-    try {
-        req.body.password = await encrypt(req.body.password);
-    } catch (error) {
-        winston.error(error.message);
-        return res.status(500).send("Internal Server Error");
-    }
+    req.body.password = await encrypt(req.body.password);
 
-    try {
-        // create a new user
-        const user = new Users(req.body);
-        // save the user to the database
-        await user.save();
-        // return the user object
-        return res.send("Signup successful!");
-    } catch (error) {
-        if (error?.code === 11000) {
-            return res.status(400).send("User already exists");
-        }
-        winston.error(error.message);
-        // if there is an error saving the user, return the error message
-        return res.status(400).send(error._message);
-    }
+    // create a new user
+    const user = new Users(req.body);
+    // save the user to the database
+    await user.save();
+    // return the user object
+    return res.send("Signup successful!");
 });
 
 // login endpoint
@@ -70,6 +56,8 @@ router.get("/me", authentication, async (req, res) => {
 router.put("/me", authentication, async (req, res) => {
     req.body.role = req.user.role;
     // mock password to bypass validation
+    req.body.name = req.body.name || req.user.name;
+    req.body.email = req.body.email || req.user.email;
     req.body.password = "password";
     // validate the request body
     const error = validateUser(req.body);
@@ -78,16 +66,15 @@ router.put("/me", authentication, async (req, res) => {
     // remove the password field from the request body
     delete req.body.password;
     // check if user already exist with the same email
-    const exist = await Users.findOne({ email: req.body.email });
-    if (exist) return res.status(400).send("User already exists");
-    // update the user details
-    try {
-        await Users.findByIdAndUpdate(req.user._id, req.body);
-        res.send("Update successful!");
-    } catch (error) {
-        winston.error(error.message);
-        return res.status(500).send("Internal Server Error");
+
+    if (req.body.email !== req.user.email) {
+        const exist = await Users.findOne({ email: req.body.email });
+        if (exist) return res.status(400).send("User already exists");
     }
+    // update the user details
+
+    await Users.findByIdAndUpdate(req.user._id, req.body);
+    res.send("Update successful!");
 });
 
 // update password
@@ -100,22 +87,12 @@ router.put("/me/password", authentication, async (req, res) => {
     // if the password is invalid, return an error message
     if (!valid) return res.status(400).send("Invalid password");
     // hash the new password
-    try {
-        req.body.password = await encrypt(req.body.password);
-    } catch (error) {
-        winston.error(error.message);
-        return res.status(500).send("Internal Server Error");
-    }
+    req.body.password = await encrypt(req.body.password);
     // update the user password
-    try {
-        await Users.findByIdAndUpdate(req.user._id, {
-            password: req.body.password,
-        });
-        res.send("Password updated!");
-    } catch (error) {
-        winston.error(error.message);
-        return res.status(500).send("Internal Server Error");
-    }
+    await Users.findByIdAndUpdate(req.user._id, {
+        password: req.body.password,
+    });
+    res.send("Password updated!");
 });
 
 export default router;

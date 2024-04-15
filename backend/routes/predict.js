@@ -20,17 +20,13 @@ router.post("/", async (req, res) => {
     if (error) return res.status(400).send(error.details[0].message);
 
     // convert the request body values to integers
-    try {
-        req.body.N = parseInt(req.body.N);
-        req.body.P = parseInt(req.body.P);
-        req.body.K = parseInt(req.body.K);
-        req.body.temperature = parseInt(req.body.temperature);
-        req.body.humidity = parseInt(req.body.humidity);
-        req.body.ph = parseInt(req.body.ph);
-        req.body.rainfall = parseInt(req.body.rainfall);
-    } catch (error) {
-        return res.status(400).send("Invalid input");
-    }
+    req.body.N = parseInt(req.body.N);
+    req.body.P = parseInt(req.body.P);
+    req.body.K = parseInt(req.body.K);
+    req.body.temperature = parseInt(req.body.temperature);
+    req.body.humidity = parseInt(req.body.humidity);
+    req.body.ph = parseInt(req.body.ph);
+    req.body.rainfall = parseInt(req.body.rainfall);
 
     const { N, P, K, temperature, humidity, ph, rainfall } = req.body;
 
