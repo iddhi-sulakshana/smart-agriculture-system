@@ -6,6 +6,7 @@ import {
     afterEach,
     beforeEach,
     afterAll,
+    beforeAll,
 } from "vitest";
 import request from "supertest";
 import server from "../server.js";
@@ -13,7 +14,7 @@ import mongoose from "mongoose";
 import { Cover, validateCover } from "../../models/covers.js";
 
 describe("Cover Routes Integration Tests", () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
         await Cover.deleteMany({});
         await Cover.insertMany([
             {

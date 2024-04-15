@@ -111,6 +111,8 @@ router.get("/view/:id", async (req, res) => {
 
 // create a new crop
 router.post("/", authentication, upload.single("image"), async (req, res) => {
+    if (!req.file) return res.status(400).send("Image is required");
+
     const newCrop = {
         title: req.body.title,
         user: req.user._id.toString(),
@@ -125,31 +127,35 @@ router.post("/", authentication, upload.single("image"), async (req, res) => {
         isSold: false,
     };
     const error = validateCrop(newCrop);
-    if (error) return res.status(400).send(error);
-
-    try {
-        const crop = new Crop(newCrop);
-        crop.image = crop._id.toString() + path.extname(req.file.filename);
-        // rename the file to the crop id
-        fs.rename(
-            req.file.path,
-            path.join(
-                req.file.destination,
-                crop._id.toString() + path.extname(req.file.filename)
-            ),
-            (err) => {
-                if (err) throw err;
-            }
-        );
-        await crop.save();
-        res.send(crop);
-    } catch (error) {
-        res.status(400).send(error.message);
+    if (error) {
+        // delete the uploaded file
+        fs.unlink(req.file.path, (err) => {
+            if (err) throw err;
+        });
+        return res.status(400).send(error);
     }
+
+    const crop = new Crop(newCrop);
+    crop.image = crop._id.toString() + path.extname(req.file.filename);
+    // rename the file to the crop id
+    fs.rename(
+        req.file.path,
+        path.join(
+            req.file.destination,
+            crop._id.toString() + path.extname(req.file.filename)
+        ),
+        (err) => {
+            if (err) return res.status(500).send(err.message);
+        }
+    );
+    await crop.save();
+    res.send(crop);
 });
 
 // delete a listed crop
 router.delete("/:id", authentication, async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(400).send("Invalid crop id");
     const crop = await Crop.findById(req.params.id);
     if (!crop)
         return res
@@ -159,20 +165,16 @@ router.delete("/:id", authentication, async (req, res) => {
     if (crop.user.toString() !== req.user._id.toString())
         return res.status(403).send("Access denied.");
 
-    try {
-        // delete the image file
-        fs.unlink(`public/crops/${crop.image}`, (err) => {
-            if (err) throw err;
-        });
-        await Crop.findByIdAndDelete(crop._id);
-        return res.send("Crop deleted successfully");
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
+    // delete the image file
+    fs.unlink(`public/crops/${crop.image}`, (err) => {});
+    await Crop.findByIdAndDelete(crop._id);
+    return res.send("Crop deleted successfully");
 });
 
 // mark as sold a crop
 router.patch("/sold/:id", authentication, async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(400).send("Invalid crop id");
     const crop = await Crop.findById(req.params.id);
     if (!crop)
         return res
@@ -182,17 +184,15 @@ router.patch("/sold/:id", authentication, async (req, res) => {
     if (crop.user.toString() !== req.user._id.toString())
         return res.status(403).send("Access denied.");
 
-    try {
-        crop.isSold = true;
-        await crop.save();
-        res.send(crop);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
+    crop.isSold = true;
+    await crop.save();
+    res.send(crop);
 });
 
 // edit a crop
 router.put("/:id", authentication, upload.single("image"), async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(400).send("Invalid crop id");
     const crop = await Crop.findById(req.params.id).select("-__v");
     if (!crop)
         return res
@@ -227,30 +227,24 @@ router.put("/:id", authentication, upload.single("image"), async (req, res) => {
     const error = validateCrop(newCrop);
     if (error) return res.status(400).send(error);
 
-    try {
-        if (req.file) {
-            // delete the old image file
-            fs.unlink(`public/crops/${crop.image}`, (err) => {
+    if (req.file) {
+        // delete the old image file
+        fs.unlink(`public/crops/${crop.image}`, (err) => {});
+        crop.image = crop._id.toString() + path.extname(req.file.filename);
+        // rename the file to the crop id
+        fs.rename(
+            req.file.path,
+            path.join(
+                req.file.destination,
+                crop._id.toString() + path.extname(req.file.filename)
+            ),
+            (err) => {
                 if (err) return res.status(500).send(err.message);
-            });
-            crop.image = crop._id.toString() + path.extname(req.file.filename);
-            // rename the file to the crop id
-            fs.rename(
-                req.file.path,
-                path.join(
-                    req.file.destination,
-                    crop._id.toString() + path.extname(req.file.filename)
-                ),
-                (err) => {
-                    if (err) return res.status(500).send(err.message);
-                }
-            );
-        }
-        await crop.save();
-        res.send("Successfully updated");
-    } catch (error) {
-        res.status(400).send(error.message);
+            }
+        );
     }
+    await crop.save();
+    return res.send("Successfully updated");
 });
 
 export default router;

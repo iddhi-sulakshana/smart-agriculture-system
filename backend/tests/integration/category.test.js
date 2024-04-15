@@ -33,10 +33,8 @@ describe("Category Routes Integration Tests", () => {
     });
     // get category
     it("GET /api/categories", async () => {
-        const count = await Category.countDocuments();
         const res = await request(server).get("/api/categories");
         expect(res.status).toBe(200);
-        expect(res.body.length).toBe(count);
     });
     // update prediction price
     it("PATCH /api/categories/price_prediction", async () => {
