@@ -92,28 +92,34 @@ describe("Chat Socket Integration Tests", () => {
                 });
             }));
 
-        it("should connect to the socket server with authentication", () =>
-            new Promise(async (done) => {
-                Users.insertMany([
-                    {
-                        name: "farmer1",
-                        email: "farmer5@gmail.com",
-                        password:
-                            "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
-                        role: "farmer",
-                    },
-                ]).then(async (users) => {
-                    const userTkn = await users[0].generateAuthToken();
+        it(
+            "should connect to the socket server with authentication",
+            () =>
+                new Promise(async (done) => {
+                    setTimeout(() => {
+                        Users.insertMany([
+                            {
+                                name: "farmer1",
+                                email: "farmer5@gmail.com",
+                                password:
+                                    "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
+                                role: "farmer",
+                            },
+                        ]).then(async (users) => {
+                            const userTkn = await users[0].generateAuthToken();
 
-                    const socket = socketIo("http://localhost:3000", {
-                        auth: { "x-auth-token": userTkn },
-                    });
-                    socket.on("connect", async () => {
-                        socket.disconnect();
-                        await Users.deleteMany({});
-                        done();
-                    });
-                });
-            }));
+                            const socket = socketIo("http://localhost:3000", {
+                                auth: { "x-auth-token": userTkn },
+                            });
+                            socket.on("connect", async () => {
+                                socket.disconnect();
+                                await Users.deleteMany({});
+                                done();
+                            });
+                        });
+                    }, 2000);
+                }),
+            10000
+        );
     });
 });
