@@ -24,6 +24,9 @@ describe("Predict Integration Test", () => {
     beforeEach(async () => {
         vi.clearAllMocks();
     });
+    afterAll(async () => {
+        mongoose.disconnect();
+    });
     it("should return 200", async () => {
         axios.post.mockResolvedValue({ data: "data" });
         const res = await request(server).post("/api/predict").send({
