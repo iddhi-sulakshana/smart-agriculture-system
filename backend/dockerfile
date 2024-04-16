@@ -1,3 +1,4 @@
+# run the app in a node container
 FROM node:alpine
 WORKDIR /usr/src/app
 COPY package*.json ./

@@ -1,3 +1,4 @@
+# Docker image for frontend
 FROM node:alpine as builder
 WORKDIR /app
 COPY package*.json ./
