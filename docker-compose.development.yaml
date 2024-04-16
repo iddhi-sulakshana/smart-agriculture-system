@@ -1,7 +1,8 @@
 version: "3"
 services:
     recommendation:
-        image: iddhi/smart-agriculture-system:recommendation-jammy-1.0.0
+        build: ./models/CropRecommendation
+        image: iddhi/smart-agriculture-system:recommendation
         ports:
             - "2000:2000"
         stdin_open: true
@@ -10,7 +11,8 @@ services:
             - models-driver
 
     frontend:
-        image: iddhi/smart-agriculture-system:frontend-jammy-1.0.0
+        build: ./frontend
+        image: iddhi/smart-agriculture-system:frontend
         ports:
             - "80:80"
         environment:
@@ -21,7 +23,8 @@ services:
         tty: true
 
     backend:
-        image: iddhi/smart-agriculture-system:backend-jammy-1.0.0
+        build: ./backend
+        image: iddhi/smart-agriculture-system:backend
         ports:
             - "3000:3000"
         environment:
