@@ -21,6 +21,8 @@ services:
             - VITE_PORT=http://localhost:3000
         stdin_open: true
         tty: true
+        networks:
+            - web-gateway
 
     backend:
         build: ./backend
@@ -37,6 +39,7 @@ services:
         networks:
             - database-driver
             - models-driver
+            - web-gateway
         stdin_open: true
         tty: true
 
@@ -54,4 +57,6 @@ networks:
     database-driver:
         driver: bridge
     models-driver:
+        driver: bridge
+    web-gateway:
         driver: bridge
