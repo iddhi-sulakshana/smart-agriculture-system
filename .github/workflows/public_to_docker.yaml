@@ -9,26 +9,21 @@ jobs:
         name: Build and Publish Docker Image
         runs-on: ubuntu-latest
         steps:
-            # - name: Checkout
-            #   uses: actions/checkout@v4
+            - name: Checkout
+              uses: actions/checkout@v4
 
             - name: Set up Docker Image Version
               run: |
                   IMAGE_VERSION=$(echo "${{ github.event.head_commit.message }}" | cut -d ' ' -f 1)
                   echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
 
-            - name: print IMAGE_VERSION
+            - name: Login to the Dockerhub
+              uses: docker/login-action@v3
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Build and Push Docker Image
               run: |
-                  echo $IMAGE_VERSION
-                  echo ${IMAGE_VERSION}
-
-            # - name: Login to the Dockerhub
-            #   uses: docker/login-action@v3
-            #   with:
-            #       username: ${{ secrets.DOCKERHUB_USERNAME }}
-            #       password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-            # - name: Build and Push Docker Image
-            #   run: |
-            #       docker-compose -f ./docker-compose.publish.yaml build
-            #       docker-compose -f ./docker-compose.publish.yaml push
+                  docker-compose -f ./docker-compose.publish.yaml build
+                  docker-compose -f ./docker-compose.publish.yaml push
