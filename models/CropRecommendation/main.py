@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 # import the model
-model_path = "../../CropRecommendation/models/finalized_model.sav"
+model_path = "./finalized_model.sav"
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
