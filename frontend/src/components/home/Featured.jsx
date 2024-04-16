@@ -30,6 +30,7 @@ function Featured() {
                 {featured.map((item) => (
                     <ClickableCard
                         key={item._id}
+                        id={item._id}
                         loading={false}
                         title={item.title}
                         image={item.image}

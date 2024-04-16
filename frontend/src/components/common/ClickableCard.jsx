@@ -157,12 +157,22 @@ function ApplyPriceBadge({ category, children }) {
     if (!category) return <>{children}</>;
     let badge = "up";
     if (category.weekPrice > category.predictedPrice) badge = "down";
-    const percentage = Math.abs(
-        ((category.weekPrice - category.predictedPrice) /
-            category.predictedPrice) *
-            100
-    ).toFixed(0);
-    console.log(percentage);
+    let percentage;
+    if (category.predictedPrice === 0) {
+        if (category.weekPrice === 0) {
+            // Handle the case where both actual and predicted prices are zero
+            percentage = 0;
+        } else {
+            // Handle the case where the predicted price is zero but the actual price is not
+            percentage = 0; // or any other value you deem appropriate
+        }
+    } else {
+        percentage = Math.abs(
+            ((category.weekPrice - category.predictedPrice) /
+                category.predictedPrice) *
+                100
+        ).toFixed(0);
+    }
     const icon =
         badge === "up" ? (
             <ArrowUpwardRoundedIcon />
@@ -180,7 +190,6 @@ function ApplyPriceBadge({ category, children }) {
             variant="outlined"
             color={color}
             badgeInset="5%"
-            badgePosition="top-end"
             anchorOrigin={{ vertical: "top", horizontal: "left" }}
         >
             {children}
