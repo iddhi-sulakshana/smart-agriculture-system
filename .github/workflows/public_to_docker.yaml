@@ -15,7 +15,7 @@ jobs:
             - name: Get the version from the commit message
               id: get_commit_message
               run: |
-                  export IMAGE_VERSION=$("${{ github.event.head_commit.message }}" | cut -d ' ' -f 1)
+                  export IMAGE_VERSION="${{ github.event.head_commit.message }}" | cut -d ' ' -f 1
 
             - name: retrieve the version from the environment
               run: echo "IMAGE_VERSION=${{ env.IMAGE_VERSION }}"
