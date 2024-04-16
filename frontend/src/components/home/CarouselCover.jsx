@@ -25,10 +25,10 @@ function CarouselCover() {
                             {/* Add source elements for different image sources */}
                             <source
                                 media="(max-width: 600px)"
-                                srcSet={`${getRootURL(cover.mobileCover)} 1x`}
+                                srcSet={`${getRootURL(cover?.mobileCover)} 1x`}
                             />
                             <img
-                                src={cover.desktopCover}
+                                src={getRootURL(cover?.desktopCover)}
                                 alt="Iceland"
                                 loading="lazy"
                                 style={{

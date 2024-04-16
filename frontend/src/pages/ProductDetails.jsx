@@ -16,6 +16,30 @@ function ProductDetails() {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
+    const [percentage, setPercentage] = useState(0);
+
+    useEffect(() => {
+        if (product) {
+            let percentageN;
+            if (product.category.predictedPrice === 0) {
+                if (product.category.weekPrice === 0) {
+                    // Handle the case where both actual and predicted prices are zero
+                    percentageN = 0;
+                } else {
+                    // Handle the case where the predicted price is zero but the actual price is not
+                    percentageN = 0; // or any other value you deem appropriate
+                }
+            } else {
+                percentageN = Math.abs(
+                    ((product.category.weekPrice -
+                        product.category.predictedPrice) /
+                        product.category.predictedPrice) *
+                        100
+                ).toFixed(0);
+            }
+            setPercentage(percentageN);
+        }
+    }, [product]);
 
     const handleChat = () => {
         setLoading(true);
@@ -206,13 +230,7 @@ function ProductDetails() {
                                         : "red",
                             }}
                         >
-                            {Math.abs(
-                                ((product?.category.weekPrice -
-                                    product?.category.predictedPrice) /
-                                    product?.category.predictedPrice) *
-                                    100
-                            ).toFixed(2)}
-                            %{" "}
+                            {percentage}%{" "}
                             {product?.category.weekPrice <
                             product?.category.predictedPrice
                                 ? "up"

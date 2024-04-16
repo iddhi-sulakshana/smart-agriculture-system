@@ -33,19 +33,24 @@ router.post("/", async (req, res) => {
     // send prediction request to python server
     // and get the response
     axios
-        .post("http://localhost:2000/predict", {
-            N,
-            P,
-            K,
-            temperature,
-            humidity,
-            ph,
-            rainfall,
-        })
+        .post(
+            (process.env.RECOMMENDATION_URL || "http://localhost:2000") +
+                "/predict",
+            {
+                N,
+                P,
+                K,
+                temperature,
+                humidity,
+                ph,
+                rainfall,
+            }
+        )
         .then((response) => {
             res.send(response.data);
         })
         .catch((error) => {
+            console.log(error);
             if (!error.response)
                 return res.status(500).send("Internal server error");
             return res.status(error.response.status).send(error.response.data);
