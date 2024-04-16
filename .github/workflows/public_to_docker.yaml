@@ -12,11 +12,9 @@ jobs:
             # - name: Checkout
             #   uses: actions/checkout@v4
 
-            - name: Get the commit message
+            - name: Get the version from the commit message
               id: get_commit_message
-              run: |
-                  echo "${{ github.event.head_commit.message }}"
-                  echo "${{ github.event.head_commit.message }} | cut -d ' ' -f 1"
+              run: echo "${{ github.event.head_commit.message }}" | cut -d ' ' -f 1
 
             # - name: Login to the Dockerhub
             #   uses: docker/login-action@v3
