@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getURL } from "../Utils/Url";
+import { toast } from "react-toastify";
 
 async function getCategories() {
     return new Promise((resolve, reject) => {

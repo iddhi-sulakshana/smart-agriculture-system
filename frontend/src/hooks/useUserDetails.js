@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import { getURL } from "../Utils/Url";
+import { toast } from "react-toastify";
 
 async function getUserDetails(token) {
     // moch function to simulate API call with timeout and randomly throwing error

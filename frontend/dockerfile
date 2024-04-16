@@ -1,12 +1,14 @@
 # Docker image for frontend
-FROM node:alpine as builder
+FROM node:alpine
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
-
-FROM nginx:stable-alpine3.17-slim
-COPY --from=builder /app/dist /usr/share/nginx/html
+ENV VITE_BACKEND_URL=http://localhost:3000
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]
+
+
+# FROM nginx:stable-alpine3.17-slim
+# COPY --from=builder /app/dist /usr/share/nginx/html
+# CMD ["nginx", "-g", "daemon off;"]
