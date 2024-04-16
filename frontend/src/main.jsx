@@ -7,7 +7,6 @@ import { UserProvider } from "./contexts/UserContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        {/* providers goes here */}
         <BrowserRouter>
             <UserProvider>
                 <App />
