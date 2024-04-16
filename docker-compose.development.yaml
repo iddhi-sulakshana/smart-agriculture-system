@@ -16,11 +16,12 @@ services:
         ports:
             - "80:80"
         environment:
-            - NODE_ENV=production
             - PORT=80
             - VITE_PORT=http://localhost:3000
         stdin_open: true
         tty: true
+        networks:
+            - web-gateway
 
     backend:
         build: ./backend
@@ -28,7 +29,6 @@ services:
         ports:
             - "3000:3000"
         environment:
-            - NODE_ENV=production
             - PORT=3000
             - DB=${DB:-mongodb://admin:password@database:27017/librarysystem}
             - RECOMMENDATION_URL=http://recommendation:2000
@@ -37,6 +37,7 @@ services:
         networks:
             - database-driver
             - models-driver
+            - web-gateway
         stdin_open: true
         tty: true
 
@@ -49,9 +50,16 @@ services:
         environment:
             - MONGO_INITDB_ROOT_USERNAME=admin
             - MONGO_INITDB_ROOT_PASSWORD=password
+        volumes:
+            - database-data:/data/db
+
+volumes:
+    database-data:
 
 networks:
     database-driver:
         driver: bridge
     models-driver:
+        driver: bridge
+    web-gateway:
         driver: bridge

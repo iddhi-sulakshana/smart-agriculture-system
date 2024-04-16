@@ -19,7 +19,7 @@ export default async function () {
         });
         winston.info("Connected to MongoDB successfully");
 
-        const runFirstRun = process.env.firstRun || false;
+        const runFirstRun = process.env.firstRun || true;
 
         if (process.env.NODE_ENV !== "production" && runFirstRun) {
             // Truncating the database (dropping all collections)

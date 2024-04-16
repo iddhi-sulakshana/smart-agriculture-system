@@ -33,7 +33,7 @@ services:
             - NODE_ENV=production
             - PORT=3000
             - DB=${DB:-mongodb://admin:password@database:27017/librarysystem}
-            - RECOMMENDATION_URL=http://recommendation:2000
+            - RECOMMENDATION_URL=http://models-driver:2000
         depends_on:
             - database
         networks:

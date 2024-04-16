@@ -47,6 +47,7 @@ router.post("/", async (req, res) => {
             }
         )
         .then((response) => {
+            console.log(response);
             res.send(response.data);
         })
         .catch((error) => {
