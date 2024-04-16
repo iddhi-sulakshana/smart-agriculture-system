@@ -1,6 +1,6 @@
 import pickle
 import pandas as pd
-import predictPrice
+import PricePredictor
 import requests
 import logging
 
@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 
 backend_url = "http://localhost:3000"
 
-predictor = predictPrice.pricePredictor()
+predictor = PricePredictor.PricePredictor()
 vegetables = predictor.getUniqueVegetables()
 
 for vegetable in vegetables:

@@ -1,15 +1,16 @@
 from catboost import CatBoostRegressor
 from sklearn.impute import SimpleImputer
 import pandas as pd
+import DataHandler
 
-class pricePredictor:
+class PricePredictor:
     def __init__(self):
         self.priceData = None
         self.extractData()
         self.FEATURES = ["Year", "Month", "Week", "Price_Lag", "Price_Mean"]
 
     def extractData(self):
-        self.priceData = pd.read_csv("../../PricePrediction/data/processed/pricesList.csv")
+        self.priceData = DataHandler.DataHandler().getPricesDataFrame()
         self.priceData["Datetime"] = pd.to_datetime(self.priceData[['Year', 'Month']].assign(day=(self.priceData["Week"]-1)*7 +1))
         self.priceData = self.priceData.set_index('Datetime')
 
