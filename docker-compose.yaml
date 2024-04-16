@@ -1,10 +1,20 @@
 version: "3"
 services:
+    recommendation:
+        build: ./models/CropRecommendation
+        image: iddhi/smart-agriculture-system:recommendation
+        ports:
+            - "2000:2000"
+        stdin_open: true
+        tty: true
+        networks:
+            - models-driver
+
     frontend:
         build: ./frontend
         image: iddhi/smart-agriculture-system:frontend
         ports:
-            - "5000:80"
+            - "80:80"
         environment:
             - NODE_ENV=production
             - PORT=80
@@ -21,10 +31,12 @@ services:
             - NODE_ENV=production
             - PORT=3000
             - DB=${DB:-mongodb://admin:password@database:27017/librarysystem}
+            - RECOMMENDATION_URL=http://recommendation:2000
         depends_on:
             - database
         networks:
-            - mern-app
+            - database-driver
+            - models-driver
         stdin_open: true
         tty: true
 
@@ -33,11 +45,13 @@ services:
         ports:
             - "27017:27017"
         networks:
-            - mern-app
+            - database-driver
         environment:
             - MONGO_INITDB_ROOT_USERNAME=admin
             - MONGO_INITDB_ROOT_PASSWORD=password
 
 networks:
-    mern-app:
+    database-driver:
+        driver: bridge
+    models-driver:
         driver: bridge

@@ -9,4 +9,5 @@ RUN npm run build
 FROM nginx:stable-alpine3.17-slim
 COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
+ENV VITE_BACKEND_URL=http://backend:3000
 CMD ["nginx", "-g", "daemon off;"]
