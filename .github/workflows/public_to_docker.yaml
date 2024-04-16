@@ -15,8 +15,7 @@ jobs:
             - name: Get the commit message
               id: get_commit_message
               run: |
-                  echo "commit_message::$(git log -1 --pretty=format:%s)"
-                  echo "::set-output name=message::$(git log -1 --pretty=format:%s)"
+                  echo "${{ github.event.head_commit.message }}"
 
             # - name: Login to the Dockerhub
             #   uses: docker/login-action@v3
