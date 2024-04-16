@@ -30,7 +30,7 @@ services:
             - "3000:3000"
         environment:
             - PORT=3000
-            - DB=${DB:-mongodb://admin:password@database:27017/librarysystem}
+            - DB=${DB:-mongodb://admin:password@database:27017/agri_system}
             - RECOMMENDATION_URL=http://recommendation:2000
         depends_on:
             - database
