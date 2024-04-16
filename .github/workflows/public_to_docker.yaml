@@ -26,7 +26,8 @@ jobs:
                   password: ${{ secrets.DOCKERHUB_TOKEN }}
 
             - name: print the image version
-              run: echo ${IMAGE_VERSION}
+              run: |
+                  echo "${{ github.event.pull_request.title }}"
 
             # - name: Build and Push Docker Image
             #   run: |
