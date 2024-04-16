@@ -28,5 +28,5 @@ jobs:
             - name: Build and Push Docker Image
               run: |
                   export IMAGE_VERSION=${IMAGE_VERSION}
-                  docker-compose -t ./docker-compose.publish.yaml build
-                  docker-compose -t ./docker-compose.publish.yaml push
+                  docker-compose -f ./docker-compose.publish.yaml build
+                  docker-compose -f ./docker-compose.publish.yaml push
