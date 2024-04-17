@@ -1,5 +1,16 @@
 version: "3"
 services:
+    prediction:
+        build: ./models/PricePrediction
+        image: iddhi/smart-agriculture-system:prediction
+        stdin_open: true
+        tty: true
+        networks:
+            - models-driver
+        depends_on:
+            - backend
+        command: ["python", "main.py"]
+
     recommendation:
         build: ./models/CropRecommendation
         image: iddhi/smart-agriculture-system:recommendation
