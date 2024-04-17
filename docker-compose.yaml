@@ -1,5 +1,15 @@
 version: "3"
 services:
+    prediction:
+        image: iddhi/smart-agriculture-system:prediction-jammy-1.0.0
+        stdin_open: true
+        tty: true
+        networks:
+            - models-driver
+        depends_on:
+            - backend
+        command: ["python", "main.py"]
+
     recommendation:
         image: iddhi/smart-agriculture-system:recommendation-jammy-1.0.0
         ports:

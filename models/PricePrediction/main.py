@@ -1,5 +1,3 @@
-import pickle
-import pandas as pd
 import PricePredictor
 import requests
 import logging
