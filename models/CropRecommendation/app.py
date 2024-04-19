@@ -1,5 +1,6 @@
 import pickle
 from flask import Flask, request, jsonify
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -28,7 +29,8 @@ def predict():
 
     # ['N' 'P' 'K' 'temperature' 'humidity' 'ph' 'rainfall']
     # input data
-    input = [[data['N'], data['P'], data['K'], data['temperature'], data['humidity'], data['ph'], data['rainfall']]]
+    feature_names = ['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall']
+    input = pd.DataFrame([[data['N'], data['P'], data['K'], data['temperature'], data['humidity'], data['ph'], data['rainfall']]], columns=feature_names)
     prediction = model.predict(input)
 
     return jsonify({'prediction': prediction[0]})
