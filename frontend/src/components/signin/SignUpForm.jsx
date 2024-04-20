@@ -167,10 +167,10 @@ function SignUpForm({ switchToSignin }) {
                                 />
                                 <Radio
                                     size="sm"
-                                    label="I'm a Wholeseller"
+                                    label="I'm a Wholesaler"
                                     name="persistent"
-                                    checked={role === "wholeseller"}
-                                    onChange={(e) => setRole("wholeseller")}
+                                    checked={role === "wholesaler"}
+                                    onChange={(e) => setRole("wholesaler")}
                                 />
                             </Box>
                             <Button type="submit" fullWidth>
