@@ -21,9 +21,39 @@ Smart Agriculture System is a pioneering project designed to revolutionize the a
 -   **Machine Learning**: Python with libraries such as Pandas, Scikit-Learn for predictive modeling.
 -   **Additional Tools**: Docker for containerization, Jenkins for continuous integration and deployment.
 
-## Installation
+## Running the System
 
-Follow these steps to set up the Smart Agriculture System locally using codebase:
+### Using Docker (Local Build)
+
+To run the system using Docker with local builds, use the `docker-compose.development.yaml` configuration. This will build images from cloned codebase and run the services.
+
+1. Clone the project and navigate to the project directory.
+    ```bash
+    git clone https://github.com/iddhi-sulakshana/smart-agriculture-system.git
+    cd smart-agriculture-system
+    ```
+2. Run the following command to build and start the services:
+    ```bash
+    docker-compose -f docker-compose.development.yaml up --build
+    ```
+3. This will start the Frontend on port 80, the Backend on port 3000, the Crop Recommendation System on port 2000, MongoDB database on the port 27017 and send the price forecastings to the backend automatically.
+
+### Using Docker (Pre-built Images from Docker Hub)
+
+1. Clone the project and navigate to the project directory.
+    ```bash
+    git clone https://github.com/iddhi-sulakshana/smart-agriculture-system.git
+    cd smart-agriculture-system
+    ```
+2. Run the following command to pull images and start the services:
+    ```bash
+    docker-compose up
+    ```
+3. This will start the Frontend on port 80, the Backend on port 3000, the Crop Recommendation System on port 2000, MongoDB database on the port 27017 and send the price forecastings to the backend automatically.
+
+## Manual Installation
+
+Follow these steps to set up the Smart Agriculture System locally using codebase: To Run the servers locally needs `MongoDB Community Server` installed on default port or change the Database URL on the environment variables called `DB`
 
 1. Clone the repository:
     ```bash
