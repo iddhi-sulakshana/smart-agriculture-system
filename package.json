@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
     "scripts": {
+        "install": "cd backend/ && npm install && cd ../frontend/ && npm install && cd ../models/CropRecommendation/ && pip install -r requirements.txt",
         "start": "concurrently \"cd backend/ && npm start\" \"cd frontend/ && npm start\" \"cd models/CropRecommendation/ && python ./app.py\""
     },
     "keywords": [],
