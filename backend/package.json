@@ -7,7 +7,7 @@
     "scripts": {
         "db:up": "migrate-mongo up",
         "dev": "nodemon index.js",
-        "start": "node index.js",
+        "start": "concurrently \"npm run db:up\" \"npm run dev\"",
         "test": "vitest run --coverage"
     },
     "keywords": [],
@@ -31,7 +31,9 @@
     },
     "devDependencies": {
         "@vitest/coverage-v8": "^1.1.3",
+        "concurrently": "^8.2.2",
         "migrate-mongo": "^11.0.0",
+        "nodemon": "^3.1.0",
         "socket.io-client": "^4.7.5",
         "supertest": "^6.3.3",
         "vitest": "^1.5.0"

@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
     "scripts": {
-        "start": "concurrently \"cd backend/ && npm run dev\" \"cd frontend/ && npm start\" \"cd models/CropRecommendation/ && python ./app.py\""
+        "start": "concurrently \"cd backend/ && npm start\" \"cd frontend/ && npm start\" \"cd models/CropRecommendation/ && python ./app.py\""
     },
     "keywords": [],
     "devDependencies": {
