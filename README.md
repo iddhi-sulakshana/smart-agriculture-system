@@ -20,3 +20,51 @@ Smart Agriculture System is a pioneering project designed to revolutionize the a
 -   **Database**: MongoDB, a NoSQL database for flexible data storage.
 -   **Machine Learning**: Python with libraries such as Pandas, Scikit-Learn for predictive modeling.
 -   **Additional Tools**: Docker for containerization, Jenkins for continuous integration and deployment.
+
+## Installation
+
+Follow these steps to set up the Smart Agriculture System locally using codebase:
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/iddhi-sulakshana/smart-agriculture-system.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd smart-agriculture-system
+    ```
+3. Install necessary packages:
+    ```bash
+    npm run install
+    ```
+4. To start the Frontend, Backend, and Crop Recommendation System:
+    ```bash
+     npm start
+    ```
+5. This command will start the Frontend on port 5000, the Backend on port 3000, and the Crop Recommendation System on port 2000.
+6. The Price Forecasting System is set to run automatically each week and does require manual startup if setting up in locally.
+7. Go to the Price Prediction directory
+    ```bash
+    cd models/PricePrediction
+    ```
+8. Install required dependencies
+    ```bash
+    pip install -r requirements.txt
+    ```
+9. Run the Forecasting system
+    ```bash
+    python main.py
+    ```
+    or
+    ```bash
+    python3 main.py
+    ```
+    To run this backend should be up and running and once the predictions are completed all the forecasted prices will sent to the backend.
+
+## Contributing
+
+Interested in contributing to the Smart Agriculture System? Please read through our contributing guidelines. Here, you will find directions for opening issues, coding standards, and notes on development.
+
+```
+
+```
