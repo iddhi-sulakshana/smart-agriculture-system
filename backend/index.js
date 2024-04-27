@@ -6,6 +6,7 @@ import winston from "./configs/logger.js";
 import databaseConfig from "./configs/database.js";
 import routes from "./configs/routes.js";
 import socketConfig from "./configs/socket.js";
+import fs from "fs";
 
 // initialize environment variables
 envConfig();
@@ -19,6 +20,11 @@ databaseConfig();
 routes(app);
 // initialize socket for chat
 const server = socketConfig(app);
+
+const options = {
+    key: fs.readFileSync("./certs/privatekey.key"),
+    cert: fs.readFileSync("./certs/certificate.crt"),
+};
 
 // run the server application
 server.listen(process.env.PORT || 3000, () => {
