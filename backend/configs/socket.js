@@ -1,13 +1,18 @@
-import { createServer } from "http";
+import { createServer } from "https";
 import { Server } from "socket.io";
 import Chat from "../models/chat.js";
 import morgan from "morgan";
 import socketAuthentication from "../middlewares/socketAuthentication.js";
+import fs from "fs";
+const options = {
+    key: fs.readFileSync("./certs/privatekey.key"),
+    cert: fs.readFileSync("./certs/certificate.crt"),
+};
 
 let io;
 let onlineUsers = [];
 export default function (app) {
-    const server = createServer(app);
+    const server = createServer(options, app);
     io = new Server(server);
 
     io.engine.use(morgan("tiny"));
