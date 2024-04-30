@@ -2,6 +2,7 @@ import requests
 import json
 import pandas as pd
 import os
+import logging
 
 class DataHandler:
     def __init__(self):
@@ -15,14 +16,17 @@ class DataHandler:
         os.makedirs(self.output_dir, exist_ok=True)
 
     def fetch_data(self):
+        logging.info("Fetching data from the statistics website")
         response = requests.get(self.url)
         if response.status_code == 200:
+            logging.info("Complete fetching data")
             return response.content.decode('utf-8-sig')
         else:
             raise Exception("Failed to fetch data: HTTP status code {}".format(response.status_code))
         
     def process_data(self):
         raw_data = self.fetch_data()
+        logging.info("Processing raw data")
         filtered_data = raw_data.split("// ")
         modified_data = {}
         for i in range(len(filtered_data)):
@@ -35,9 +39,11 @@ class DataHandler:
             modified_data[i] = "[" + modified_data[i] + "]"
             # remove empty values
             modified_data[i] = modified_data[i].replace("''", "null")
+        logging.info("Complete processing raw data")
         return modified_data
     
     def process_prices(self, price_data):
+        logging.info("Process prices data")
         price_data = json.loads(price_data)
         names, prices, weeks, months, years = [], [], [], [], []
         for week_data in price_data:
@@ -56,6 +62,7 @@ class DataHandler:
                 months.append(month)
                 years.append(year)
 
+        logging.info("Complete process price data creating dataframe")
         return pd.DataFrame({
             'Name': names, 'Price': prices, 'Week': weeks, 
             'Month': months, 'Year': years
@@ -73,6 +80,3 @@ class DataHandler:
         data = self.process_data()
         price_data = self.process_prices(data[2])
         return price_data
-    
-handler = DataHandler()
-handler.getPricesDataFrame()

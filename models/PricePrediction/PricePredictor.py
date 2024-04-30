@@ -21,7 +21,7 @@ class PricePredictor:
         return self.priceData["Name"].unique()
 
     def preprocessData(self, data):
-        logging.ing("Preprocessing Data")
+        logging.info("Preprocessing Data")
         data2 = data.copy()
         imputer = SimpleImputer(missing_values = pd.NA, strategy ='mean')
         imputer.fit(data2[["Price"]])
@@ -61,6 +61,6 @@ class PricePredictor:
 
         prediction = CB_reg.predict(pd.DataFrame(newData, index=[0]))
 
-        logging.info("Complete prediction for " + vegetable + ": " + prediction[0].round(2))
+        logging.info("Complete prediction for " + vegetable + ": {}".format(prediction[0].round(2)))
 
         return {"predict": prediction[0].round(2), "previous": data["Price"].values[-1]}
