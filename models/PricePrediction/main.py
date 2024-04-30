@@ -4,7 +4,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-backend_url = "http://localhost:3000"
+backend_url = "https://localhost:3000"
 
 predictor = PricePredictor.PricePredictor()
 vegetables = predictor.getUniqueVegetables()

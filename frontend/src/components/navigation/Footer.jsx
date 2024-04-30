@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Input, Link, Typography } from "@mui/joy";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function Footer() {
     return (
@@ -20,8 +21,11 @@ function Footer() {
             <Box>
                 <Typography variant="h6">About</Typography>
                 <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nullam condimentum vel elit id varius.
+                    The Smart Agriculture System leverages cutting-edge
+                    technologies such as Artificial Intelligence (AI), Machine
+                    Learning (ML), and robust digital platforms to provide
+                    real-time, actionable data to farmers and agricultural
+                    stakeholders.
                 </Typography>
             </Box>
             {/* Links column */}
@@ -56,13 +60,10 @@ function Footer() {
                 <Typography variant="h6">Quick Links</Typography>
                 <ul>
                     <li>
-                        <Link href="#">Home</Link>
+                        <NavLink to="/">Home</NavLink>
                     </li>
                     <li>
-                        <Link href="#">Products</Link>
-                    </li>
-                    <li>
-                        <Link href="#">Contact</Link>
+                        <NavLink to="/market">Market</NavLink>
                     </li>
                 </ul>
             </Box>
