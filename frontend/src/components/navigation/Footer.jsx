@@ -19,7 +19,7 @@ function Footer() {
         >
             {/* About column */}
             <Box>
-                <Typography color="neutral" level="title-md">
+                <Typography color="primary" level="title-md">
                     About
                 </Typography>
                 <Typography>
@@ -66,7 +66,7 @@ function Footer() {
                     },
                 }}
             >
-                <Typography color="neutral" level="title-md">
+                <Typography color="primary" level="title-md">
                     Quick Links
                 </Typography>
                 <ul>
@@ -80,7 +80,7 @@ function Footer() {
             </Box>
             {/* Contact us */}
             <Box>
-                <Typography color="neutral" level="title-md">
+                <Typography color="primary" level="title-md">
                     Contact Us
                 </Typography>
                 <form>
