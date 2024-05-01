@@ -19,7 +19,9 @@ function Footer() {
         >
             {/* About column */}
             <Box>
-                <Typography variant="h6">About</Typography>
+                <Typography color="neutral" level="title-md">
+                    About
+                </Typography>
                 <Typography>
                     The Smart Agriculture System leverages cutting-edge
                     technologies such as Artificial Intelligence (AI), Machine
@@ -55,9 +57,18 @@ function Footer() {
                         xs: "divider",
                         md: "divider",
                     },
+                    "& ul": {
+                        listStyle: "none",
+                        padding: 0,
+                    },
+                    "& li": {
+                        mb: 1,
+                    },
                 }}
             >
-                <Typography variant="h6">Quick Links</Typography>
+                <Typography color="neutral" level="title-md">
+                    Quick Links
+                </Typography>
                 <ul>
                     <li>
                         <NavLink to="/">Home</NavLink>
@@ -67,18 +78,27 @@ function Footer() {
                     </li>
                 </ul>
             </Box>
-            {/* Subscription form column */}
+            {/* Contact us */}
             <Box>
-                <Typography variant="h6">Subscribe</Typography>
+                <Typography color="neutral" level="title-md">
+                    Contact Us
+                </Typography>
                 <form>
                     <Input
-                        label="Email"
-                        variant="outlined"
-                        margin="normal"
+                        placeholder="Email"
                         fullWidth
+                        sx={{ mb: 2 }}
+                        type="email"
                     />
-                    <Button variant="contained" color="primary" fullWidth>
-                        Subscribe
+                    <Input
+                        placeholder="Message"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        sx={{ mb: 2 }}
+                    />
+                    <Button color="primary" fullWidth>
+                        Send Email
                     </Button>
                 </form>
             </Box>
