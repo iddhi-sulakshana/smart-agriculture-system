@@ -1,7 +1,7 @@
-import { Avatar, Button, IconButton, Stack } from "@mui/joy";
+import { AspectRatio, Avatar, Button, IconButton, Stack } from "@mui/joy";
 import React from "react";
 import Links from "./Links";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 
 function DesktopNavigation() {
@@ -14,15 +14,24 @@ function DesktopNavigation() {
             spacing={1}
             sx={{ display: { xs: "none", sm: "flex" } }}
         >
-            <IconButton
-                size="md"
-                variant="none"
+            <Link
+                to="/"
                 sx={{
                     display: { xs: "none", sm: "inline-flex" },
                 }}
             >
-                <Avatar src="/logo.png" color="none" />
-            </IconButton>
+                <AspectRatio
+                    ratio={3 / 1}
+                    objectFit="contain"
+                    sx={{
+                        width: 150,
+                        mr: 3,
+                    }}
+                    variant="plain"
+                >
+                    <img src="/logo.png" />
+                </AspectRatio>
+            </Link>
             {/* Desktop Menu items */}
             {Links.map(({ name, to, ...others }) => {
                 // if the link is protected and the user is not logged in, don't show the link

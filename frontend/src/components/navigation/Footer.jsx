@@ -93,7 +93,6 @@ function Footer() {
                     <Input
                         placeholder="Message"
                         fullWidth
-                        multiline
                         rows={4}
                         sx={{ mb: 2 }}
                     />

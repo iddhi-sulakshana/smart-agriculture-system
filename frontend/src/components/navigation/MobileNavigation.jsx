@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 // Joy components
 import {
+    AspectRatio,
     Box,
     DialogTitle,
     Drawer,
@@ -40,7 +41,26 @@ function MobileNavigation() {
                 onClose={() => setOpen(false)}
             >
                 <ModalClose />
-                <DialogTitle>Online Marketplace</DialogTitle>
+                <DialogTitle>
+                    <Link
+                        to="/"
+                        sx={{
+                            display: { xs: "none", sm: "inline-flex" },
+                        }}
+                    >
+                        <AspectRatio
+                            ratio={3 / 1}
+                            objectFit="contain"
+                            sx={{
+                                width: 150,
+                                mr: 3,
+                            }}
+                            variant="plain"
+                        >
+                            <img src="/logo.png" />
+                        </AspectRatio>
+                    </Link>
+                </DialogTitle>
                 <Box sx={{ px: 1 }}>
                     <List
                         size="sm"
