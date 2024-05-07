@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 
 // constructing the path to the .env file located in root directory of the application
 const envPath = path.join(path.resolve(), ".env");
-console.log(envPath);
 // load environment variables from the .env file
 dotenv.config({ path: envPath });
 

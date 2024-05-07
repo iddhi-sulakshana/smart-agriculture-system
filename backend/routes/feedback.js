@@ -1,18 +1,6 @@
 import { Router } from "express";
 import nodemailer from "nodemailer";
-import winston from "winston";
 const router = Router();
-
-if (!process.env.EMAIL || !process.env.PASSWORD) {
-    winston.error("Email or password not set");
-}
-var transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD,
-    },
-});
 
 // send feedback mail
 router.post("/", async (req, res) => {
@@ -23,6 +11,17 @@ router.post("/", async (req, res) => {
     if (!req.body.email || !req.body.message) {
         return res.status(400).send("Email or message not provided");
     }
+
+    if (!process.env.EMAIL || !process.env.PASSWORD) {
+        return res.status(500).send("Email not configured");
+    }
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD,
+        },
+    });
 
     var mailOptions = {
         from: process.env.EMAIL,
