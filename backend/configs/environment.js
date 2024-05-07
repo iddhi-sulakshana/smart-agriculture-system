@@ -30,6 +30,16 @@ export default function () {
         ? process.env.RECOMMENDATION_URL
         : "http://localhost:2000";
 
+    // Setting a default value for the EMAIL environment if not specified
+    process.env.EMAIL = process.env.EMAIL
+        ? process.env.EMAIL
+        : "testmail@gmail.com";
+
+    // Setting a default value for the PASSWORD environment if not specified
+    process.env.PASSWORD = process.env.PASSWORD
+        ? process.env.PASSWORD
+        : "testpassword";
+
     // / Logging information if running in the development environment
     if (process.env.NODE_ENV === "development") {
         console.log("\n🚧 Node running as Development Environment 🚧\n");
