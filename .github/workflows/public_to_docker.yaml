@@ -21,8 +21,8 @@ jobs:
                       echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
                   else
                       echo "Version pattern mismatch or not specified."
-                      TEST_TAG=$(curl "https://hub.docker.com/v2/repositories/iddhi/smart-agriculture-system/tags/?page_size=1")
-                      echo "$LATEST_TAG"
+                      TEST_TAG=$(curl "https://hub.docker.com/v2/repositories/iddhi/smart-agriculture-system/tags/?page_size=1" | jq -r '.results[0].name')
+                      echo "$TEST_TAG"
                       exit 1
                   fi
 
