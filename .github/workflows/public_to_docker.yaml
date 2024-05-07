@@ -15,8 +15,6 @@ jobs:
             - name: Set up Docker Image Version
               run: |
                   IMAGE_VERSION=$(echo "${{ github.event.head_commit.message }}" | cut -d ' ' -f 1)
-                  echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
-
                   if [[ "$IMAGE_VERSION" =~ ^[a-z]+-[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
                       echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
                   else
@@ -31,14 +29,12 @@ jobs:
                           PATCH=$((PATCH + 1))
 
                           # Construct the new version
-                          NEW_TAG="prediction-${PREFIX}-${MAJOR}.${MINOR}.${PATCH}"
-                          echo "New tag with incremented patch version: $NEW_TAG"
+                          NEW_TAG="${PREFIX}-${MAJOR}.${MINOR}.${PATCH}"
                           echo "IMAGE_VERSION=$NEW_TAG" >> $GITHUB_ENV
                       else
                           echo "Unable to parse the latest tag from Docker Hub."
                           exit 1
                       fi
-                      exit 1
                   fi
 
             - name: Login to the Dockerhub
