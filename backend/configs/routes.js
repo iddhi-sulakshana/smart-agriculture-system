@@ -13,6 +13,7 @@ import informations from "../routes/information.js";
 import covers from "../routes/cover.js";
 import predict from "../routes/predict.js";
 import chat from "../routes/chat.js";
+import feedback from "../routes/feedback.js";
 
 export default function (app) {
     // enable cross origin resource sharing middleware
@@ -43,6 +44,7 @@ export default function (app) {
     app.use("/api/covers", covers);
     app.use("/api/predict", predict);
     app.use("/api/chat", chat);
+    app.use("/api/feedback", feedback);
 
     // initialize error middleware
     app.use(error);
