@@ -1,8 +1,46 @@
 import { Box, Button, Divider, Input, Link, Typography } from "@mui/joy";
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getURL } from "../../Utils/Url";
 
 function Footer() {
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [sending, setSending] = useState(false);
+    // mail send function
+    const sendEmail = (e) => {
+        e.preventDefault();
+        setSending(true);
+        // Send email logic here
+        if (!email || !message) {
+            toast.error("Please fill all fields.");
+            setSending(false);
+            return;
+        }
+        axios
+            .request({
+                method: "post",
+                url: getURL("feedback"),
+                data: {
+                    email,
+                    message,
+                },
+            })
+            .then((res) => {
+                toast.success("Email sent successfully.");
+                setEmail("");
+                setMessage("");
+            })
+            .catch((err) => {
+                console.log(err);
+                toast.error("Failed to send email.");
+            })
+            .finally(() => {
+                setSending(false);
+            });
+    };
     return (
         <Box
             component="footer"
@@ -83,20 +121,29 @@ function Footer() {
                 <Typography color="primary" level="title-md">
                     Contact Us
                 </Typography>
-                <form>
+                <form onSubmit={sendEmail}>
                     <Input
                         placeholder="Email"
                         fullWidth
                         sx={{ mb: 2 }}
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <Input
                         placeholder="Message"
                         fullWidth
                         rows={4}
                         sx={{ mb: 2 }}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                     />
-                    <Button color="primary" fullWidth>
+                    <Button
+                        color="primary"
+                        fullWidth
+                        type="submit"
+                        loading={sending}
+                    >
                         Send Email
                     </Button>
                 </form>
