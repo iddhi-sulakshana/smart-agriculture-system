@@ -34,7 +34,10 @@ jobs:
                           NEW_TAG="prediction-${PREFIX}-${MAJOR}.${MINOR}.${PATCH}"
                           echo "New tag with incremented patch version: $NEW_TAG"
                           echo "IMAGE_VERSION=$NEW_TAG" >> $GITHUB_ENV
-
+                      else
+                          echo "Unable to parse the latest tag from Docker Hub."
+                          exit 1
+                      fi
                       exit 1
                   fi
 
