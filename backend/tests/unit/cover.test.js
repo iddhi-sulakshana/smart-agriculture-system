@@ -2,6 +2,14 @@ import { it, describe, expect } from "vitest";
 import { validateCover } from "../../models/covers.js";
 describe("Cover Unit Tests", () => {
     describe("validateCover", () => {
+        it("should return null if all the conditions are met", () => {
+            const cover = {
+                desktopCover: "covers/sm/00001.jpg",
+                mobileCover: "covers/sm/00001.jpg",
+            };
+            const error = validateCover(cover);
+            expect(error).toBeNull();
+        });
         it("should return an error if desktopCover is not a string", () => {
             const cover = {
                 desktopCover: 1,

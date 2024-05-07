@@ -129,9 +129,7 @@ router.post("/", authentication, upload.single("image"), async (req, res) => {
     const error = validateCrop(newCrop);
     if (error) {
         // delete the uploaded file
-        fs.unlink(req.file.path, (err) => {
-            if (err) throw err;
-        });
+        fs.unlink(req.file.path, (err) => {});
         return res.status(400).send(error);
     }
 
@@ -144,9 +142,7 @@ router.post("/", authentication, upload.single("image"), async (req, res) => {
             req.file.destination,
             crop._id.toString() + path.extname(req.file.filename)
         ),
-        (err) => {
-            if (err) return res.status(500).send(err.message);
-        }
+        (err) => {}
     );
     await crop.save();
     res.send(crop);
@@ -202,26 +198,20 @@ router.put("/:id", authentication, upload.single("image"), async (req, res) => {
     if (crop.user.toString() !== req.user._id.toString())
         return res.status(403).send("Access denied.");
 
-    if (req.body?.title) crop.title = req.body.title;
-    if (req.body?.category) crop.category = req.body.category;
-    if (req.body?.description) crop.description = req.body.description;
-    if (req.body?.price) crop.price = req.body.price;
-    if (req.body?.stock) crop.stock = req.body.stock;
-    if (req.body?.location) crop.location = req.body.location;
-    if (req.body?.unit) crop.unit = req.body.unit;
-
     const newCrop = {
-        title: crop.title,
-        user: crop.user,
-        category: crop.category,
-        description: crop.description,
-        price: crop.price,
-        image: crop.image,
-        stock: crop.stock,
-        location: crop.location,
-        unit: crop.unit,
-        tags: crop.tags,
-        isSold: crop.isSold,
+        title: req.body?.title ? req.body.title : crop.title,
+        user: req.body?.category ? req.body.category : crop.user,
+        category: req.body?.category ? req.body.category : crop.category,
+        description: req.body?.description
+            ? req.body.description
+            : crop.description,
+        price: req.body?.price ? req.body.price : crop.price,
+        image: req.body?.image ? req.body.image : crop.image,
+        stock: req.body?.stock ? req.body.stock : crop.stock,
+        location: req.body?.location ? req.body.location : crop.location,
+        unit: req.body?.unit ? req.body.unit : crop.unit,
+        tags: req.body?.tags ? req.body.tags : crop.tags,
+        isSold: req.body?.isSold ? req.body.isSold : crop.isSold,
     };
 
     const error = validateCrop(newCrop);
