@@ -25,6 +25,11 @@ export default function () {
         ? process.env.DB
         : "mongodb://127.0.0.1:27017/agri_system";
 
+    // Setting a default value for the RECOMMENDATION_URL environment if not specified
+    process.env.RECOMMENDATION_URL = process.env.RECOMMENDATION_URL
+        ? process.env.RECOMMENDATION_URL
+        : "http://localhost:2000";
+
     // / Logging information if running in the development environment
     if (process.env.NODE_ENV === "development") {
         console.log("\n🚧 Node running as Development Environment 🚧\n");

@@ -1,7 +1,6 @@
 import { Router } from "express";
 const router = Router();
 import { Users, validateUser } from "../models/users.js";
-import winston from "winston";
 import { encrypt, validPassword } from "../utils/hash.js";
 import authentication from "../middlewares/authentication.js";
 

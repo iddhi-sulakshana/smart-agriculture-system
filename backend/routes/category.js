@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Category, validateCategory } from "../models/category.js";
+import { Category } from "../models/category.js";
 const router = Router();
 
 // get all the category

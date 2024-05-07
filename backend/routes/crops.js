@@ -24,8 +24,8 @@ const upload = multer({ storage });
 // get all the listed crops
 router.get("/", async (req, res) => {
     // try to parse the page and page size
-    if (isNaN(req.query.page) || isNaN(req.query.page_size))
-        return res.status(400).send("Invalid page or page size");
+    if (isNaN(req.query.page)) req.query.page = 1;
+    if (isNaN(req.query.page_size)) req.query.page_size = 5;
 
     // parse the page and page size
     const page = Number.parseInt(req.query.page);
