@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Input, Link, Typography } from "@mui/joy";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function Footer() {
     return (
@@ -18,10 +19,15 @@ function Footer() {
         >
             {/* About column */}
             <Box>
-                <Typography variant="h6">About</Typography>
+                <Typography color="primary" level="title-md">
+                    About
+                </Typography>
                 <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nullam condimentum vel elit id varius.
+                    The Smart Agriculture System leverages cutting-edge
+                    technologies such as Artificial Intelligence (AI), Machine
+                    Learning (ML), and robust digital platforms to provide
+                    real-time, actionable data to farmers and agricultural
+                    stakeholders.
                 </Typography>
             </Box>
             {/* Links column */}
@@ -51,33 +57,48 @@ function Footer() {
                         xs: "divider",
                         md: "divider",
                     },
+                    "& ul": {
+                        listStyle: "none",
+                        padding: 0,
+                    },
+                    "& li": {
+                        mb: 1,
+                    },
                 }}
             >
-                <Typography variant="h6">Quick Links</Typography>
+                <Typography color="primary" level="title-md">
+                    Quick Links
+                </Typography>
                 <ul>
                     <li>
-                        <Link href="#">Home</Link>
+                        <NavLink to="/">Home</NavLink>
                     </li>
                     <li>
-                        <Link href="#">Products</Link>
-                    </li>
-                    <li>
-                        <Link href="#">Contact</Link>
+                        <NavLink to="/market">Market</NavLink>
                     </li>
                 </ul>
             </Box>
-            {/* Subscription form column */}
+            {/* Contact us */}
             <Box>
-                <Typography variant="h6">Subscribe</Typography>
+                <Typography color="primary" level="title-md">
+                    Contact Us
+                </Typography>
                 <form>
                     <Input
-                        label="Email"
-                        variant="outlined"
-                        margin="normal"
+                        placeholder="Email"
                         fullWidth
+                        sx={{ mb: 2 }}
+                        type="email"
                     />
-                    <Button variant="contained" color="primary" fullWidth>
-                        Subscribe
+                    <Input
+                        placeholder="Message"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        sx={{ mb: 2 }}
+                    />
+                    <Button color="primary" fullWidth>
+                        Send Email
                     </Button>
                 </form>
             </Box>

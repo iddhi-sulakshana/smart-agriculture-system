@@ -57,7 +57,7 @@ function CropListingCard() {
                         !error &&
                         crops.length > 0 &&
                         crops.map((crop, index) => (
-                            <Grid xs={12} sm={6} md={4} key={index}>
+                            <Grid xs={12} sm={6} md={3} key={index}>
                                 <CropClickableCard
                                     loading={loading}
                                     _id={crop._id}

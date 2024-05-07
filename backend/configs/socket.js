@@ -1,4 +1,5 @@
-import { createServer } from "https";
+import { createServer as httpsCreateServer } from "https";
+import { createServer as httpCreateServer } from "http";
 import { Server } from "socket.io";
 import Chat from "../models/chat.js";
 import morgan from "morgan";
@@ -12,6 +13,8 @@ const options = {
 let io;
 let onlineUsers = [];
 export default function (app) {
+    const createServer =
+        process.env.NODE_ENV === "test" ? httpCreateServer : httpsCreateServer;
     const server = createServer(options, app);
     io = new Server(server);
 

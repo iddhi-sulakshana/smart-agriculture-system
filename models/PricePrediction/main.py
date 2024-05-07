@@ -4,7 +4,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-backend_url = "http://localhost:3000"
+backend_url = "https://localhost:3000"
 
 predictor = PricePredictor.PricePredictor()
 vegetables = predictor.getUniqueVegetables()
@@ -26,7 +26,7 @@ for vegetable in vegetables:
         "predict": predict["predict"],
         "previous": predict["previous"]
     }
-    response = requests.patch(backend_url + "/api/categories/price_prediction", json=payload)
+    response = requests.patch(backend_url + "/api/categories/price_prediction", json=payload, verify=False)
     if(response.status_code == 200):
         logging.info("Price prediction for " + vegetable_name + " is successful")
     else:
