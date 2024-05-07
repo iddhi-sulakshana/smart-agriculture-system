@@ -17,12 +17,12 @@ jobs:
                   IMAGE_VERSION=$(echo "${{ github.event.head_commit.message }}" | cut -d ' ' -f 1)
                   echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
 
-                  if [[ "$IMAGE_VERSION" =~ ^[a-z]-[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                  if [[ "$IMAGE_VERSION" =~ ^[a-z]+-[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
                       echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
                   else
                       echo "Version pattern mismatch or not specified."
                       LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/iddhi/smart-agriculture-system/tags/?page_size=1" | jq -r '.results[0].name')
-                      if [[ "$LATEST_TAG" =~ ^.*-([a-z])-([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+                      if [[ "$LATEST_TAG" =~ ^.*-([a-z]+)-([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
                           PREFIX="${BASH_REMATCH[1]}"
                           MAJOR="${BASH_REMATCH[2]}"
                           MINOR="${BASH_REMATCH[3]}"
