@@ -33,19 +33,15 @@ router.post("/", async (req, res) => {
     // send prediction request to python server
     // and get the response
     axios
-        .post(
-            (process.env.RECOMMENDATION_URL || "http://localhost:2000") +
-                "/predict",
-            {
-                N,
-                P,
-                K,
-                temperature,
-                humidity,
-                ph,
-                rainfall,
-            }
-        )
+        .post(process.env.RECOMMENDATION_URL + "/predict", {
+            N,
+            P,
+            K,
+            temperature,
+            humidity,
+            ph,
+            rainfall,
+        })
         .then((response) => {
             res.send(response.data);
         })

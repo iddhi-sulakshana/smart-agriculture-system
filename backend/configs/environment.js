@@ -2,7 +2,7 @@ import path from "path";
 import dotenv from "dotenv";
 
 // constructing the path to the .env file located in root directory of the application
-const envPath = path.join(path.resolve(), "../.env");
+const envPath = path.join(path.resolve(), ".env");
 // load environment variables from the .env file
 dotenv.config({ path: envPath });
 
@@ -24,6 +24,21 @@ export default function () {
     process.env.DB = process.env.DB
         ? process.env.DB
         : "mongodb://127.0.0.1:27017/agri_system";
+
+    // Setting a default value for the RECOMMENDATION_URL environment if not specified
+    process.env.RECOMMENDATION_URL = process.env.RECOMMENDATION_URL
+        ? process.env.RECOMMENDATION_URL
+        : "http://localhost:2000";
+
+    // Setting a default value for the EMAIL environment if not specified
+    process.env.EMAIL = process.env.EMAIL
+        ? process.env.EMAIL
+        : "testmail@gmail.com";
+
+    // Setting a default value for the PASSWORD environment if not specified
+    process.env.PASSWORD = process.env.PASSWORD
+        ? process.env.PASSWORD
+        : "testpassword";
 
     // / Logging information if running in the development environment
     if (process.env.NODE_ENV === "development") {

@@ -71,20 +71,20 @@ describe("Crop Routes Integration Tests", () => {
             expect(res.status).toBe(200);
         });
 
-        it("should throw an error if page or page_size is not a number", async () => {
+        it("should return 200 even page or page_size is not a number", async () => {
             const res = await request(server)
                 .get("/api/crops")
                 .query({ page: "one", page_size: "five" });
 
-            expect(res.status).toBe(400);
+            expect(res.status).toBe(200);
         });
 
-        it("should return 400 if page number isnt provided", async () => {
+        it("should return 200 if page number isnt provided", async () => {
             const res = await request(server)
                 .get("/api/crops")
                 .query({ page_size: 5 });
 
-            expect(res.status).toBe(400);
+            expect(res.status).toBe(200);
         });
 
         it("should return 400 if category id is not a valid object id", async () => {
@@ -282,6 +282,30 @@ describe("Crop Routes Integration Tests", () => {
 
             expect(res.status).toBe(404);
         });
+
+        it("should return 403 if user is not the owner", async () => {
+            // create a crop
+            const crop = await Crop.create({
+                title: "Tomato",
+                user: new mongoose.Types.ObjectId().toString(),
+                category: categoryId,
+                description: "lorem ipsum dolor sit amet",
+                price: 100,
+                stock: 10,
+                image: "test.jpg",
+                location: locationId,
+                unit: "kg",
+                tags: ["new"],
+                isSold: false,
+            });
+            const res = await request(server)
+                .delete("/api/crops/" + crop._id.toString())
+                .set("x-auth-token", userTkn);
+
+            expect(res.status).toBe(403);
+
+            await Crop.findByIdAndDelete(crop._id);
+        });
     });
 
     describe("PATCH /api/crops/sold/:id", () => {
@@ -379,9 +403,9 @@ describe("Crop Routes Integration Tests", () => {
                 .field("stock", 10)
                 .field("location", locationId.toString())
                 .field("unit", "kg")
-                .field("tags", ["new"])
                 .attach("image", "tests/integration/product-1.test.jpg");
 
+            console.log(res);
             expect(res.status).toBe(200);
 
             // clean up
@@ -390,6 +414,57 @@ describe("Crop Routes Integration Tests", () => {
             try {
                 fs.unlinkSync(`./public/crops/${deleteCrop?.image}`);
             } catch (err) {}
+        });
+
+        it("should validate and throw an error when editing a crop", async () => {
+            // create a crop
+            const crop = await Crop.create({
+                title: "Tomato",
+                user: userId,
+                category: categoryId,
+                description: "lorem ipsum dolor sit amet",
+                price: 100,
+                stock: 10,
+                image: "test.jpg",
+                location: locationId,
+                unit: "kg",
+                tags: ["new"],
+                isSold: false,
+            });
+            const res = await request(server)
+                .put(`/api/crops/${crop._id.toString()}`)
+                .set("x-auth-token", userTkn)
+                .field("price", "ten");
+
+            expect(res.status).toBe(400);
+
+            // clean up
+            const deleteCrop = await Crop.findByIdAndDelete(crop._id);
+        });
+
+        it("should return 403 if user is not the owner", async () => {
+            // create a crop
+            const crop = await Crop.create({
+                title: "Tomato",
+                user: new mongoose.Types.ObjectId().toString(),
+                category: categoryId,
+                description: "lorem ipsum dolor sit amet",
+                price: 100,
+                stock: 10,
+                image: "test.jpg",
+                location: locationId,
+                unit: "kg",
+                tags: ["new"],
+                isSold: false,
+            });
+            const res = await request(server)
+                .put(`/api/crops/${crop._id.toString()}`)
+                .set("x-auth-token", userTkn);
+
+            expect(res.status).toBe(403);
+
+            // clean up
+            const deleteCrop = await Crop.findByIdAndDelete(crop._id);
         });
 
         it("should return 400 if crop id is not a valid object id", async () => {

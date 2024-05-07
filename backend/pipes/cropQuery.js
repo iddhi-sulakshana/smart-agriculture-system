@@ -1,5 +1,4 @@
 export default function (query) {
-    if (!query) query = {};
     query.isSold = false;
     return [
         {

@@ -25,94 +25,93 @@ let createdUsers = [];
 let createdCrops;
 let createdChat;
 
-describe("Chat Routes Integration Tests", () => {
-    beforeAll(async () => {
-        const users = await Users.insertMany([
-            {
-                name: "saler1",
-                email: "chat.saler3@gmail.com",
-                password:
-                    "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
-                role: "wholesaler",
-            },
-            {
-                name: "farmer1",
-                email: "chat.farmer2@gmail.com",
-                password:
-                    "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
-                role: "farmer",
-            },
-            {
-                name: "invalid",
-                email: "chat.invalid@gma.com",
-                password:
-                    "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
-                role: "farmer",
-            },
-        ]);
+beforeAll(async () => {
+    const users = await Users.insertMany([
+        {
+            name: "saler1",
+            email: "chat.saler3@gmail.com",
+            password:
+                "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
+            role: "wholesaler",
+        },
+        {
+            name: "farmer1",
+            email: "chat.farmer2@gmail.com",
+            password:
+                "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
+            role: "farmer",
+        },
+        {
+            name: "invalid",
+            email: "chat.invalid@gma.com",
+            password:
+                "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
+            role: "farmer",
+        },
+    ]);
 
-        const crops = await Crop.insertMany([
-            {
-                title: "Tomato",
-                user: users[1]._id,
-                category: new mongoose.Types.ObjectId(),
-                description: "lorem ipsum dolor sit amet",
-                price: 100,
-                stock: 10,
-                image: "product-1.test.jpg",
-                location: new mongoose.Types.ObjectId(),
-                unit: "kg",
-                tags: ["new"],
-                isSold: false,
-            },
-            {
-                title: "Tomato",
-                user: users[1]._id,
-                category: new mongoose.Types.ObjectId(),
-                description: "lorem ipsum dolor sit amet",
-                price: 100,
-                stock: 10,
-                image: "product-1.test.jpg",
-                location: new mongoose.Types.ObjectId(),
-                unit: "kg",
-                tags: ["new"],
-                isSold: false,
-            },
-        ]);
+    const crops = await Crop.insertMany([
+        {
+            title: "Tomato",
+            user: users[1]._id,
+            category: new mongoose.Types.ObjectId(),
+            description: "lorem ipsum dolor sit amet",
+            price: 100,
+            stock: 10,
+            image: "product-1.test.jpg",
+            location: new mongoose.Types.ObjectId(),
+            unit: "kg",
+            tags: ["new"],
+            isSold: false,
+        },
+        {
+            title: "Tomato",
+            user: users[1]._id,
+            category: new mongoose.Types.ObjectId(),
+            description: "lorem ipsum dolor sit amet",
+            price: 100,
+            stock: 10,
+            image: "product-1.test.jpg",
+            location: new mongoose.Types.ObjectId(),
+            unit: "kg",
+            tags: ["new"],
+            isSold: false,
+        },
+    ]);
 
-        createdUsers = users;
-        createdCrops = crops;
+    createdUsers = users;
+    createdCrops = crops;
 
-        user1Id = users[0]._id;
-        user1Tkn = await users[0].generateAuthToken();
-        user2Id = users[1]._id;
-        invalidTkn = await users[2].generateAuthToken();
-        cropId = crops[0]._id;
-        invalidCropId = crops[1]._id;
-        await Crop.deleteOne({ _id: invalidCropId });
-        await Users.deleteOne({ email: users[2].email });
+    user1Id = users[0]._id;
+    user1Tkn = await users[0].generateAuthToken();
+    user2Id = users[1]._id;
+    invalidTkn = await users[2].generateAuthToken();
+    cropId = crops[0]._id;
+    invalidCropId = crops[1]._id;
+    await Crop.deleteOne({ _id: invalidCropId });
+    await Users.deleteOne({ email: users[2].email });
 
-        const chat = await Chat.create({
-            participants: [user1Id, user2Id],
+    const chat = await Chat.create({
+        participants: [user1Id, user2Id],
+    });
+    createdChat = chat._id;
+});
+afterAll(async () => {
+    if (createdUsers && createdUsers.length > 0) {
+        createdUsers.forEach(async (user) => {
+            await Users.findByIdAndDelete(user._id);
         });
-        createdChat = chat._id;
-    });
-    afterAll(async () => {
-        if (createdUsers && createdUsers.length > 0) {
-            createdUsers.forEach(async (user) => {
-                await Users.findByIdAndDelete(user._id);
-            });
-        }
-        if (createdCrops && createdCrops.length > 0) {
-            createdCrops.forEach(async (crop) => {
-                await Crop.findByIdAndDelete(crop._id);
-            });
-        }
-        await Chat.deleteOne({ _id: createdChat });
-        await Message.deleteMany({ chat: createdChat });
-        mongoose.disconnect();
-    });
-
+    }
+    if (createdCrops && createdCrops.length > 0) {
+        createdCrops.forEach(async (crop) => {
+            await Crop.findByIdAndDelete(crop._id);
+        });
+    }
+    await Chat.deleteOne({ _id: createdChat });
+    await Message.deleteMany({ chat: createdChat });
+    mongoose.disconnect();
+});
+describe("Chat Routes Integration Tests", () => {
     describe("GET /api/chats", () => {
         it("should give 200 if user is authenticated", async () => {
             const res = await request(server)
