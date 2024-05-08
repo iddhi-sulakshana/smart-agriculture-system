@@ -48,7 +48,7 @@ function Footer() {
                 display: "grid",
                 gridTemplateColumns: {
                     xs: "1fr",
-                    md: "2fr 1fr 2fr", // Three columns for about, links, and subscription form
+                    md: "3fr 2.25fr 3fr", // Three columns for about, links, and subscription form
                 },
                 gap: 5,
                 px: { xs: 2, sm: 10 },
@@ -60,12 +60,11 @@ function Footer() {
                 <Typography color="primary" level="title-md">
                     About
                 </Typography>
-                <Typography>
-                    The Smart Agriculture System leverages cutting-edge
-                    technologies such as Artificial Intelligence (AI), Machine
-                    Learning (ML), and robust digital platforms to provide
-                    real-time, actionable data to farmers and agricultural
-                    stakeholders.
+                <Typography textAlign="justify">
+                    <b>AgriVista</b> leverages cutting-edge technologies such as
+                    Artificial Intelligence (AI), Machine Learning (ML), and
+                    robust digital platforms to provide real-time, actionable
+                    data to farmers and agricultural stakeholders.
                 </Typography>
             </Box>
             {/* Links column */}
@@ -109,10 +108,51 @@ function Footer() {
                 </Typography>
                 <ul>
                     <li>
-                        <NavLink to="/">Home</NavLink>
+                        <Typography
+                            component={NavLink}
+                            sx={{
+                                textDecoration: "none",
+                            }}
+                            to="/"
+                        >
+                            Home
+                        </Typography>
                     </li>
                     <li>
-                        <NavLink to="/market">Market</NavLink>
+                        {/* About */}
+                        <Typography
+                            component={NavLink}
+                            sx={{
+                                textDecoration: "none",
+                            }}
+                            to="/about"
+                        >
+                            About
+                        </Typography>
+                    </li>
+                    {/* Terms and conditions */}
+                    <li>
+                        <Typography
+                            component={Link}
+                            href="/terms"
+                            sx={{
+                                textDecoration: "none",
+                            }}
+                        >
+                            Terms & Conditions
+                        </Typography>
+                    </li>
+                    {/* Privacy policy */}
+                    <li>
+                        <Typography
+                            component={Link}
+                            href="/privacy"
+                            sx={{
+                                textDecoration: "none",
+                            }}
+                        >
+                            Privacy Policy
+                        </Typography>
                     </li>
                 </ul>
             </Box>
