@@ -5,6 +5,7 @@ import {
     CardContent,
     CardOverflow,
     Grid,
+    Skeleton,
     Typography,
 } from "@mui/joy";
 import React from "react";
@@ -29,6 +30,13 @@ function Practices() {
                     overflowX: "auto",
                 }}
             >
+                {
+                    // if mechanization is empty, show skeleton
+                    mechanization.length === 0 &&
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <PracticesCard key={index} loading />
+                        ))
+                }
                 {mechanization.map((item) => (
                     <PracticesCard key={item._id} {...item} />
                 ))}
@@ -45,6 +53,13 @@ function Practices() {
                     overflowX: "auto",
                 }}
             >
+                {
+                    // if postHarvest is empty, show skeleton
+                    postHarvest.length === 0 &&
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <PracticesCard key={index} loading />
+                        ))
+                }
                 {postHarvest.map((item) => (
                     <PracticesCard key={item._id} {...item} />
                 ))}
@@ -57,7 +72,10 @@ function PracticesCard({ id, title, src, link }) {
         <Grid
             xs={12}
             md={4}
-            onClick={() => window.open(link)}
+            onClick={() => {
+                if (!link) return;
+                window.open(link, "_blank");
+            }}
             style={{ cursor: "pointer", transition: "transform 0.4s" }}
         >
             <Card
@@ -85,13 +103,20 @@ function PracticesCard({ id, title, src, link }) {
                     </AspectRatio>
                 </CardOverflow>
                 <CardContent>
-                    <Typography
-                        level="title-lg"
-                        textAlign="center"
-                        color="primary"
-                    >
-                        {title}
-                    </Typography>
+                    {!title ? (
+                        <Typography level="body-md" textAlign="center">
+                            <Skeleton>Loading Title goes over here</Skeleton>
+                        </Typography>
+                    ) : (
+                        <Typography
+                            level="body-md"
+                            textAlign="center"
+                            fontWeight="lg"
+                            textColor="primary.plainColor"
+                        >
+                            {title}
+                        </Typography>
+                    )}
                 </CardContent>
             </Card>
         </Grid>

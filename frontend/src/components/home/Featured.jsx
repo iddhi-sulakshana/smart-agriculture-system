@@ -27,6 +27,10 @@ function Featured() {
                 mt={3}
                 sx={{ flexGrow: 1 }}
             >
+                {featured.length === 0 &&
+                    Array.from({ length: 5 }).map((_, index) => (
+                        <ClickableCard key={index} loading />
+                    ))}
                 {featured.map((item) => (
                     <ClickableCard
                         key={item._id}

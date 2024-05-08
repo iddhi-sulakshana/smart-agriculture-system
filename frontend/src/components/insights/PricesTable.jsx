@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Tooltip } from "@mui/joy";
+import { Skeleton, Table, Tooltip } from "@mui/joy";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import ArrowDropUpRoundedIcon from "@mui/icons-material/ArrowDropUpRounded";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
@@ -27,6 +27,16 @@ function PricesTable() {
                 </tr>
             </thead>
             <tbody>
+                {
+                    // categories are empty array show loading skeleton
+                    categories.length === 0 && (
+                        <tr>
+                            <td>Loading</td>
+                            <td>Loading</td>
+                            <td>Loading</td>
+                        </tr>
+                    )
+                }
                 {categories.map((row) => (
                     <tr key={row._id}>
                         <td>{row.name}</td>

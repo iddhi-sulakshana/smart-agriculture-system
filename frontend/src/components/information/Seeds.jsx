@@ -5,6 +5,7 @@ import {
     CardContent,
     CardOverflow,
     Grid,
+    Skeleton,
     Typography,
 } from "@mui/joy";
 import React from "react";
@@ -26,6 +27,13 @@ function Seeds() {
                     overflowX: "auto",
                 }}
             >
+                {
+                    // if data is empty, show skeleton
+                    data.length === 0 &&
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <SeedCard key={index} loading />
+                        ))
+                }
                 {data.map((item) => (
                     <SeedCard key={item._id} {...item} />
                 ))}
@@ -40,6 +48,7 @@ function SeedCard({ id, title, src, link, description }) {
             xs={12}
             md={4}
             onClick={() => {
+                if (!link) return;
                 window.open(link);
             }}
             style={{ cursor: "pointer", transition: "transform 0.4s" }}
@@ -69,20 +78,26 @@ function SeedCard({ id, title, src, link, description }) {
                     </AspectRatio>
                 </CardOverflow>
                 <CardContent>
-                    <Typography
-                        level="title-lg"
-                        textAlign="center"
-                        color="primary"
-                    >
-                        {title}
-                    </Typography>
-                    {description && (
+                    {(title && (
+                        <Typography level="h3" textAlign="center">
+                            {title}
+                        </Typography>
+                    )) || (
+                        <Typography level="h3" textAlign="center">
+                            <Skeleton>Loading Title</Skeleton>
+                        </Typography>
+                    )}
+                    {(description && (
                         <Typography
                             level="body-md"
                             textAlign="center"
                             color="textSecondary"
                         >
                             {description}
+                        </Typography>
+                    )) || (
+                        <Typography level="body-md" textAlign="center">
+                            <Skeleton>Loading Description</Skeleton>
                         </Typography>
                     )}
                 </CardContent>

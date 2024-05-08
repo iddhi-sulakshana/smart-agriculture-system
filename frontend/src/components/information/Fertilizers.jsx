@@ -5,6 +5,7 @@ import {
     CardContent,
     CardOverflow,
     Grid,
+    Skeleton,
     Typography,
 } from "@mui/joy";
 import React from "react";
@@ -26,6 +27,13 @@ function Fertilizers() {
                     overflowX: "auto",
                 }}
             >
+                {
+                    // if data is empty, show skeleton
+                    data.length === 0 &&
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <FertilizerCard key={index} loading />
+                        ))
+                }
                 {data.map((item) => (
                     <FertilizerCard key={item._id} {...item} />
                 ))}
@@ -39,6 +47,7 @@ function FertilizerCard({ title, src, link }) {
             xs={12}
             md={4}
             onClick={() => {
+                if (!link) return;
                 window.open(link);
             }}
             style={{ cursor: "pointer", transition: "transform 0.4s" }}
@@ -68,13 +77,23 @@ function FertilizerCard({ title, src, link }) {
                     </AspectRatio>
                 </CardOverflow>
                 <CardContent>
-                    <Typography
-                        level="title-lg"
-                        textAlign="center"
-                        color="primary"
-                    >
-                        {title}
-                    </Typography>
+                    {(title && (
+                        <Typography
+                            level="title-lg"
+                            textAlign="center"
+                            color="primary"
+                        >
+                            {title}
+                        </Typography>
+                    )) || (
+                        <Typography
+                            level="title-lg"
+                            textAlign="center"
+                            color="primary"
+                        >
+                            <Skeleton>Loading Title</Skeleton>
+                        </Typography>
+                    )}
                 </CardContent>
             </Card>
         </Grid>

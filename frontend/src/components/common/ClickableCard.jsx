@@ -30,6 +30,7 @@ function ClickableCard({
 }) {
     const navigate = useNavigate();
     const onClick = () => {
+        if (!id) return;
         navigate(`/product/${id}`);
     };
     return (

@@ -11,7 +11,10 @@ function Products({ crops }) {
             mt={0}
             sx={{ flexGrow: 1 }}
         >
-            {/* 1 to 10 array then map */}
+            {crops.length === 0 &&
+                Array.from({ length: 5 }).map((_, index) => (
+                    <ClickableCard key={index} loading />
+                ))}
             {crops.map((item) => (
                 <ClickableCard
                     id={item._id}
