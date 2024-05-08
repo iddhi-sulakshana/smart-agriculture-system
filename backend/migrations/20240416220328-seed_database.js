@@ -249,7 +249,7 @@ const up = async (db, client) => {
             image: "product-6.test.jpg",
             location: location.insertedIds[1],
             unit: "kg",
-            tags: ["new"],
+            tags: [],
             isSold: false,
         },
         {
@@ -262,7 +262,7 @@ const up = async (db, client) => {
             image: "product-7.test.jpg",
             location: location.insertedIds[2],
             unit: "kg",
-            tags: ["new"],
+            tags: [],
             isSold: false,
         },
         {
@@ -275,7 +275,7 @@ const up = async (db, client) => {
             image: "product-8.test.jpg",
             location: location.insertedIds[1],
             unit: "kg",
-            tags: ["new"],
+            tags: [],
             isSold: false,
         },
     ];
