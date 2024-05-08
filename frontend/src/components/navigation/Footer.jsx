@@ -154,6 +154,18 @@ function Footer() {
                             Privacy Policy
                         </Typography>
                     </li>
+                    {/* Help and support*/}
+                    <li>
+                        <Typography
+                            component={Link}
+                            href="/help_support"
+                            sx={{
+                                textDecoration: "none",
+                            }}
+                        >
+                            Help & Support
+                        </Typography>
+                    </li>
                 </ul>
             </Box>
             {/* Contact us */}

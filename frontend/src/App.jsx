@@ -23,6 +23,7 @@ import About from "./pages/About";
 import { SocketProvider } from "./contexts/SocketContext";
 import TermsConditions from "./pages/TermsConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import HelpSupport from "./pages/HelpSupport";
 
 function App() {
     return (
@@ -72,6 +73,7 @@ function App() {
                             path="privacy_policy"
                             element={<PrivacyPolicy />}
                         />
+                        <Route path="/help_support" element={<HelpSupport />} />
                         <Route
                             path="/information/*"
                             element={<Information />}
