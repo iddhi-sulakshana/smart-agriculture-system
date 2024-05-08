@@ -6,6 +6,7 @@ const up = async (db, client) => {
             password:
                 "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy", // password: password
             role: "farmer",
+            avatar: `https://robohash.org/set_set5/bgset_bg1/${Math.random()}?size=100x100`,
         },
         {
             name: "Test Farmer1",
@@ -13,6 +14,7 @@ const up = async (db, client) => {
             password:
                 "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy", // password: password
             role: "farmer",
+            avatar: `https://robohash.org/set_set5/bgset_bg1/${Math.random()}?size=100x100`,
         },
         {
             name: "Test Saler",
@@ -20,6 +22,7 @@ const up = async (db, client) => {
             password:
                 "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
             role: "wholesaler",
+            avatar: `https://robohash.org/set_set5/bgset_bg1/${Math.random()}?size=100x100`,
         },
     ]);
     const category = await db.collection("categories").insertMany([
