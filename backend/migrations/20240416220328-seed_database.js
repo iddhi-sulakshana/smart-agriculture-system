@@ -1,29 +1,37 @@
 const up = async (db, client) => {
     const users = await db.collection("users").insertMany([
         {
-            name: "farmer1",
-            email: "farmer1@gmail.com",
+            name: "Test Farmer",
+            email: "testfarmer@gmail.com",
             password:
                 "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy", // password: password
             role: "farmer",
         },
         {
-            name: "saler1",
-            email: "saler1@gmail.com",
+            name: "Test Farmer1",
+            email: "testfarmer1@gmail.com",
+            password:
+                "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy", // password: password
+            role: "farmer",
+        },
+        {
+            name: "Test Saler",
+            email: "testsaler@gmail.com",
             password:
                 "$2b$10$6nvhxMkNlT/KkJFgAph.w.WzsIqonQxgrwsIcpdc8QPH7F5UvaSmy",
             role: "wholesaler",
         },
     ]);
     const category = await db.collection("categories").insertMany([
-        { name: "Green Chillies", weekPrice: 100, predictedPrice: 0 },
-        { name: "Carrot", weekPrice: 100, predictedPrice: 0 },
-        { name: "Leeks", weekPrice: 100, predictedPrice: 0 },
-        { name: "BeetRoot", weekPrice: 100, predictedPrice: 0 },
+        { name: "Green Chillies", weekPrice: 365.75, predictedPrice: 367.41 },
+        { name: "Carrot", weekPrice: 241.25, predictedPrice: 230.41 },
+        { name: "Leeks", weekPrice: 153.12, predictedPrice: 175.25 },
+        { name: "BeetRoot", weekPrice: 450.0, predictedPrice: 510.0 },
     ]);
     const location = await db
         .collection("locations")
         .insertMany([
+            { name: "Ampara" },
             { name: "Anuradhapura" },
             { name: "Badulla" },
             { name: "Batticaloa" },
@@ -34,6 +42,20 @@ const up = async (db, client) => {
             { name: "Jaffna" },
             { name: "Kalutara" },
             { name: "Kandy" },
+            { name: "Kegalle" },
+            { name: "Kilinochchi" },
+            { name: "Kurunegala" },
+            { name: "Mannar" },
+            { name: "Matale" },
+            { name: "Matara" },
+            { name: "Monaragala" },
+            { name: "Mullaitivu" },
+            { name: "Nuwara Eliya" },
+            { name: "Polonnaruwa" },
+            { name: "Puttalam" },
+            { name: "Ratnapura" },
+            { name: "Trincomalee" },
+            { name: "Vavuniya" },
         ]);
     await db.collection("news").insertMany([
         {
@@ -151,116 +173,112 @@ const up = async (db, client) => {
     ]);
     const cropData = [
         {
-            title: "Tomato",
-            user: null,
-            category: null,
-            description: "lorem ipsum dolor sit amet",
-            price: 100,
-            stock: 10,
-            image: "product-1.test.jpg",
-            location: null,
+            title: "Fiery Green Chillies",
+            user: users.insertedIds[0],
+            category: category.insertedIds[0],
+            description: "Organically grown green chillies with a fiery kick.",
+            price: 375.75,
+            stock: 25,
+            image: "fiery-green-chillies.jpg",
+            location: location.insertedIds[2],
             unit: "kg",
             tags: ["new"],
             isSold: false,
         },
         {
-            title: "Carrot",
-            user: null,
-            category: null,
-            description: "lorem ipsum dolor sit amet",
-            price: 100,
-            stock: 10,
-            image: "product-2.test.jpg",
-            location: null,
+            title: "Mellow Green Chillies",
+            user: users.insertedIds[1],
+            category: category.insertedIds[0],
+            description:
+                "Green chillies with a milder heat, perfect for salads.",
+            price: 367.41,
+            stock: 18,
+            image: "mellow-green-chillies.jpg",
+            location: location.insertedIds[1],
             unit: "kg",
             tags: ["new"],
             isSold: false,
         },
         {
-            title: "Onion",
-            user: null,
-            category: null,
-            description: "lorem ipsum dolor sit amet",
-            price: 100,
-            stock: 10,
-            image: "product-3.test.jpg",
-            location: null,
+            title: "Golden Carrots",
+            user: users.insertedIds[0],
+            category: category.insertedIds[1],
+            description: "Crisp, golden carrots with a natural sweetness.",
+            price: 241.25,
+            stock: 30,
+            image: "golden-carrots.jpg",
+            location: location.insertedIds[2],
             unit: "kg",
             tags: ["new"],
             isSold: false,
         },
         {
-            title: "Potato",
-            user: null,
-            category: null,
-            description: "lorem ipsum dolor sit amet",
-            price: 100,
-            stock: 10,
-            image: "product-4.test.jpg",
-            location: null,
+            title: "Sun-Kissed Carrots",
+            user: users.insertedIds[1],
+            category: category.insertedIds[1],
+            description:
+                "Carrots ripened in the sun, offering a rich, earthy taste.",
+            price: 230.41,
+            stock: 28,
+            image: "sun-kissed-carrots.jpg",
+            location: location.insertedIds[1],
             unit: "kg",
             tags: ["new"],
             isSold: false,
         },
         {
-            title: "Cabbage",
-            user: null,
-            category: null,
-            description: "lorem ipsum dolor sit amet",
-            price: 100,
-            stock: 10,
-            image: "product-5.test.jpg",
-            location: null,
+            title: "Tender Leeks",
+            user: users.insertedIds[0],
+            category: category.insertedIds[2],
+            description: "Tender, sweet leeks harvested at peak freshness.",
+            price: 153.12,
+            stock: 20,
+            image: "tender-leeks.jpg",
+            location: location.insertedIds[2],
             unit: "kg",
             tags: ["new"],
             isSold: false,
         },
         {
-            title: "Tomato",
-            user: null,
-            category: null,
-            description: "lorem ipsum dolor sit amet",
-            price: 100,
-            stock: 10,
-            image: "product-6.test.jpg",
-            location: null,
+            title: "Lush Leeks",
+            user: users.insertedIds[1],
+            category: category.insertedIds[2],
+            description: "Lush, mild leeks perfect for soups and stews.",
+            price: 175.25,
+            stock: 16,
+            image: "lush-leeks.jpg",
+            location: location.insertedIds[1],
             unit: "kg",
             tags: ["new"],
             isSold: false,
         },
         {
-            title: "Carrot",
-            user: null,
-            category: null,
-            description: "lorem ipsum dolor sit amet",
-            price: 100,
-            stock: 10,
-            image: "product-7.test.jpg",
-            location: null,
+            title: "Vibrant Beetroot",
+            user: users.insertedIds[0],
+            category: category.insertedIds[3],
+            description: "Vibrant beetroot packed with flavor and nutrition.",
+            price: 450.0,
+            stock: 22,
+            image: "vibrant-beetroot.jpg",
+            location: location.insertedIds[2],
             unit: "kg",
             tags: ["new"],
             isSold: false,
         },
         {
-            title: "Onion",
-            user: null,
-            category: null,
-            description: "lorem ipsum dolor sit amet",
-            price: 100,
-            stock: 10,
-            image: "product-8.test.jpg",
-            location: null,
+            title: "Sweet Beetroot",
+            user: users.insertedIds[1],
+            category: category.insertedIds[3],
+            description: "Beetroot with a sweet flavor, ideal for roasting.",
+            price: 510.0,
+            stock: 18,
+            image: "sweet-beetroot.jpg",
+            location: location.insertedIds[1],
             unit: "kg",
             tags: ["new"],
             isSold: false,
         },
     ];
-
-    cropData.forEach((crop, index) => {
-        crop.user = users.insertedIds[0];
-        crop.category = category.insertedIds[0];
-        crop.location = location.insertedIds[0];
-    });
 
     await db.collection("crops").insertMany(cropData);
 };
@@ -273,6 +291,8 @@ const down = async (db, client) => {
     await db.collection("information").deleteMany({});
     await db.collection("covers").deleteMany({});
     await db.collection("crops").deleteMany({});
+    await db.collection("messages").deleteMany({});
+    await db.collection("chats").deleteMany({});
 };
 
 export { up, down };
