@@ -134,7 +134,7 @@ function Footer() {
                     <li>
                         <Typography
                             component={Link}
-                            href="/terms"
+                            href="/terms_conditions"
                             sx={{
                                 textDecoration: "none",
                             }}
@@ -146,7 +146,7 @@ function Footer() {
                     <li>
                         <Typography
                             component={Link}
-                            href="/privacy"
+                            href="/privacy_policy"
                             sx={{
                                 textDecoration: "none",
                             }}
