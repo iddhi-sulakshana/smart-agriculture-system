@@ -19,7 +19,6 @@ function ProductDetails() {
     const [percentage, setPercentage] = useState(0);
 
     useEffect(() => {
-        console.log(product);
         if (!product) return;
         let percentageN = 0;
         if (product.category.predictedPrice === 0) return;
@@ -208,11 +207,8 @@ function ProductDetails() {
                             Buy now
                         </Button>
                     </Box>
-                    <Typography
-                        level="body-md"
-                        startDecorator="Price fluctuation: "
-                        endDecorator=" from last week"
-                    >
+                    <Typography level="body-md">
+                        Price Fluctuation:{" "}
                         <span
                             style={{
                                 color:
@@ -227,7 +223,8 @@ function ProductDetails() {
                             product?.category.predictedPrice
                                 ? "up"
                                 : "down"}
-                        </span>
+                        </span>{" "}
+                        since last week
                     </Typography>
                 </Grid>
             </Grid>
