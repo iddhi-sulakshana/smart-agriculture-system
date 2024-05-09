@@ -10,12 +10,13 @@ import {
     Skeleton,
     Typography,
 } from "@mui/joy";
-import React from "react";
+import React, { useState } from "react";
 import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
 import { getRootURL, getURL } from "../../Utils/Url";
 import axios from "axios";
 import UserContext from "../../contexts/UserContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function CropClickableCard({
     loading = true,
@@ -31,8 +32,15 @@ function CropClickableCard({
     handleEdit,
 }) {
     const { token } = UserContext();
-    const onClick = () => {};
+    const [updateLoading, setUpdateLoading] = useState(false);
+    const navigate = useNavigate();
+    const onClick = () => {
+        if (!_id) return;
+        navigate(`/product/${_id}`);
+    };
     const deleteCrop = () => {
+        setUpdateLoading(true);
+
         axios
             .request({
                 method: "DELETE",
@@ -47,9 +55,14 @@ function CropClickableCard({
             })
             .catch((error) => {
                 toast.error(error.response.data);
+            })
+            .finally(() => {
+                setUpdateLoading(false);
             });
     };
     const soldCrop = () => {
+        setUpdateLoading(true);
+
         axios
             .request({
                 method: "PATCH",
@@ -64,6 +77,9 @@ function CropClickableCard({
             })
             .catch((error) => {
                 toast.error(error.response.data);
+            })
+            .finally(() => {
+                setUpdateLoading(false);
             });
     };
     return (
@@ -196,6 +212,7 @@ function CropClickableCard({
                         variant="solid"
                         color="danger"
                         onClick={deleteCrop}
+                        loading={updateLoading}
                     >
                         Delete
                     </Button>
@@ -204,6 +221,7 @@ function CropClickableCard({
                         variant="solid"
                         color="warning"
                         onClick={soldCrop}
+                        loading={updateLoading}
                     >
                         Mark as Sold
                     </Button>
@@ -212,6 +230,7 @@ function CropClickableCard({
                         variant="outlined"
                         color="neutral"
                         onClick={() => handleEdit(_id)}
+                        loading={updateLoading}
                     >
                         Edit
                     </Button>
