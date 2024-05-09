@@ -41,9 +41,10 @@ class PricePredictor:
         data.drop(columns=["Name"], inplace=True)
         data = self.preprocessData(data)
 
+        train_dir_path = '/tmp/catboost_info'
         # for high accuracy
         # CB_reg =  CatBoostRegressor(iterations=100000, depth=1, learning_rate=0.001, loss_function='RMSE')
-        CB_reg =  CatBoostRegressor(iterations=1000, depth=1, learning_rate=0.1, loss_function='RMSE')
+        CB_reg =  CatBoostRegressor(train_dir=train_dir_path, iterations=1000, depth=1, learning_rate=0.1, loss_function='RMSE')
         CB_reg.fit(data[self.FEATURES], data["Price"], verbose=False)
 
         newData = {}
