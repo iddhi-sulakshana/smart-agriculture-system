@@ -25,7 +25,4 @@ const config = {
     // Don't change this, unless you know what you're doing
     moduleSystem: "commonjs",
 };
-
-console.log(config.mongodb.url, config.mongodb.databaseName);
-
 export default config;
