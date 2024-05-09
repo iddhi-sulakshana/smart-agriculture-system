@@ -1,11 +1,9 @@
 const config = {
     mongodb: {
-        // TODO Change (or review) the url to your MongoDB:
-        url: process.env.DB
-            ? process.env.DB.split("27017")[0] + "27017"
-            : "mongodb://127.0.0.1:27017",
+        // TODO: Change (or review) the url to your MongoDB:
+        url: process.env.DB ? process.env.DB : "mongodb://127.0.0.1:27017",
 
-        // TODO Change this to your database name:
+        // TODO: Change this to your database name:
         databaseName: process.env.NODE_ENV
             ? "agri_system" + `_${process.env.NODE_ENV}`
             : "agri_system_development",
@@ -27,5 +25,7 @@ const config = {
     // Don't change this, unless you know what you're doing
     moduleSystem: "commonjs",
 };
+
+console.log(config.mongodb.url, config.mongodb.databaseName);
 
 export default config;
