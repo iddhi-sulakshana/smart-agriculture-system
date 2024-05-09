@@ -31,6 +31,14 @@ function PasswordCard() {
             toast.error("Current password is required");
             return;
         }
+        if (!password) {
+            toast.error("New password is required");
+            return;
+        }
+        if (!confirmPassword) {
+            toast.error("Confirm password is required");
+            return;
+        }
         if (password !== confirmPassword) {
             toast.error("Passwords do not match");
             return;

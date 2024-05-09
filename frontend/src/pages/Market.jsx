@@ -14,10 +14,12 @@ function Market() {
     const [category, setCategory] = useState("");
     const [location, setLocation] = useState("");
     const [crops, setCrops] = useState([]);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         setPage(1);
     }, [search, category, location]);
     useEffect(() => {
+        setLoading(true);
         axios
             .request({
                 method: "get",
@@ -35,6 +37,9 @@ function Market() {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }, [page, search, category, location]);
     return (
@@ -57,7 +62,7 @@ function Market() {
                 location={location}
                 setLocation={setLocation}
             />
-            <Products crops={crops} />
+            <Products crops={crops} loading={loading} />
             <CustomPagination
                 total={total}
                 pageSize={pageSize}

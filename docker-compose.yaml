@@ -1,7 +1,7 @@
 version: "3"
 services:
     prediction:
-        image: iddhi/smart-agriculture-system:prediction-jammy-2.0.0
+        image: iddhi/smart-agriculture-system:prediction-jammy-3.0.0
         stdin_open: true
         tty: true
         networks:
@@ -11,7 +11,7 @@ services:
         command: ["python", "main.py"]
 
     recommendation:
-        image: iddhi/smart-agriculture-system:recommendation-jammy-2.0.0
+        image: iddhi/smart-agriculture-system:recommendation-jammy-3.0.0
         ports:
             - "2000:2000"
         stdin_open: true
@@ -20,7 +20,7 @@ services:
             - models-driver
 
     frontend:
-        image: iddhi/smart-agriculture-system:frontend-jammy-2.0.0
+        image: iddhi/smart-agriculture-system:frontend-jammy-3.0.0
         ports:
             - "80:80"
         environment:
@@ -31,7 +31,7 @@ services:
         tty: true
 
     backend:
-        image: iddhi/smart-agriculture-system:backend-jammy-2.0.0
+        image: iddhi/smart-agriculture-system:backend-jammy-3.0.0
         ports:
             - "3000:3000"
         environment:

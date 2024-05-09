@@ -19,26 +19,17 @@ function ProductDetails() {
     const [percentage, setPercentage] = useState(0);
 
     useEffect(() => {
-        if (product) {
-            let percentageN;
-            if (product.category.predictedPrice === 0) {
-                if (product.category.weekPrice === 0) {
-                    // Handle the case where both actual and predicted prices are zero
-                    percentageN = 0;
-                } else {
-                    // Handle the case where the predicted price is zero but the actual price is not
-                    percentageN = 0; // or any other value you deem appropriate
-                }
-            } else {
-                percentageN = Math.abs(
-                    ((product.category.weekPrice -
-                        product.category.predictedPrice) /
-                        product.category.predictedPrice) *
-                        100
-                ).toFixed(0);
-            }
-            setPercentage(percentageN);
-        }
+        if (!product) return;
+        let percentageN = 0;
+        if (product.category.predictedPrice === 0) return;
+        if (product.category.weekPrice === 0) return;
+        percentageN = Math.abs(
+            ((product.category.weekPrice - product.category.predictedPrice) /
+                product.category.predictedPrice) *
+                100
+        ).toFixed(2);
+
+        setPercentage(percentageN);
     }, [product]);
 
     const handleChat = () => {
@@ -216,11 +207,8 @@ function ProductDetails() {
                             Buy now
                         </Button>
                     </Box>
-                    <Typography
-                        level="body-md"
-                        startDecorator="Price fluctuation: "
-                        endDecorator=" from last week"
-                    >
+                    <Typography level="body-md">
+                        Price Fluctuation:{" "}
                         <span
                             style={{
                                 color:
@@ -235,7 +223,8 @@ function ProductDetails() {
                             product?.category.predictedPrice
                                 ? "up"
                                 : "down"}
-                        </span>
+                        </span>{" "}
+                        since last week
                     </Typography>
                 </Grid>
             </Grid>

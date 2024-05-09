@@ -197,7 +197,12 @@ function NewCropModal({
                 }}
             >
                 <ModalClose />
-                <DialogTitle>Add new Crop</DialogTitle>
+                {selected ? (
+                    <DialogTitle>Edit Crop</DialogTitle>
+                ) : (
+                    <DialogTitle>Add new Crop</DialogTitle>
+                )}
+
                 <DialogContent>
                     Fill in the information for the crops.
                 </DialogContent>
@@ -379,9 +384,15 @@ function NewCropModal({
                             </FormControl>
                         </Grid>
                         <Grid xs={12}>
-                            <Button type="submit" sx={{ width: "100%" }}>
-                                Add Crop
-                            </Button>
+                            {selected ? (
+                                <Button type="submit" sx={{ width: "100%" }}>
+                                    Edit Crop
+                                </Button>
+                            ) : (
+                                <Button type="submit" sx={{ width: "100%" }}>
+                                    Add Crop
+                                </Button>
+                            )}
                         </Grid>
                     </Grid>
                 </form>

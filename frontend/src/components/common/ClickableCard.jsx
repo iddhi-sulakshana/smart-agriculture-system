@@ -30,6 +30,7 @@ function ClickableCard({
 }) {
     const navigate = useNavigate();
     const onClick = () => {
+        if (!id) return;
         navigate(`/product/${id}`);
     };
     return (
@@ -37,7 +38,7 @@ function ClickableCard({
             onClick={onClick}
             style={{ cursor: "pointer", transition: "transform 0.4s" }}
         >
-            <ApplyPriceBadge category={category}>
+            <ApplyPriceBadge category={category} price={price}>
                 <ApplyBadge badge={badge}>
                     <Card
                         orientation="vertical"
@@ -139,13 +140,6 @@ function ClickableCard({
 function ApplyBadge({ badge, children }) {
     if (badge) {
         return (
-            // <Badge
-            //     badgeContent={badge.name}
-            //     color={badge.color}
-            //     badgeInset="15%"
-            // >
-            //     {children}
-            // </Badge>
             <AntBadge.Ribbon text={badge.name} color={badge.color}>
                 {children}
             </AntBadge.Ribbon>
@@ -153,33 +147,32 @@ function ApplyBadge({ badge, children }) {
     }
     return <>{children}</>;
 }
-function ApplyPriceBadge({ category, children }) {
+function ApplyPriceBadge({ category, price, children }) {
     if (!category) return <>{children}</>;
     let badge = "up";
-    if (category.weekPrice > category.predictedPrice) badge = "down";
+    if (category.weekPrice > price) badge = "down";
     let percentage;
-    if (category.predictedPrice === 0) {
-        if (category.weekPrice === 0) {
-            // Handle the case where both actual and predicted prices are zero
-            percentage = 0;
-        } else {
-            // Handle the case where the predicted price is zero but the actual price is not
-            percentage = 0; // or any other value you deem appropriate
-        }
+    if (category.weekPrice === 0) {
+        percentage = 0;
     } else {
         percentage = Math.abs(
-            ((category.weekPrice - category.predictedPrice) /
-                category.predictedPrice) *
-                100
-        ).toFixed(0);
+            ((category.weekPrice - price) / price) * 100
+        ).toFixed(1);
+        if (percentage === "0.0") {
+            percentage = "0";
+            badge = "neutral";
+        }
     }
     const icon =
         badge === "up" ? (
             <ArrowUpwardRoundedIcon />
-        ) : (
+        ) : badge === "down" ? (
             <ArrowDownwardRoundedIcon />
+        ) : (
+            <></>
         );
-    const color = badge === "up" ? "success" : "danger";
+    const color =
+        badge === "up" ? "success" : badge === "down" ? "danger" : "neutral";
     return (
         <Badge
             badgeContent={

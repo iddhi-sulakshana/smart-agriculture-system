@@ -19,7 +19,11 @@ import Information from "./pages/Information";
 import Transportation from "./pages/Transportation";
 import Insights from "./pages/Insights";
 import Recommendation from "./pages/Recommendation";
+import About from "./pages/About";
 import { SocketProvider } from "./contexts/SocketContext";
+import TermsConditions from "./pages/TermsConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import HelpSupport from "./pages/HelpSupport";
 
 function App() {
     return (
@@ -60,6 +64,16 @@ function App() {
                             path="/recommendation"
                             element={<Recommendation />}
                         />
+                        <Route path="/about" element={<About />} />
+                        <Route
+                            path="/terms_conditions"
+                            element={<TermsConditions />}
+                        />
+                        <Route
+                            path="privacy_policy"
+                            element={<PrivacyPolicy />}
+                        />
+                        <Route path="/help_support" element={<HelpSupport />} />
                         <Route
                             path="/information/*"
                             element={<Information />}

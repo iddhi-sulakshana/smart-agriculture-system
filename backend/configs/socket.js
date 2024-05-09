@@ -6,8 +6,8 @@ import morgan from "morgan";
 import socketAuthentication from "../middlewares/socketAuthentication.js";
 import fs from "fs";
 const options = {
-    key: fs.readFileSync("./certs/privatekey.key"),
-    cert: fs.readFileSync("./certs/certificate.crt"),
+    key: fs.readFileSync("./certs/192.168.1.78+1-key.pem"),
+    cert: fs.readFileSync("./certs/192.168.1.78+1.pem"),
 };
 
 let io;

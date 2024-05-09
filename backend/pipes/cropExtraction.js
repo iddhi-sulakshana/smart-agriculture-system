@@ -25,6 +25,8 @@ export default function (id) {
                     name: "$user.name",
                     email: "$user.email",
                     role: "$user.role",
+                    avatar: "$user.avatar",
+                    password: null,
                 },
             },
         },
@@ -38,15 +40,6 @@ export default function (id) {
         },
         {
             $unwind: "$category",
-        },
-        {
-            $addFields: {
-                category: {
-                    _id: "$category._id",
-                    name: "$category.name",
-                    priceFluctuation: "$category.priceFluctuation",
-                },
-            },
         },
         {
             $lookup: {

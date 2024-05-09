@@ -17,7 +17,6 @@ import {
 // MUI icons
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
@@ -147,21 +146,25 @@ function CommonNavigation() {
                             <AccountCircleIcon />
                             Profile
                         </MenuItem>
-                        <MenuItem component={Link} to="/help">
+                        <MenuItem component={Link} to="/help_support">
                             <HelpRoundedIcon />
                             Help
                         </MenuItem>
-                        <MenuItem component={Link} to="/settings">
-                            <SettingsRoundedIcon />
-                            Settings
-                        </MenuItem>
                         <ListDivider />
-                        <MenuItem component="a" target="_" href="#">
-                            LINK 1
+                        <MenuItem
+                            component="a"
+                            target="_"
+                            href="http://www.statistics.gov.lk/DashBoard/Prices/"
+                        >
+                            Weekly Retail Prices
                             <OpenInNewRoundedIcon />
                         </MenuItem>
-                        <MenuItem component="a" target="_" href="#">
-                            LINK 2
+                        <MenuItem
+                            component="a"
+                            target="_"
+                            href="https://doa.gov.lk/"
+                        >
+                            Department of Agriculture
                             <OpenInNewRoundedIcon />
                         </MenuItem>
                         <ListDivider />

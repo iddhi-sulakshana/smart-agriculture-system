@@ -5,6 +5,7 @@ import {
     Typography,
     CardOverflow,
     CardContent,
+    Skeleton,
 } from "@mui/joy";
 import React from "react";
 import useGetNews from "../../hooks/useGetNews";
@@ -32,6 +33,21 @@ function News() {
                     height: "65dvh",
                 }}
             >
+                {
+                    // if news is empty, show skeleton
+                    news.length === 0 &&
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <NewsItem
+                                key={index}
+                                loading
+                                newsItem={{
+                                    title: null,
+                                    description: null,
+                                    date: null,
+                                }}
+                            />
+                        ))
+                }
                 {news.map((newsItem) => (
                     <NewsItem key={newsItem._id} newsItem={newsItem} />
                 ))}
@@ -60,19 +76,38 @@ function NewsItem({ newsItem: { title, description, date } }) {
                 })}
             >
                 <CardContent>
-                    <Typography
-                        level="title-lg"
-                        textAlign="center"
-                        color="primary"
-                    >
-                        {title}
-                    </Typography>
-                    <Typography level="body-md">{description}</Typography>
+                    {!title ? (
+                        <Typography level="body-md" textAlign="center">
+                            <Skeleton>Loading Title goes over here</Skeleton>
+                        </Typography>
+                    ) : (
+                        <Typography level="body-md" textAlign="center">
+                            {title}
+                        </Typography>
+                    )}
+                    {!description ? (
+                        <Typography level="body-md" textAlign="center">
+                            <Skeleton>
+                                Loading Description goes over here
+                            </Skeleton>
+                        </Typography>
+                    ) : (
+                        <Typography level="body-md">{description}</Typography>
+                    )}
                 </CardContent>
                 <CardOverflow>
-                    <Typography textAlign="right" color="neutral">
-                        {formatDate(date)}
-                    </Typography>
+                    {
+                        // if date is null, show skeleton
+                        date ? (
+                            <Typography level="body-md" textAlign="center">
+                                {formatDate(date)}
+                            </Typography>
+                        ) : (
+                            <Typography level="body-md" textAlign="center">
+                                <Skeleton>Loading Date goes over here</Skeleton>
+                            </Typography>
+                        )
+                    }
                 </CardOverflow>
             </Card>
         </Grid>
