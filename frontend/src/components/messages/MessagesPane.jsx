@@ -20,12 +20,17 @@ function MessagesPane({ selectedChat, setSelectedChat, setChats, chats }) {
 
     useEffect(() => {
         if (!isConnected) return;
+        if (!selectedChat) return;
         socket.on("new_message", (message) => {
+            console.log("emiting");
             if (message.chatId === selectedChat) {
                 setMessages([...messages, message]);
             }
         });
-    }, [selectedChat, isConnected, messages]);
+        return () => {
+            socket.off("new_message");
+        };
+    }, [selectedChat, isConnected, messages, socket, setMessages]);
 
     if (!selectedChat || error) {
         return (

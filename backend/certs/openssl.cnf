@@ -1,0 +1,24 @@
+[req]
+default_bits       = 2048
+distinguished_name = req_distinguished_name
+req_extensions     = req_ext
+x509_extensions    = v3_ca
+
+[req_distinguished_name]
+countryName                = LK
+countryName_default        = LK
+stateOrProvinceName        = NCP
+localityName               = Anuradhapura
+organizationName           = AgriVista
+organizationalUnitName     = Agriculture
+commonName                 = AgriVista
+
+[req_ext]
+subjectAltName = @alt_names
+
+[v3_ca]
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 192.168.1.78
+IP.1 = 127.0.0.1
