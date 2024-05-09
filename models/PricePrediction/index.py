@@ -51,5 +51,3 @@ def handler(event, context):
         'body': json.dumps(results)
     }
 
-handler("asd", "Asd")
-
