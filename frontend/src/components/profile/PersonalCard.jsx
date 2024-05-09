@@ -29,6 +29,7 @@ function PersonalCard({ role, setRole }) {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [avatar, setAvatar] = useState("");
+    const [updateLoading, setUpdateLoading] = useState(false);
     const { userDetails, loading, error } = useUserDetails();
 
     const { token } = UserContext();
@@ -52,6 +53,7 @@ function PersonalCard({ role, setRole }) {
             toast.error("Please enter a valid email");
             return;
         }
+        setUpdateLoading(true);
         axios
             .request({
                 method: "put",
@@ -71,6 +73,9 @@ function PersonalCard({ role, setRole }) {
             })
             .catch((err) => {
                 toast.error(err.response.data);
+            })
+            .finally(() => {
+                setUpdateLoading(false);
             });
     };
     return (
@@ -176,7 +181,12 @@ function PersonalCard({ role, setRole }) {
                 }}
             >
                 <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-                    <Button size="sm" variant="solid" onClick={handleUpdate}>
+                    <Button
+                        size="sm"
+                        variant="solid"
+                        onClick={handleUpdate}
+                        loading={updateLoading}
+                    >
                         Update
                     </Button>
                 </CardActions>

@@ -43,6 +43,8 @@ services:
             - PORT=3000
             - DB=${DB:-mongodb://admin:password@database:27017/agri_system}
             - RECOMMENDATION_URL=http://recommendation:2000
+            - EMAIL=testmail@gmail.com
+            - PASSWORD=testpassword
         depends_on:
             - database
         networks:
