@@ -5,7 +5,6 @@ export default async function (socket, next) {
     // get the token from the header
     let token = socket.handshake.auth["x-auth-token"];
     if (!token) token = socket.handshake.headers["x-auth-token"];
-    console.log(token);
     // if the token is not provided, return an error message
     if (!token) return next(new Error("Access denied. No token provided"));
     // verify the token
