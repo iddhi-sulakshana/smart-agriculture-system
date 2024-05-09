@@ -44,6 +44,18 @@ function ConversationList({ selectedChat, setSelectedChat, chats }) {
                     overflowY: "auto",
                 }}
             >
+                {chats && chats.length === 0 && (
+                    <Typography
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            mt: 2,
+                        }}
+                    >
+                        No chats
+                    </Typography>
+                )}
                 {chats &&
                     chats.map((chat) => (
                         <ConversationItem

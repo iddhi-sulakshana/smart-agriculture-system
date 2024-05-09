@@ -21,6 +21,7 @@ function SignInForm({ switchToSignup }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [checked, setChecked] = useState(true);
+    const [loading, setLoading] = useState(false);
     const { setToken } = UserContext();
     useEffect(() => {
         setFade(false);
@@ -37,6 +38,7 @@ function SignInForm({ switchToSignup }) {
             toast.error("Please enter a valid email address");
             return;
         }
+        setLoading(true);
         axios
             .request({
                 method: "POST",
@@ -67,6 +69,9 @@ function SignInForm({ switchToSignup }) {
                         ? error.response.data
                         : "An error occurred"
                 );
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }
 
@@ -172,7 +177,7 @@ function SignInForm({ switchToSignup }) {
                                     Forgot your password?
                                 </Link>
                             </Box>
-                            <Button type="submit" fullWidth>
+                            <Button type="submit" fullWidth loading={loading}>
                                 Sign in
                             </Button>
                         </Stack>

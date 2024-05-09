@@ -18,7 +18,7 @@ import {
 } from "@mui/joy";
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { Upload } from "antd";
+import { Skeleton, Upload } from "antd";
 
 import { toast } from "react-toastify";
 import useGetLocation from "../../hooks/useGetLocation";
@@ -56,6 +56,7 @@ function NewCropModal({
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const [previewUrl, setPreviewUrl] = useState();
     useEffect(() => {
@@ -113,7 +114,7 @@ function NewCropModal({
         if (description !== crop.description)
             formData.append("description", description);
         if (category !== crop.category) formData.append("category", category);
-
+        setLoading(true);
         axios
             .request({
                 method: "PUT",
@@ -130,6 +131,9 @@ function NewCropModal({
             })
             .catch((err) => {
                 toast.error(err.response.data || "An error occurred");
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
     const handleSubmit = (e) => {
@@ -154,7 +158,7 @@ function NewCropModal({
         formData.append("location", location);
         formData.append("description", description);
         formData.append("category", category);
-
+        setLoading(true);
         axios
             .request({
                 method: "POST",
@@ -171,6 +175,9 @@ function NewCropModal({
             })
             .catch((err) => {
                 toast.error(err.response.data || "An error occurred");
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
     const clearForm = () => {
@@ -217,6 +224,19 @@ function NewCropModal({
                                     showUploadList={false}
                                     beforeUpload={beforeUpload}
                                 >
+                                    {loading ? (
+                                        <Skeleton>
+                                            <AspectRatio
+                                                sx={{
+                                                    width: "100%",
+                                                    height: "100%",
+                                                }}
+                                                ratio={1}
+                                            >
+                                                <img alt="avatar" />
+                                            </AspectRatio>
+                                        </Skeleton>
+                                    ) : null}
                                     {previewUrl ? (
                                         <AspectRatio
                                             sx={{
@@ -257,7 +277,7 @@ function NewCropModal({
                                     name="title"
                                     autoFocus
                                     required
-                                    value={title}
+                                    value={loading ? "Loading..." : title}
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
                             </FormControl>
@@ -272,7 +292,7 @@ function NewCropModal({
                                     onChange={(e, newVal) => {
                                         setCategory(newVal);
                                     }}
-                                    value={category}
+                                    value={loading ? "Loading..." : category}
                                 >
                                     {categoryData ? (
                                         categoryData.map((cat) => (
@@ -294,7 +314,7 @@ function NewCropModal({
                                 <FormLabel>Description</FormLabel>
                                 <Input
                                     name="description"
-                                    value={description}
+                                    value={loading ? "Loading..." : description}
                                     onChange={(e) =>
                                         setDescription(e.target.value)
                                     }
@@ -307,7 +327,7 @@ function NewCropModal({
                                 <Input
                                     name="stock"
                                     type="number"
-                                    value={stock}
+                                    value={loading ? "Loading..." : stock}
                                     onChange={(e) => setStock(e.target.value)}
                                 />
                             </FormControl>
@@ -319,7 +339,7 @@ function NewCropModal({
                                     name="price"
                                     slotProps={{ input: { min: 0 } }}
                                     type="number"
-                                    value={price}
+                                    value={loading ? "Loading..." : price}
                                     onChange={(e) => {
                                         if (
                                             e.target.value &&
@@ -373,7 +393,7 @@ function NewCropModal({
                                     onChange={(e, newVal) => {
                                         setLocation(newVal);
                                     }}
-                                    value={location}
+                                    value={loading ? "Loading..." : location}
                                 >
                                     {locationData.map((loc) => (
                                         <Option key={loc._id} value={loc._id}>
@@ -385,11 +405,19 @@ function NewCropModal({
                         </Grid>
                         <Grid xs={12}>
                             {selected ? (
-                                <Button type="submit" sx={{ width: "100%" }}>
+                                <Button
+                                    type="submit"
+                                    sx={{ width: "100%" }}
+                                    loading={loading}
+                                >
                                     Edit Crop
                                 </Button>
                             ) : (
-                                <Button type="submit" sx={{ width: "100%" }}>
+                                <Button
+                                    type="submit"
+                                    sx={{ width: "100%" }}
+                                    loading={loading}
+                                >
                                     Add Crop
                                 </Button>
                             )}

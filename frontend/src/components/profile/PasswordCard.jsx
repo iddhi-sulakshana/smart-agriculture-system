@@ -22,6 +22,7 @@ function PasswordCard() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const { token } = UserContext();
 
@@ -43,6 +44,7 @@ function PasswordCard() {
             toast.error("Passwords do not match");
             return;
         }
+        setLoading(true);
         axios
             .request({
                 method: "PUT",
@@ -64,6 +66,9 @@ function PasswordCard() {
             })
             .catch((error) => {
                 toast.error(error.response.data || "An error occurred");
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
     return (
@@ -135,7 +140,12 @@ function PasswordCard() {
                 }}
             >
                 <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-                    <Button size="sm" variant="solid" onClick={handleUpdate}>
+                    <Button
+                        size="sm"
+                        variant="solid"
+                        onClick={handleUpdate}
+                        loading={loading}
+                    >
                         Update
                     </Button>
                 </CardActions>

@@ -20,6 +20,7 @@ function SignUpForm({ switchToSignin }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setFade(false);
@@ -36,6 +37,7 @@ function SignUpForm({ switchToSignin }) {
             toast.error("Please enter a valid email");
             return;
         }
+        setLoading(true);
         axios
             .request({
                 method: "POST",
@@ -63,6 +65,9 @@ function SignUpForm({ switchToSignin }) {
                         ? error.response.data
                         : "An error occurred"
                 );
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }
 
@@ -173,7 +178,7 @@ function SignUpForm({ switchToSignin }) {
                                     onChange={(e) => setRole("wholesaler")}
                                 />
                             </Box>
-                            <Button type="submit" fullWidth>
+                            <Button type="submit" fullWidth loading={loading}>
                                 Sign Up
                             </Button>
                         </Stack>
