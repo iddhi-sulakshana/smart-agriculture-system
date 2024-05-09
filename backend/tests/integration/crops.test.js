@@ -404,8 +404,6 @@ describe("Crop Routes Integration Tests", () => {
                 .field("location", locationId.toString())
                 .field("unit", "kg")
                 .attach("image", "tests/integration/product-1.test.jpg");
-
-            console.log(res);
             expect(res.status).toBe(200);
 
             // clean up
