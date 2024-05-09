@@ -4,6 +4,7 @@ import RecommendForm from "../components/recommendation/RecommendForm";
 import ResultModal from "../components/recommendation/ResultModal";
 import axios from "axios";
 import { getURL } from "../Utils/Url";
+import { toast } from "react-toastify";
 
 function Recommendation() {
     const [open, setOpen] = useState(false);
@@ -50,6 +51,41 @@ function Recommendation() {
 
     useEffect(() => {
         if (open) {
+            if (Nval <= 0) {
+                setOpen(false);
+                toast.error("Please enter N value");
+                return;
+            }
+            if (Pval <= 0) {
+                setOpen(false);
+                toast.error("Please enter P value");
+                return;
+            }
+            if (Kval <= 0) {
+                setOpen(false);
+                toast.error("Please enter K value");
+                return;
+            }
+            if (temperature <= 0) {
+                setOpen(false);
+                toast.error("Please enter temperature");
+                return;
+            }
+            if (humidity <= 0) {
+                setOpen(false);
+                toast.error("Please enter humidity");
+                return;
+            }
+            if (ph <= 0) {
+                setOpen(false);
+                toast.error("Please enter ph");
+                return;
+            }
+            if (rainfall <= 0) {
+                setOpen(false);
+                toast.error("Please enter rainfall");
+                return;
+            }
             setPrediction("");
             setError("");
             predictCrop()
