@@ -32,13 +32,7 @@ def handler(event, context):
             "previous": predict["previous"]
         }
 
-        headers = {
-            'ngrok-skip-browser-warning': 'ignore-warning',  # Custom header with any value
-            'User-Agent': 'MyCustomAgent/1.0'  # Custom/non-standard User-Agent
-        }
-
-
-        response = requests.patch(backend_url + "/api/categories/price_prediction", json=payload, headers=headers)
+        response = requests.patch(backend_url + "/api/categories/price_prediction", json=payload, verify=False)
         if response.status_code == 200:
             logging.info(f"Price prediction for {vegetable_name} is successful")
         else:
