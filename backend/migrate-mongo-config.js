@@ -1,7 +1,9 @@
 const config = {
     mongodb: {
         // TODO: Change (or review) the url to your MongoDB:
-        url: process.env.DB ? process.env.DB : "mongodb://127.0.0.1:27017",
+        url: process.env.DB
+            ? process.env.DB + "?authSource=admin"
+            : "mongodb://127.0.0.1:27017",
 
         // TODO: Change this to your database name:
         databaseName: process.env.NODE_ENV
