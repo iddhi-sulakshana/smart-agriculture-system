@@ -34,10 +34,6 @@ function CropClickableCard({
     const { token } = UserContext();
     const [updateLoading, setUpdateLoading] = useState(false);
     const navigate = useNavigate();
-    const onClick = () => {
-        if (!_id) return;
-        navigate(`/product/${_id}`);
-    };
     const deleteCrop = () => {
         setUpdateLoading(true);
 
@@ -83,10 +79,7 @@ function CropClickableCard({
             });
     };
     return (
-        <Grid
-            onClick={onClick}
-            style={{ cursor: "pointer", transition: "transform 0.4s" }}
-        >
+        <Grid style={{ cursor: "pointer", transition: "transform 0.4s" }}>
             <Card
                 orientation="vertical"
                 variant="outlined"
