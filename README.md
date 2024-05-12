@@ -91,7 +91,9 @@ Follow these steps to set up the Smart Agriculture System locally using codebase
     ```
     To run this backend should be up and running and once the predictions are completed all the forecasted prices will sent to the backend.
 
-## Hosting to the cloud
+## Hosting the system
+
+For detailed deployment instructions, see the [Deployment Guide](DEPLOY.md).
 
 ## Contributing
 
