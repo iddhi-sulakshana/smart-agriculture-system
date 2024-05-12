@@ -6,11 +6,6 @@ on:
         branches:
             - test
 
-permissions:
-    contents: read
-    pull-requests: write
-    releases: write
-
 jobs:
     create_release:
         name: Create Release (Example)
