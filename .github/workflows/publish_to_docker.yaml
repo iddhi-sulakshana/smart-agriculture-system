@@ -48,12 +48,7 @@ jobs:
                   docker-compose -f ./docker-compose.publish.yaml build
                   docker-compose -f ./docker-compose.publish.yaml push
 
-    create_release:
-        name: Create Release for Docker Image
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - name: Create GitHub Release
+            - name: Create Release for Docker Image
               uses: actions/create-release@v1
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,3 +56,5 @@ jobs:
                   tag_name: ${{ env.IMAGE_VERSION }}
                   release_name: Release ${{ env.IMAGE_VERSION }}
                   body: "Release of version ${{ env.IMAGE_VERSION }}"
+                  draft: false
+                  prerelease: false
