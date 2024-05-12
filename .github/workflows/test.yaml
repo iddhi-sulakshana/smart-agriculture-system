@@ -1,0 +1,24 @@
+name: Test Branch Workflow
+
+# Triggers the workflow on push events but only for the test branch
+on:
+    push:
+        branches:
+            - test
+
+jobs:
+    create_release:
+        name: Create Release (Example)
+        # needs: build_and_test  # Ensures this job runs after the build and test job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Create GitHub Release
+              uses: actions/create-release@v1
+              with:
+                  tag_name: jammy-3.0.7
+                  release_name: Release jammy-3.0.7
+                  body: Release of version jammy-3.0.7
+                  draft: false
+                  prerelease: false
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
