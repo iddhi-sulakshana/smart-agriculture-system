@@ -5,14 +5,17 @@ import Chat from "../models/chat.js";
 import morgan from "morgan";
 import socketAuthentication from "../middlewares/socketAuthentication.js";
 import fs from "fs";
-const options = {
-    key: fs.readFileSync("./certs/privkey.pem"),
-    cert: fs.readFileSync("./certs/fullchain.pem"),
-};
-
 let io;
 let onlineUsers = [];
 export default function (app) {
+    const options = {
+        key: fs.readFileSync("./certs/privkey.pem"),
+        cert: fs.readFileSync("./certs/fullchain.pem"),
+    };
+    if (process.env.NODE_ENV === "development") {
+        options.key = fs.readFileSync("./certs/192.168.1.78+1-key.pem");
+        options.cert = fs.readFileSync("./certs/192.168.1.78+1.pem");
+    }
     const createServer =
         process.env.NODE_ENV === "test" ? httpCreateServer : httpsCreateServer;
     const server = createServer(options, app);

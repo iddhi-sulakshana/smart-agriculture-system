@@ -59,9 +59,17 @@ function About() {
                 Meet Our Visionary Leader
             </Typography>
             <Grid container spacing={2} justifyContent="center">
-                <Grid xs={12} sm={4} md={3} textAlign="center">
+                <Grid
+                    xs={12}
+                    sm={4}
+                    md={3}
+                    textAlign="center"
+                    display="flex"
+                    flexDirection="column"
+                    alignItems={"center"}
+                >
                     <Avatar
-                        src="https://images.unsplash.com/photo-1506817604249-e6d4f9f26c08"
+                        src="/profile.jpg"
                         alt="Founder and Developer"
                         sx={{
                             width: 120,
@@ -70,60 +78,13 @@ function About() {
                             boxShadow: "md",
                         }}
                     />
-                    <Typography level="body2" mt={1}>
-                        [Your Name], Founder & Developer
+                    <Typography level="body-lg" mt={1}>
+                        Iddhi Dasanayaka, Founder & Developer
                     </Typography>
-                    <Typography level="body2" mt={1}>
-                        Dedicated to reshaping the agricultural landscape, [Your
-                        Name] combines extensive expertise in AI and ML with a
-                        passion for sustainable farming.
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Grid container spacing={2} justifyContent="center">
-                <Grid xs={12} sm={4} md={3} textAlign="center">
-                    <Avatar
-                        src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91"
-                        alt="Team Member 1"
-                        sx={{
-                            width: 100,
-                            height: 100,
-                            borderRadius: "50%",
-                            boxShadow: "sm",
-                        }}
-                    />
-                    <Typography level="body2" mt={1}>
-                        Jane Doe, Lead Developer
-                    </Typography>
-                </Grid>
-                <Grid xs={12} sm={4} md={3} textAlign="center">
-                    <Avatar
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330"
-                        alt="Team Member 2"
-                        sx={{
-                            width: 100,
-                            height: 100,
-                            borderRadius: "50%",
-                            boxShadow: "sm",
-                        }}
-                    />
-                    <Typography level="body2" mt={1}>
-                        John Smith, UI/UX Designer
-                    </Typography>
-                </Grid>
-                <Grid xs={12} sm={4} md={3} textAlign="center">
-                    <Avatar
-                        src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7"
-                        alt="Team Member 3"
-                        sx={{
-                            width: 100,
-                            height: 100,
-                            borderRadius: "50%",
-                            boxShadow: "sm",
-                        }}
-                    />
-                    <Typography level="body2" mt={1}>
-                        Alex Johnson, Project Manager
+                    <Typography level="body-sm" mt={1}>
+                        Dedicated to reshaping the agricultural landscape, Iddhi
+                        Dasanayaka combines extensive expertise in AI and ML
+                        with a passion for sustainable farming.
                     </Typography>
                 </Grid>
             </Grid>
