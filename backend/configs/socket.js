@@ -17,7 +17,11 @@ export default function (app) {
         options.cert = fs.readFileSync("./certs/192.168.1.78+1.pem");
     }
     const createServer =
-        process.env.NODE_ENV === "test" ? httpCreateServer : httpsCreateServer;
+        process.env.NODE_ENV === "test"
+            ? httpCreateServer
+            : process.env.NODE_ENV === "nosecure"
+            ? httpCreateServer
+            : httpsCreateServer;
     const server = createServer(options, app);
     io = new Server(server);
 
