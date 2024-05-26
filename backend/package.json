@@ -7,7 +7,7 @@
     "scripts": {
         "db:up": "migrate-mongo up",
         "dev": "nodemon index.js",
-        "start": "npm run db:up && npm run dev",
+        "start": "npm run db:up && node index.js",
         "test": "vitest run --coverage --coverage.all=false"
     },
     "keywords": [],
