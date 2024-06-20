@@ -1,10 +1,11 @@
 import PricePredictor
 import requests
 import logging
+import os
 
 logging.basicConfig(level=logging.INFO)
 
-backend_url = "https://localhost:3000"
+backend_url = os.getenv("BACKEND_URL", "http://localhost:5000")
 
 predictor = PricePredictor.PricePredictor()
 vegetables = predictor.getUniqueVegetables()
