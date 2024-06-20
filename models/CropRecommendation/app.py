@@ -9,6 +9,10 @@ model_path = "./finalized_model.sav"
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
+@app.route('/', methods=['GET'])
+def home():
+    return 'Health Check', 200
+
 @app.route('/predict', methods=['POST'])
 def predict():
     # check if the request body is json
