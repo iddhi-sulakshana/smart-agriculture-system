@@ -19,7 +19,8 @@ export default function (app) {
     const createServer =
         process.env.NODE_ENV === "test"
             ? httpCreateServer
-            : process.env.NODE_ENV === "nosecure"
+            : process.env.NODE_ENV === "nosecure" ||
+              process.env.NODE_ENV === "development"
             ? httpCreateServer
             : httpsCreateServer;
     const server = createServer(options, app);

@@ -7,6 +7,7 @@ import { getRootURL, getURL } from "../Utils/Url";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import CheckoutModal from "../components/payment/CheckoutModal";
 
 function ProductDetails() {
     const { id } = useParams();
@@ -17,6 +18,12 @@ function ProductDetails() {
 
     const [loading, setLoading] = useState(false);
     const [percentage, setPercentage] = useState(0);
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (open) setLoading(true);
+        else setLoading(false);
+    }, [open]);
 
     useEffect(() => {
         if (!product) return;
@@ -31,6 +38,38 @@ function ProductDetails() {
 
         setPercentage(percentageN);
     }, [product]);
+
+    const handleBuy = () => {
+        setLoading(true);
+        // validate the order is valid one
+        axios
+            .request({
+                method: "POST",
+                headers: {
+                    "x-auth-token": token,
+                },
+                url: getURL("payment/validate"),
+                data: {
+                    crop: product._id,
+                    receiver: product.user._id,
+                },
+            })
+            .then(() => {
+                setOpen(true);
+                // Open the order checkout modal
+                // in
+                // From the modal user can select the quantity and proceed to checkout
+            })
+            .catch((error) => {
+                toast.error(
+                    error.response.data
+                        ? error.response.data
+                        : "An error occurred"
+                );
+
+                setLoading(false);
+            });
+    };
 
     const handleChat = () => {
         setLoading(true);
@@ -203,9 +242,24 @@ function ProductDetails() {
                                 Login to Chat
                             </Button>
                         )}
-                        <Button variant="solid" disabled>
-                            Buy now
-                        </Button>
+                        {token ? (
+                            <Button
+                                variant="solid"
+                                onClick={handleBuy}
+                                loading={loading}
+                            >
+                                Buy now
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="solid"
+                                onClick={() => {
+                                    navigate("/signin");
+                                }}
+                            >
+                                Login to Buy
+                            </Button>
+                        )}
                     </Box>
                     <Typography level="body-md">
                         Price Fluctuation:{" "}
@@ -228,6 +282,12 @@ function ProductDetails() {
                     </Typography>
                 </Grid>
             </Grid>
+            <CheckoutModal
+                open={open}
+                setOpen={setOpen}
+                cropId={product?._id}
+                product={product}
+            />
         </Box>
     );
 }

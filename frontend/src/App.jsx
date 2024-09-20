@@ -24,6 +24,7 @@ import { SocketProvider } from "./contexts/SocketContext";
 import TermsConditions from "./pages/TermsConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import HelpSupport from "./pages/HelpSupport";
+import Checkout from "./pages/Checkout";
 
 function App() {
     return (
@@ -82,6 +83,7 @@ function App() {
                             path="/product/:id"
                             element={<ProductDetails />}
                         />
+                        <Route path="/checkout" element={<Checkout />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Layout.Main>
