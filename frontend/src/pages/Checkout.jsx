@@ -25,15 +25,16 @@ const Checkout = () => {
     const style = "outlined";
     const navigate = useNavigate();
     const { state } = useLocation();
-    console.log(state);
     if (state !== undefined && state !== null) {
         var { product, quantity, subtotal } = state;
     }
+    const fee = (subtotal * 0.05).toFixed(2);
+    const total = (parseFloat(subtotal) + parseFloat(fee)).toFixed(2);
     const [checked, setChecked] = React.useState(true);
     const [name, setName] = React.useState("");
     const [phone, setPhone] = React.useState("");
     const [address, setAddress] = React.useState("");
-    const [paymentMethod, setPaymentMethod] = React.useState("");
+    const [paymentMethod, setPaymentMethod] = React.useState("paypal");
 
     const { userDetails, loading, error } = useUserDetails();
 
@@ -69,11 +70,17 @@ const Checkout = () => {
             return toast.error("Please fill all the details");
         }
 
-        if (paymentMethod === "bank") {
-            navigate("/payment?method=bank");
-        } else {
-            navigate("/payment?method=paypal");
-        }
+        navigate("/payment", {
+            state: {
+                product: product,
+                quantity: quantity,
+                total: total,
+                name: name,
+                phone: phone,
+                address: address,
+                paymentMethod: paymentMethod,
+            },
+        });
     };
 
     return (
@@ -330,8 +337,11 @@ const Checkout = () => {
                                     <Typography level="title-md">
                                         Subtotal
                                     </Typography>
-                                    <Typography level="title-md">
-                                        Rs. {subtotal}
+                                    <Typography
+                                        level="title-md"
+                                        startDecorator="Rs. "
+                                    >
+                                        {subtotal}
                                     </Typography>
                                 </Box>
                                 <Box
@@ -348,6 +358,23 @@ const Checkout = () => {
                                         Free
                                     </Typography>
                                 </Box>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        gap: 2,
+                                    }}
+                                >
+                                    <Typography level="title-md">
+                                        Service Fee
+                                    </Typography>
+                                    <Typography
+                                        level="title-md"
+                                        startDecorator="Rs. "
+                                    >
+                                        {fee}
+                                    </Typography>
+                                </Box>
                                 <Divider />
                                 <Box
                                     sx={{
@@ -357,8 +384,11 @@ const Checkout = () => {
                                     }}
                                 >
                                     <Typography level="h4">Total</Typography>
-                                    <Typography level="h4">
-                                        Rs. {subtotal}
+                                    <Typography
+                                        level="h4"
+                                        startDecorator="Rs. "
+                                    >
+                                        {total}
                                     </Typography>
                                 </Box>
                                 <Button

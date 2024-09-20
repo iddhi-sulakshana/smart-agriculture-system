@@ -40,6 +40,11 @@ export default function () {
         ? process.env.PASSWORD
         : "testpassword";
 
+    // Setting a default value for the PAYPAL_CLIENT_ID environment if not specified
+    process.env.PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID
+        ? process.env.PAYPAL_CLIENT_ID
+        : "sb";
+
     // / Logging information if running in the development environment
     if (process.env.NODE_ENV === "development") {
         console.log("\n🚧 Node running as Development Environment 🚧\n");

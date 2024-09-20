@@ -25,6 +25,7 @@ import TermsConditions from "./pages/TermsConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import HelpSupport from "./pages/HelpSupport";
 import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment";
 
 function App() {
     return (
@@ -42,14 +43,6 @@ function App() {
                         <Route path="/market" element={<Market />} />
                         <Route
                             path="/messages/"
-                            element={
-                                <SocketProvider>
-                                    <Chat />
-                                </SocketProvider>
-                            }
-                        />
-                        <Route
-                            path="/messages/:id"
                             element={
                                 <SocketProvider>
                                     <Chat />
@@ -75,6 +68,8 @@ function App() {
                             element={<PrivacyPolicy />}
                         />
                         <Route path="/help_support" element={<HelpSupport />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/payment" element={<Payment />} />
                         <Route
                             path="/information/*"
                             element={<Information />}
@@ -83,7 +78,14 @@ function App() {
                             path="/product/:id"
                             element={<ProductDetails />}
                         />
-                        <Route path="/checkout" element={<Checkout />} />
+                        <Route
+                            path="/messages/:id"
+                            element={
+                                <SocketProvider>
+                                    <Chat />
+                                </SocketProvider>
+                            }
+                        />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Layout.Main>
