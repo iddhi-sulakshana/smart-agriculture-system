@@ -3,11 +3,11 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Box, Typography } from "@mui/joy";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { toast } from "react-toastify";
+import { getPaypalClientId } from "../../Utils/Url";
 
 const PaypalComponent = ({ total, isPaid, setIsPaid, orderId, setOrderId }) => {
     const initialOptions = {
-        clientId:
-            "AdPGJlh3vZUG3ld-jfyqd0ZPmw3_AG7t8AHjgiKvjZAsxrhXWjhTdURWG3SUTH53WwYuDI8oKkfY0hFi",
+        clientId: getPaypalClientId(),
         "enable-funding": "",
         "disable-funding": "",
         "buyer-country": "US",
