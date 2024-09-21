@@ -9,6 +9,26 @@ import { io } from "../configs/socket.js";
 
 const router = Router();
 
+// get order details
+router.get("/order/:id", async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(400).send("Invalid Order id");
+
+    const order = await Order.findById(req.params.id);
+
+    if (!order)
+        return res
+            .status(404)
+            .send("The order with the given ID was not found.");
+
+    const crop = await Crop.findById(order.cropId).populate("title image");
+    const newOrder = {
+        crop: crop,
+        ...order._doc,
+    };
+    res.send(newOrder);
+});
+
 // create a new order
 router.post("/order", authentication, async (req, res) => {
     const {

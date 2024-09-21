@@ -77,6 +77,18 @@ function ConversationItem({ selectedChat, setSelectedChat, chat }) {
                                                 sent a product
                                             </Typography>
                                         </React.Fragment>
+                                    ) : chat?.lastMessage?.isOrder ? (
+                                        <React.Fragment>
+                                            <Typography
+                                                component="span"
+                                                level="body-xs"
+                                                sx={{
+                                                    display: "inline",
+                                                }}
+                                            >
+                                                sent an order
+                                            </Typography>
+                                        </React.Fragment>
                                     ) : (
                                         <React.Fragment>
                                             <Typography

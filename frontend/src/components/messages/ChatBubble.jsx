@@ -3,10 +3,22 @@ import React from "react";
 import { DisplayRelativeTime } from "../../Utils/DateTime";
 import ClickableCard from "../common/ClickableCard";
 import useGetCropViewDetails from "../../hooks/useGetCropViewDetails";
+import useGetOrderViewDetails from "../../hooks/useGetOrderViewDetails";
+import OrderCard from "../common/OrderCard";
 
-function ChatBubble({ message, variant, timestamp, sender, isProduct }) {
+function ChatBubble({
+    message,
+    variant,
+    timestamp,
+    sender,
+    isProduct,
+    isOrder,
+}) {
     let crop;
+    let order;
     if (isProduct) crop = useGetCropViewDetails(message);
+    else if (isOrder) order = useGetOrderViewDetails(message);
+    console.log(order);
     const isSent = variant === "sent";
     return (
         <Box sx={{ maxWidth: "60%" }}>
@@ -46,6 +58,19 @@ function ChatBubble({ message, variant, timestamp, sender, isProduct }) {
                             location={crop?.location}
                             loading={!crop}
                             image={crop?.image}
+                        />
+                    ) : isOrder ? (
+                        <OrderCard
+                            title={order?.crop?.title}
+                            isPaid={order?.isPaid}
+                            method={order?.method}
+                            paymentId={order?.paymentId}
+                            quantity={order?.quantity}
+                            shippingDetails={order?.shippingDetails}
+                            total={order?.total}
+                            unit={order?.crop?.unit}
+                            image={order?.crop?.image}
+                            loading={!order}
                         />
                     ) : (
                         <Typography

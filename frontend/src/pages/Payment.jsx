@@ -58,7 +58,7 @@ const Payment = () => {
                         "Order message sent successfully to the seller, redirecting..."
                     );
                     setTimeout(() => {
-                        // navigate("/messages");
+                        navigate("/messages");
                     }, 1000);
                 })
                 .catch((error) => {
