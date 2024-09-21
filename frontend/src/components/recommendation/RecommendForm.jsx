@@ -46,6 +46,7 @@ function RecommendForm({
                     <FormLabel>
                         Nitrogen
                         <Tooltip
+                            tabIndex="-1"
                             color="primary"
                             title="Ratio of Nitrogen content in soil."
                         >
@@ -66,6 +67,7 @@ function RecommendForm({
                     <FormLabel>
                         Phosphorus
                         <Tooltip
+                            tabIndex="-1"
                             color="primary"
                             title="Ratio of Phosphorus content in soil."
                         >
@@ -86,6 +88,7 @@ function RecommendForm({
                     <FormLabel>
                         Potassium
                         <Tooltip
+                            tabIndex="-1"
                             color="primary"
                             title="Ratio of Potassium content in soil."
                         >
@@ -106,6 +109,7 @@ function RecommendForm({
                     <FormLabel>
                         Temperature
                         <Tooltip
+                            tabIndex="-1"
                             color="primary"
                             title="temperature in degree Celsius"
                         >
@@ -125,7 +129,11 @@ function RecommendForm({
                 <FormControl>
                     <FormLabel>
                         Humidity
-                        <Tooltip color="primary" title="relative humidity in %">
+                        <Tooltip
+                            tabIndex="-1"
+                            color="primary"
+                            title="relative humidity in %"
+                        >
                             <Button variant="text">?</Button>
                         </Tooltip>
                     </FormLabel>
@@ -142,7 +150,11 @@ function RecommendForm({
                 <FormControl>
                     <FormLabel>
                         pH
-                        <Tooltip color="primary" title="pH value of the soil">
+                        <Tooltip
+                            tabIndex="-1"
+                            color="primary"
+                            title="pH value of the soil"
+                        >
                             <Button variant="text">?</Button>
                         </Tooltip>
                     </FormLabel>
@@ -158,7 +170,11 @@ function RecommendForm({
                 <FormControl>
                     <FormLabel>
                         Rainfall
-                        <Tooltip color="primary" title="Rainfall in mm">
+                        <Tooltip
+                            tabIndex="-1"
+                            color="primary"
+                            title="Rainfall in mm"
+                        >
                             <Button variant="text">?</Button>
                         </Tooltip>
                     </FormLabel>

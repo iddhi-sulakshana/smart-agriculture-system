@@ -23,7 +23,7 @@ const server = socketConfig(app);
 // run the server application
 server.listen(process.env.PORT || 3000, () => {
     logger.info(
-        `Server listening on: https://localhost:${process.env.PORT || 3000}`
+        `Server listening on: http://localhost:${process.env.PORT || 3000}`
     );
 });
 

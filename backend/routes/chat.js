@@ -14,7 +14,7 @@ router.get("/", authentication, async (req, res) => {
         participants: { $in: [req.user._id] },
     })
         .populate("participants", "name avatar")
-        .populate("lastMessage", "message timestamp isProduct");
+        .populate("lastMessage", "message timestamp isProduct isOrder");
     let newChats = [];
     // remove current user from participants
     chats.forEach((chat) => {
@@ -125,7 +125,7 @@ router.post("/", authentication, async (req, res) => {
 
     chat = await Chat.findOne({ _id: chat._id })
         .populate("participants", "name avatar")
-        .populate("lastMessage", "message timestamp isProduct");
+        .populate("lastMessage", "message timestamp isProduct isOrder");
     // remove receiver from participants
     chat.participants = chat.participants.filter(
         (participant) =>
@@ -182,7 +182,7 @@ router.patch("/:id", authentication, async (req, res) => {
 
     chat = await Chat.findOne({ _id: chat._id })
         .populate("participants", "name avatar")
-        .populate("lastMessage", "message timestamp isProduct");
+        .populate("lastMessage", "message timestamp isProduct isOrder");
     // remove receiver from participants
     chat.participants = chat.participants.filter(
         (participant) => participant._id.toString() === req.user._id.toString()

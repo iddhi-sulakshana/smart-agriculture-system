@@ -25,6 +25,10 @@ const messageSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    isOrder: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const Message = model("Message", messageSchema);
@@ -36,6 +40,7 @@ const schema = new Joi.object({
     message: Joi.string().required(),
     timestamp: Joi.date(),
     isProduct: Joi.boolean(),
+    isOrder: Joi.boolean(),
 });
 // function for validating the schema
 function validate(message) {
