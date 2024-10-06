@@ -5,17 +5,14 @@ import mongoose from "mongoose";
 
 export default function () {
     // Configure logging for the development environment
-    if (process.env.NODE_ENV === "development") {
-        winston.add(
-            // Add a console transport for logging in development
-            new winston.transports.Console({
-                format: winston.format.printf(
-                    (log) =>
-                        `[${log.level.toLocaleUpperCase()}] : ${log.message}`
-                ),
-            })
-        );
-    }
+    winston.add(
+        // Add a console transport for logging in development
+        new winston.transports.Console({
+            format: winston.format.printf(
+                (log) => `[${log.level.toLocaleUpperCase()}] : ${log.message}`
+            ),
+        })
+    );
 
     // Configure logging for the production environment
     if (process.env.NODE_ENV === "production") {
