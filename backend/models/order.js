@@ -35,6 +35,18 @@ const orderSchema = new Schema({
             type: String,
             required: true,
         },
+        email: {
+            type: String,
+            required: true,
+        },
+        city: {
+            type: String,
+            required: true,
+        },
+        postal: {
+            type: String,
+            required: true,
+        },
     },
     quantity: {
         type: Number,
@@ -47,11 +59,18 @@ const orderSchema = new Schema({
     method: {
         type: String,
         required: true,
-        enum: ["paypal", "bank"],
+        enum: ["paypal", "bank", "payhere"],
     },
     isPaid: {
         type: Boolean,
         default: false,
+    },
+    status: {
+        type: String,
+        default: "pending",
+    },
+    hash: {
+        type: String,
     },
 });
 

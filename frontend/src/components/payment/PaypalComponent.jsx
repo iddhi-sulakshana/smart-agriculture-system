@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Box, Typography } from "@mui/joy";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { toast } from "react-toastify";
-import { getPaypalClientId } from "../../Utils/Url";
+import { getPaypalClientId, getURL } from "../../Utils/Url";
+import axios from "axios";
+import UserContext from "../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
-const PaypalComponent = ({ total, isPaid, setIsPaid, orderId, setOrderId }) => {
+const PaypalComponent = ({
+    total,
+    name,
+    product,
+    address,
+    phone,
+    quantity,
+    paymentMethod,
+    email,
+    city,
+    postal,
+}) => {
+    const navigate = useNavigate();
+
+    const [isPaid, setIsPaid] = useState(false);
+    const [orderId, setOrderId] = useState(null);
+
+    const { token } = UserContext();
     const initialOptions = {
         clientId: getPaypalClientId(),
         "enable-funding": "",
@@ -16,6 +36,51 @@ const PaypalComponent = ({ total, isPaid, setIsPaid, orderId, setOrderId }) => {
         components: "buttons",
         "data-sdk-integration-source": "developer-studio",
     };
+
+    useEffect(() => {
+        if (isPaid) {
+            toast.success("Payment successful, processing...");
+            // Create order message
+            axios
+                .request({
+                    method: "POST",
+                    url: getURL("payment/order"),
+                    headers: {
+                        "x-auth-token": token,
+                    },
+                    data: {
+                        paymentId: orderId,
+                        cropId: product._id,
+                        seller: product.user._id,
+                        shippingDetails: {
+                            address: address,
+                            phone: phone,
+                            name: name,
+                            email: email,
+                            city: city,
+                            postal: postal,
+                        },
+                        quantity: quantity,
+                        total: total,
+                        method: paymentMethod,
+                        isPaid: isPaid,
+                    },
+                })
+                .then((response) => {
+                    toast.success(
+                        "Order message sent successfully to the seller, redirecting..."
+                    );
+                    setTimeout(() => {
+                        navigate("/messages");
+                    }, 1000);
+                })
+                .catch((error) => {
+                    toast.error(
+                        "Payment Suceess but order creation failed please contact us immediately"
+                    );
+                });
+        }
+    }, [isPaid]);
 
     return (
         <Box

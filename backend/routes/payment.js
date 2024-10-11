@@ -6,6 +6,7 @@ import { Order } from "../models/order.js";
 import Chat from "../models/chat.js";
 import { Message } from "../models/message.js";
 import { io } from "../configs/socket.js";
+import crypto from "crypto";
 
 const router = Router();
 
@@ -52,6 +53,7 @@ router.post("/order", authentication, async (req, res) => {
         method,
         isPaid,
         seller,
+        status: "Paid",
     });
 
     try {
@@ -152,6 +154,85 @@ router.post("/validate", authentication, async (req, res) => {
     if (crop.isSold) return res.status(400).send("This crop is already sold");
 
     res.send("Valid order");
+});
+
+//  --- Payhere ---
+router.post("/start", authentication, async (req, res) => {
+    const {
+        paymentId,
+        cropId,
+        seller,
+        shippingDetails,
+        quantity,
+        total,
+        method,
+    } = req.body;
+
+    const order = new Order({
+        paymentId,
+        cropId,
+        buyer: req.user._id,
+        shippingDetails,
+        quantity,
+        total,
+        method,
+        isPaid: false,
+        seller,
+        status: "Pending",
+    });
+
+    try {
+        const hash = crypto
+            .createHash("md5")
+            .update(
+                process.env.PAYHERE_MERCHANT_ID +
+                    Number(total).toFixed(2) +
+                    order._id +
+                    "LKR" +
+                    crypto
+                        .createHash("md5")
+                        .update(process.env.PAYHERE_SECRET)
+                        .digest("hex")
+                        .toUpperCase()
+            )
+            .digest("hex")
+            .toUpperCase();
+        order.hash = hash;
+
+        const savedOrder = await order.save();
+
+        res.send({
+            hash,
+            merchant_id: process.env.PAYHERE_MERCHANT_ID,
+            order_id: savedOrder._id,
+        });
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+router.delete("/delete/:id", authentication, async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(400).send("Invalid Order id");
+
+    const order = await Order.findById(req.params.id);
+
+    if (!order)
+        return res
+            .status(404)
+            .send("The order with the given ID was not found.");
+
+    if (order.buyer.toString() !== req.user._id.toString())
+        return res.status(403).send("You are not allowed to delete this order");
+
+    try {
+        await order.deleteOne();
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error.message);
+    }
+
+    res.send("Order deleted successfully");
 });
 
 export default router;

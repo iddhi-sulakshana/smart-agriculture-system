@@ -45,6 +45,16 @@ export default function () {
         ? process.env.PAYPAL_CLIENT_ID
         : "sb";
 
+    // Setting a default value for the PAYHERE_MERCHANT_ID environment if not specified
+    process.env.PAYHERE_MERCHANT_ID = process.env.PAYHERE_MERCHANT_ID
+        ? process.env.PAYHERE_MERCHANT_ID
+        : "test";
+
+    // Setting a default value for the PAYHERE_SECRET environment if not specified
+    process.env.PAYHERE_SECRET = process.env.PAYHERE_SECRET
+        ? process.env.PAYHERE_SECRET
+        : "test";
+
     // / Logging information if running in the development environment
     if (process.env.NODE_ENV === "development") {
         console.log("\n🚧 Node running as Development Environment 🚧\n");

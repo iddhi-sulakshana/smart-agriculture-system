@@ -10,64 +10,27 @@ import {
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PaypalComponent from "../components/payment/PaypalComponent";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { getURL } from "../Utils/Url";
-import UserContext from "../contexts/UserContext";
+import PayhereButton from "../components/payment/PayhereButton";
 
 const Payment = () => {
     const { state } = useLocation();
-    const { token } = UserContext();
 
-    const [isPaid, setIsPaid] = useState(false);
-    const [orderId, setOrderId] = useState(null);
     const navigate = useNavigate();
     if (state !== undefined && state !== null) {
-        var { product, address, name, paymentMethod, phone, quantity, total } =
-            state;
+        var {
+            product,
+            address,
+            name,
+            paymentMethod,
+            phone,
+            quantity,
+            total,
+            email,
+            city,
+            postal,
+        } = state;
     }
 
-    useEffect(() => {
-        if (isPaid) {
-            toast.success("Payment successful, processing...");
-            // Create order message
-            axios
-                .request({
-                    method: "POST",
-                    url: getURL("payment/order"),
-                    headers: {
-                        "x-auth-token": token,
-                    },
-                    data: {
-                        paymentId: orderId,
-                        cropId: product._id,
-                        seller: product.user._id,
-                        shippingDetails: {
-                            address: address,
-                            phone: phone,
-                            name: name,
-                        },
-                        quantity: quantity,
-                        total: total,
-                        method: paymentMethod,
-                        isPaid: isPaid,
-                    },
-                })
-                .then((response) => {
-                    toast.success(
-                        "Order message sent successfully to the seller, redirecting..."
-                    );
-                    setTimeout(() => {
-                        navigate("/messages");
-                    }, 1000);
-                })
-                .catch((error) => {
-                    toast.error(
-                        "Payment Suceess but order creation failed please contact us immediately"
-                    );
-                });
-        }
-    }, [isPaid]);
     useEffect(() => {
         if (state === undefined || state === null) {
             navigate("/market");
@@ -200,6 +163,22 @@ const Payment = () => {
                                         level="title-md"
                                         endDecorator=" "
                                     >
+                                        Email:
+                                    </Typography>
+                                    <Typography level="body-md">
+                                        {email}
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "flex-start",
+                                    }}
+                                >
+                                    <Typography
+                                        level="title-md"
+                                        endDecorator=" "
+                                    >
                                         Phone:
                                     </Typography>
                                     <Typography level="body-md">
@@ -222,16 +201,64 @@ const Payment = () => {
                                         {address}
                                     </Typography>
                                 </Box>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "flex-start",
+                                    }}
+                                >
+                                    <Typography
+                                        level="title-md"
+                                        endDecorator=" "
+                                    >
+                                        City:
+                                    </Typography>
+                                    <Typography level="body-md">
+                                        {city}
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "flex-start",
+                                    }}
+                                >
+                                    <Typography
+                                        level="title-md"
+                                        endDecorator=" "
+                                    >
+                                        Postal Code:
+                                    </Typography>
+                                    <Typography level="body-md">
+                                        {postal}
+                                    </Typography>
+                                </Box>
                                 <Divider sx={{ my: 1 }} />
                                 {paymentMethod === "paypal" ? (
                                     <PaypalComponent
                                         product={product}
                                         total={total}
                                         name={name}
-                                        isPaid={isPaid}
-                                        setIsPaid={setIsPaid}
-                                        orderId={orderId}
-                                        setOrderId={setOrderId}
+                                        phone={phone}
+                                        address={address}
+                                        quantity={quantity}
+                                        paymentMethod={paymentMethod}
+                                        email={email}
+                                        city={city}
+                                        postal={postal}
+                                    />
+                                ) : paymentMethod === "payhere" ? (
+                                    <PayhereButton
+                                        name={name}
+                                        email={email}
+                                        phone={phone}
+                                        total={total}
+                                        product={product}
+                                        address={address}
+                                        city={city}
+                                        postal={postal}
+                                        quantity={quantity}
+                                        paymentMethod={paymentMethod}
                                     />
                                 ) : (
                                     <Typography level="body-md">

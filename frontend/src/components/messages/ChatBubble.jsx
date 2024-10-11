@@ -18,7 +18,6 @@ function ChatBubble({
     let order;
     if (isProduct) crop = useGetCropViewDetails(message);
     else if (isOrder) order = useGetOrderViewDetails(message);
-    console.log(order);
     const isSent = variant === "sent";
     return (
         <Box sx={{ maxWidth: "60%" }}>
