@@ -1,78 +1,119 @@
-version: "3"
 services:
-    prediction:
-        build: ./models/PricePrediction
-        image: iddhi/smart-agriculture-system:prediction
-        stdin_open: true
-        tty: true
-        networks:
-            - models-driver
-        depends_on:
-            - backend
-        command: ["python", "main.py"]
+  prediction:
+    build:
+      context: ./models/PricePrediction
+      dockerfile: Dockerfile
+    image: iddhi/smart-agriculture-system:prediction
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./models/PricePrediction:/app
+      - /app/__pycache__
+    environment:
+      - BACKEND_URL=http://backend:3000
+      - WATCHDOG_ENABLED=true
+    networks:
+      - models-driver
+    depends_on:
+      - backend
+    # Add watchdog to monitor for file changes
+    # Using watchmedo from the watchdog package
+    command: >
+      sh -c "pip install watchdog &&
+             watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- python main.py"
 
-    recommendation:
-        build: ./models/CropRecommendation
-        image: iddhi/smart-agriculture-system:recommendation
-        ports:
-            - "2000:2000"
-        stdin_open: true
-        tty: true
-        networks:
-            - models-driver
+  recommendation:
+    build:
+      context: ./models/CropRecommendation
+      dockerfile: Dockerfile
+    image: iddhi/smart-agriculture-system:recommendation
+    ports:
+      - "2000:2000"
+    volumes:
+      - ./models/CropRecommendation:/app
+      - /app/__pycache__
+    command:
+      [
+        "python",
+        "-m",
+        "flask",
+        "run",
+        "--host=0.0.0.0",
+        "--port=2000",
+        "--debug",
+      ]
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    stdin_open: true
+    tty: true
+    networks:
+      - models-driver
 
-    frontend:
-        build: ./frontend
-        image: iddhi/smart-agriculture-system:frontend
-        ports:
-            - "80:80"
-        environment:
-            - PORT=80
-            - VITE_PORT=http://localhost:3000
-        stdin_open: true
-        tty: true
-        networks:
-            - web-gateway
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: iddhi/smart-agriculture-system:frontend
+    ports:
+      - "80:80"
+    environment:
+      - PORT=80
+      - VITE_PORT=http://localhost:3000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run start
+    stdin_open: true
+    tty: true
+    networks:
+      - web-gateway
 
-    backend:
-        build: ./backend
-        image: iddhi/smart-agriculture-system:backend
-        ports:
-            - "3000:3000"
-        environment:
-            - PORT=3000
-            - DB=${DB:-mongodb://admin:password@database:27017/agri_system}
-            - RECOMMENDATION_URL=http://recommendation:2000
-            - EMAIL=testmail@gmail.com
-            - PASSWORD=testpassword
-        depends_on:
-            - database
-        networks:
-            - database-driver
-            - models-driver
-            - web-gateway
-        stdin_open: true
-        tty: true
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: iddhi/smart-agriculture-system:backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB=${DB:-mongodb://admin:password@database:27017/agri_system}
+      - RECOMMENDATION_URL=http://recommendation:2000
+      - EMAIL=testmail@gmail.com
+      - PASSWORD=testpassword
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    command: bun run dev
+    depends_on:
+      - database
+    networks:
+      - database-driver
+      - models-driver
+      - web-gateway
+    stdin_open: true
+    tty: true
 
-    database:
-        image: mongo:6.0.15-rc0-jammy
-        ports:
-            - "27017:27017"
-        networks:
-            - database-driver
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=admin
-            - MONGO_INITDB_ROOT_PASSWORD=password
-        volumes:
-            - database-data:/data/db
+  database:
+    image: mongo:6.0.15-rc0-jammy
+    ports:
+      - "27017:27017"
+    networks:
+      - database-driver
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - database-data:/data/db
 
 volumes:
-    database-data:
+  database-data:
 
 networks:
-    database-driver:
-        driver: bridge
-    models-driver:
-        driver: bridge
-    web-gateway:
-        driver: bridge
+  database-driver:
+    driver: bridge
+  models-driver:
+    driver: bridge
+  web-gateway:
+    driver: bridge
