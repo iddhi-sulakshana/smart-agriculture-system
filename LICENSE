@@ -1,0 +1,92 @@
+MIT License
+
+Copyright (c) 2024 Smart Agriculture System - Hacktoberfest 2025
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Additional Terms for Hacktoberfest 2025
+
+This project is participating in Hacktoberfest 2025. By contributing to this project during the Hacktoberfest 2025 event period (October 1-31, 2024), you agree to the following additional terms:
+
+1. **Quality Contributions**: All contributions must be meaningful and add value to the project. Spam, automated, or low-quality contributions will not be accepted.
+
+2. **Hacktoberfest Eligibility**: Only contributions that meet the Hacktoberfest 2025 quality standards will be marked as eligible for the event.
+
+3. **Code of Conduct**: All contributors must follow the project's Code of Conduct and the Hacktoberfest 2025 participation guidelines.
+
+4. **Attribution**: Contributors will be properly attributed in the project documentation and may be recognized for their contributions.
+
+5. **Review Process**: All contributions will be subject to review by project maintainers before being accepted.
+
+## Third-Party Licenses
+
+This project includes third-party libraries and dependencies across multiple technology stacks:
+
+### Backend Dependencies (Node.js)
+
+-   Express.js, MongoDB/Mongoose, Socket.io, JWT, bcrypt, and other npm packages
+-   Each package is licensed under its respective license terms
+-   See package.json files for complete dependency list
+
+### Frontend Dependencies (React)
+
+-   React, Material-UI, Ant Design, Recharts, and other npm packages
+-   Each package is licensed under its respective license terms
+-   See frontend/package.json for complete dependency list
+
+### Machine Learning Dependencies (Python)
+
+-   Pandas, Scikit-Learn, NumPy, and other Python packages
+-   Each package is licensed under its respective license terms
+-   See models/\*/requirements.txt for complete dependency lists
+
+### Database
+
+-   MongoDB Community Server (AGPL v3.0)
+-   See MongoDB licensing terms for commercial use considerations
+
+A comprehensive list of third-party licenses can be found in the project documentation.
+
+## Agricultural Data and Privacy
+
+### Data Handling
+
+-   Agricultural data collected through this platform is subject to our Privacy Policy
+-   Farmer information and crop data are protected under applicable data protection laws
+-   Market price predictions and recommendations are provided as-is without warranty
+
+### Export Compliance
+
+-   This software may be subject to export control laws
+-   Agricultural technology and ML models may have specific export restrictions
+-   Users are responsible for compliance with local and international laws
+
+## Trademark Notice
+
+Hacktoberfest is a trademark of DigitalOcean, LLC. This project is not officially affiliated with DigitalOcean or Hacktoberfest, but participates in the event in accordance with their guidelines.
+
+Smart Agriculture System is a project name and not a registered trademark. Any third-party trademarks used in this project belong to their respective owners.
+
+---
+
+For questions about this license, please contact: legal@smartagriculture.com
+
+For technical questions about the Smart Agriculture System, please contact: iddhidasanayaka@gmail.com
