@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import error from "../middlewares/error.js";
+import rateLimit from "express-rate-limit";
 
 // import routes from the routes folder
 import users from "../routes/users.js";
@@ -35,18 +36,39 @@ export default function (app) {
     // serve static files from the public directory
     app.use(express.static("public"));
 
-    // assign route paths
-    app.use("/api/users", users);
-    app.use("/api/crops", crops);
-    app.use("/api/categories", categories);
-    app.use("/api/locations", locations);
-    app.use("/api/news", news);
-    app.use("/api/informations", informations);
-    app.use("/api/covers", covers);
-    app.use("/api/predict", predict);
-    app.use("/api/chat", chat);
-    app.use("/api/feedback", feedback);
-    app.use("/api/payment/", payment);
+    // Public routes: 1000 requests per 15 minutes
+    const publicLimiter = rateLimit({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        max: 1000,
+        message: "Too many requests, please try again later."
+    });
+
+    // Protected routes: 2500 requests per 15 minutes
+    const protectedLimiter = rateLimit({
+        windowMs: 15 * 60 * 1000,
+        max: 2500,
+        message: "Too many requests, please try again later."
+    });
+
+    // Crop prediction: 5 requests per 15 minutes
+    const cropLimiter = rateLimit({
+        windowMs: 15 * 60 * 1000,
+        max: 5,
+        message: "Too many requests, please try again later."
+    });
+
+    // assign route paths with rate limit
+    app.use("/api/users", protectedLimiter, users);
+    app.use("/api/crops", cropLimiter, crops);
+    app.use("/api/categories", publicLimiter, categories);
+    app.use("/api/locations", publicLimiter, locations);
+    app.use("/api/news", publicLimiter, news);
+    app.use("/api/informations", publicLimiter, informations);
+    app.use("/api/covers", publicLimiter, covers);
+    app.use("/api/predict", publicLimiter, predict);
+    app.use("/api/chat", protectedLimiter, chat);
+    app.use("/api/feedback", publicLimiter, feedback);
+    app.use("/api/payment/", protectedLimiter, payment);
 
     // initialize error middleware
     app.use(error);
