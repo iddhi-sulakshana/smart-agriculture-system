@@ -1,0 +1,79 @@
+name: Create GitHub Release
+
+on:
+  workflow_run:
+    workflows: ["Docker Build and Publish"]
+    types:
+      - completed
+
+jobs:
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get Docker Image Version
+        run: |
+          # Get the commit hash from the triggering workflow
+          COMMIT_SHA=${{ github.event.workflow_run.head_sha }}
+          
+          # Checkout that commit
+          git checkout $COMMIT_SHA
+          
+          # Try to extract version from commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          IMAGE_VERSION=$(echo "$COMMIT_MSG" | cut -d ' ' -f 1)
+          
+          if [[ "$IMAGE_VERSION" =~ ^[a-z]+-[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
+          else
+            echo "Version not found in commit message, fetching latest from Docker Hub"
+            LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/iddhi/smart-agriculture-system/tags/?page_size=1" | jq -r '.results[0].name')
+            if [[ -n "$LATEST_TAG" && "$LATEST_TAG" != "null" ]]; then
+              echo "IMAGE_VERSION=$LATEST_TAG" >> $GITHUB_ENV
+            else
+              echo "::error::Failed to determine image version"
+              exit 1
+            fi
+          fi
+      
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          git fetch --tags
+          if git tag | grep -q "^${{ env.IMAGE_VERSION }}$"; then
+            echo "Tag already exists: ${{ env.IMAGE_VERSION }}"
+            echo "tag_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tag does not exist: ${{ env.IMAGE_VERSION }}"
+            echo "tag_exists=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create Release
+        if: steps.check_tag.outputs.tag_exists == 'false'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.IMAGE_VERSION }}
+          release_name: Release ${{ env.IMAGE_VERSION }}
+          body: "Release of version ${{ env.IMAGE_VERSION }}"
+          draft: false
+          prerelease: false
+      
+      - name: Log Release Status
+        run: |
+          if [ "${{ steps.check_tag.outputs.tag_exists }}" == "true" ]; then
+            echo "Skipped release creation: Tag ${{ env.IMAGE_VERSION }} already exists"
+          elif [ "${{ steps.create_release.outcome }}" == "success" ]; then
+            echo "Successfully created release ${{ env.IMAGE_VERSION }}"
+          else
+            echo "::warning::Failed to create release, but continuing workflow"
+          fi
