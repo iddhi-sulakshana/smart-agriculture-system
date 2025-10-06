@@ -1,0 +1,1010 @@
+openapi: 3.0.0
+info:
+  title: Agri-Market API (Complete)
+  description: A comprehensive API for managing crops, chats, payments, user accounts, and agricultural information.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    # Schemas from the first set
+    Category:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique identifier for the category.
+          example: '60c72b2f9b1d8c001f8e4c9c'
+        name:
+          type: string
+          description: Name of the category.
+          example: 'Fruits'
+        predictedPrice:
+          type: number
+          description: AI-predicted price for the category.
+          example: 150.75
+        weekPrice:
+          type: array
+          items:
+            type: number
+          description: Historical prices for the last week.
+          example: [145, 148, 151, 150, 152, 149, 150]
+    Cover:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '60c72b2f9b1d8c001f8e4d2a'
+        title:
+          type: string
+          example: 'Fresh Harvest Season'
+        image:
+          type: string
+          description: URL or path to the cover image.
+          example: 'covers/fresh-harvest.jpg'
+    Crop:
+      type: object
+      required:
+        - title
+        - user
+        - category
+        - price
+        - image
+        - stock
+        - location
+        - unit
+      properties:
+        _id:
+          type: string
+          example: '60c72b2f9b1d8c001f8e4e3b'
+        title:
+          type: string
+          example: 'Organic Apples'
+        user:
+          type: string
+          description: The user ID of the farmer who listed the crop.
+          example: '60c72b2f9b1d8c001f8e4a12'
+        category:
+          type: string
+          description: The category ID for the crop.
+          example: '60c72b2f9b1d8c001f8e4c9c'
+        description:
+          type: string
+          example: 'Freshly picked organic apples from the valley.'
+        price:
+          type: number
+          example: 200
+        image:
+          type: string
+          example: 'crops/organic-apples.jpg'
+        stock:
+          type: number
+          example: 50
+        location:
+          type: string
+          description: The location ID where the crop is available.
+          example: '60c72b2f9b1d8c001f8e4f5d'
+        unit:
+          type: string
+          example: 'kg'
+        tags:
+          type: array
+          items:
+            type: string
+          example: ['organic', 'fresh']
+        isSold:
+          type: boolean
+          default: false
+    Chat:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '60c72b2f9b1d8c001f8e5a6f'
+        participants:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              name:
+                type: string
+              avatar:
+                type: string
+        lastMessage:
+          type: object
+          properties:
+            message:
+              type: string
+            timestamp:
+              type: string
+              format: date-time
+            isProduct:
+              type: boolean
+            isOrder:
+              type: boolean
+        online:
+          type: boolean
+          description: Indicates if the other participant is online.
+    Message:
+      type: object
+      properties:
+        _id:
+          type: string
+        chatId:
+          type: string
+        senderId:
+          type: string
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        isProduct:
+          type: boolean
+        isOrder:
+          type: boolean
+    # Schemas from the second set
+    Information:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '615c4b1a1f3b2a001f8e4c9c'
+        category:
+          type: string
+          example: 'seeds'
+        title:
+          type: string
+          example: 'Best Practices for Planting Wheat'
+        content:
+          type: string
+          example: 'Detailed information about wheat planting techniques...'
+    Location:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '615c4b1a1f3b2a001f8e4d2a'
+        name:
+          type: string
+          example: 'Colombo'
+    News:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '615c4b1a1f3b2a001f8e4e3b'
+        title:
+          type: string
+          example: 'Government Announces New Farmer Subsidies'
+        content:
+          type: string
+          example: 'The Ministry of Agriculture has unveiled a new package...'
+        date:
+          type: string
+          format: date-time
+    Order:
+      type: object
+      properties:
+        _id:
+          type: string
+        paymentId:
+          type: string
+        cropId:
+          type: string
+        buyer:
+          type: string
+        seller:
+          type: string
+        shippingDetails:
+          type: object
+        quantity:
+          type: number
+        total:
+          type: number
+        method:
+          type: string
+        isPaid:
+          type: boolean
+        status:
+          type: string
+          enum: [Pending, Paid, Shipped, Delivered]
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [farmer, buyer]
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+
+# API Endpoints Grouped by Tags
+tags:
+  - name: Users
+    description: User authentication and management.
+  - name: Categories
+    description: Operations about crop categories.
+  - name: Crops
+    description: Manage crop listings.
+  - name: Chats
+    description: User-to-user messaging.
+  - name: Covers
+    description: App cover images.
+  - name: Feedback
+    description: Handle user feedback submissions.
+  - name: Information
+    description: Agricultural information resources.
+  - name: Locations
+    description: Geographic locations for crops and users.
+  - name: News
+    description: Latest news articles.
+  - name: Payments & Orders
+    description: Endpoints for handling orders and payments.
+  - name: Recommendation
+    description: Crop recommendation engine.
+
+paths:
+  # User Paths
+  /users/signup:
+    post:
+      tags:
+        - Users
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                role:
+                  type: string
+                  enum: [farmer, buyer]
+      responses:
+        '200':
+          description: Signup successful.
+        '400':
+          description: Invalid data or user already exists.
+  /users/signin:
+    post:
+      tags:
+        - Users
+      summary: Log in a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Login successful.
+          headers:
+            x-auth-token:
+              description: JWT for authentication.
+              schema:
+                type: string
+        '400':
+          description: Invalid email or password.
+  /users/verify:
+    get:
+      tags:
+        - Users
+      summary: Verify authentication token
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token is valid.
+        '401':
+          description: Token is invalid or expired.
+  /users/me:
+    get:
+      tags:
+        - Users
+      summary: Get current user details
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Current user's data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      tags:
+        - Users
+      summary: Update current user details
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: Update successful.
+        '400':
+          description: Invalid data or email is already in use.
+  /users/me/password:
+    put:
+      tags:
+        - Users
+      summary: Update current user password
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currentPassword:
+                  type: string
+                  format: password
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Password updated successfully.
+        '400':
+          description: Invalid current password.
+
+  # Categories Paths
+  /categories/:
+    get:
+      tags:
+        - Categories
+      summary: Get all categories
+      responses:
+        '200':
+          description: A list of categories.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+  /categories/price_prediction:
+    patch:
+      tags:
+        - Categories
+      summary: Update a category's predicted price
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                predict:
+                  type: number
+                previous:
+                  type: array
+                  items:
+                    type: number
+      responses:
+        '200':
+          description: Price updated successfully.
+        '404':
+          description: Category not found.
+
+  # Covers Paths
+  /covers/:
+    get:
+      tags:
+        - Covers
+      summary: Get all covers
+      responses:
+        '200':
+          description: A list of covers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cover'
+
+  # Feedback Paths
+  /feedback/:
+    post:
+      tags:
+        - Feedback
+      summary: Send feedback email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Email sent successfully.
+        '400':
+          description: Invalid request body.
+        '500':
+          description: Server error sending email.
+
+  # Crops Paths
+  /crops/:
+    get:
+      tags:
+        - Crops
+      summary: Get all crops with filters and pagination
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            default: 5
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: location
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A paginated list of crops.
+        '400':
+          description: Invalid category or location ID.
+    post:
+      tags:
+        - Crops
+      summary: Create a new crop listing
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                title:
+                  type: string
+                category:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                stock:
+                  type: number
+                location:
+                  type: string
+                unit:
+                  type: string
+      responses:
+        '200':
+          description: Crop created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Crop'
+        '400':
+          description: Invalid data or missing image.
+  /crops/listed:
+    get:
+      tags:
+        - Crops
+      summary: Get all crops listed by the authenticated user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: A list of the user's crops.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Crop'
+  /crops/featured:
+    get:
+      tags:
+        - Crops
+      summary: Get featured crops
+      responses:
+        '200':
+          description: A list of featured crops.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Crop'
+  /crops/{id}:
+    get:
+      tags:
+        - Crops
+      summary: Get a single crop by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested crop.
+        '400':
+          description: Invalid ID.
+        '404':
+          description: Crop not found.
+    delete:
+      tags:
+        - Crops
+      summary: Delete a crop
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Crop deleted successfully.
+        '403':
+          description: Access denied.
+        '404':
+          description: Crop not found.
+    put:
+      tags:
+        - Crops
+      summary: Edit a crop listing
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Crop updated successfully.
+        '400':
+          description: Invalid data.
+        '403':
+          description: Access denied.
+        '404':
+          description: Crop not found.
+  /crops/view/{id}:
+    get:
+      tags:
+        - Crops
+      summary: Get a single crop with populated data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested crop with details.
+        '404':
+          description: Crop not found.
+  /crops/sold/{id}:
+    patch:
+      tags:
+        - Crops
+      summary: Mark a crop as sold
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Crop marked as sold.
+        '403':
+          description: Access denied.
+        '404':
+          description: Crop not found.
+
+  # Chats Paths
+  /chats/:
+    get:
+      tags:
+        - Chats
+      summary: Get all chats for the authenticated user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: A list of the user's chats.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chat'
+    post:
+      tags:
+        - Chats
+      summary: Create a new chat
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiver:
+                  type: string
+                crop:
+                  type: string
+      responses:
+        '200':
+          description: Returns the new chat ID.
+        '400':
+          description: Invalid request.
+  /chats/{id}/reciever:
+    get:
+      tags:
+        - Chats
+      summary: Get the receiver's details for a chat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Receiver details.
+        '404':
+          description: Chat not found.
+  /chats/{id}/messages:
+    get:
+      tags:
+        - Chats
+      summary: Get all messages for a chat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of messages.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        '404':
+          description: Chat not found.
+  /chats/{id}:
+    patch:
+      tags:
+        - Chats
+      summary: Send a message to a chat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Message sent successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '404':
+          description: Chat not found.
+    delete:
+      tags:
+        - Chats
+      summary: Delete a chat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Chat deleted successfully.
+        '404':
+          description: Chat not found.
+
+  # Information Paths
+  /information/{category}:
+    get:
+      tags:
+        - Information
+      summary: Get information by category
+      parameters:
+        - name: category
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [seeds, fertilizers, practices.mechanization, practices.postharvest, regulation, storage]
+      responses:
+        '200':
+          description: A list of information items.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Information'
+        '400':
+          description: Invalid category specified.
+
+  # Locations Paths
+  /locations/:
+    get:
+      tags:
+        - Locations
+      summary: Get all locations
+      responses:
+        '200':
+          description: A list of all locations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+
+  # News Paths
+  /news/:
+    get:
+      tags:
+        - News
+      summary: Get all news articles
+      responses:
+        '200':
+          description: A list of all news articles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/News'
+
+  # Payments & Orders Paths
+  /payment/order/{id}:
+    get:
+      tags:
+        - Payments & Orders
+      summary: Get order details by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested order details.
+        '400':
+          description: Invalid Order ID.
+        '404':
+          description: Order not found.
+  /payment/order:
+    post:
+      tags:
+        - Payments & Orders
+      summary: Create an order after successful payment
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Order created, returns chat ID.
+        '400':
+          description: Bad request, error during order creation.
+  /payment/validate:
+    post:
+      tags:
+        - Payments & Orders
+      summary: Validate if an order can be placed
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                receiver:
+                  type: string
+                  description: The seller's user ID.
+                crop:
+                  type: string
+                  description: The crop ID.
+      responses:
+        '200':
+          description: The order is valid.
+        '400':
+          description: Invalid request or crop is not available for purchase.
+  /payment/start:
+    post:
+      tags:
+        - Payments & Orders
+      summary: Initialize a Payhere payment
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+      responses:
+        '200':
+          description: Payment initialized, returns hash and IDs.
+        '400':
+          description: Failed to initialize payment.
+  /payment/delete/{id}:
+    delete:
+      tags:
+        - Payments & Orders
+      summary: Delete a pending order
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order deleted successfully.
+        '403':
+          description: Access denied.
+        '404':
+          description: Order not found.
+
+  # Recommendation Paths
+  /recommendation/:
+    post:
+      tags:
+        - Recommendation
+      summary: Get a crop recommendation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                N:
+                  type: number
+                P:
+                  type: number
+                K:
+                  type: number
+                temperature:
+                  type: number
+                humidity:
+                  type: number
+                ph:
+                  type: number
+                rainfall:
+                  type: number
+      responses:
+        '200':
+          description: Recommended crop.
+        '400':
+          description: Invalid input data.
+        '500':
+          description: Recommendation service is unavailable.
