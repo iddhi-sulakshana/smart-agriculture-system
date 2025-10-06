@@ -1,0 +1,160 @@
+/* Custom styles for Driver.js tour to ensure mobile responsiveness */
+
+.driver-popover-custom {
+    max-width: 90vw !important;
+    width: auto !important;
+    min-width: 280px !important;
+}
+
+.driver-popover-custom .driver-popover-content {
+    padding: 16px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+.driver-popover-custom .driver-popover-title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+}
+
+.driver-popover-custom .driver-popover-description {
+    font-size: 14px !important;
+    margin-bottom: 16px !important;
+}
+
+.driver-popover-custom .driver-popover-footer {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: space-between !important;
+}
+
+.driver-popover-custom .driver-popover-footer button {
+    flex: 1 !important;
+    min-width: 80px !important;
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+    border-radius: 6px !important;
+    border: 1px solid #e0e0e0 !important;
+    background: #fff !important;
+    color: #333 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.driver-popover-custom .driver-popover-footer button:hover {
+    background: #f5f5f5 !important;
+    border-color: #ccc !important;
+}
+
+.driver-popover-custom .driver-popover-footer .driver-next-btn {
+    background: #1976d2 !important;
+    color: white !important;
+    border-color: #1976d2 !important;
+}
+
+.driver-popover-custom .driver-popover-footer .driver-next-btn:hover {
+    background: #1565c0 !important;
+    border-color: #1565c0 !important;
+}
+
+.driver-popover-custom .driver-popover-footer .driver-close-btn {
+    background: #f44336 !important;
+    color: white !important;
+    border-color: #f44336 !important;
+}
+
+.driver-popover-custom .driver-popover-footer .driver-close-btn:hover {
+    background: #d32f2f !important;
+    border-color: #d32f2f !important;
+}
+
+.driver-popover-custom .driver-popover-progress {
+    background: #e0e0e0 !important;
+    height: 4px !important;
+    border-radius: 2px !important;
+    margin-bottom: 12px !important;
+}
+
+.driver-popover-custom .driver-popover-progress-bar {
+    background: #1976d2 !important;
+    height: 100% !important;
+    border-radius: 2px !important;
+    transition: width 0.3s ease !important;
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+    .driver-popover-custom {
+        max-width: 95vw !important;
+        margin: 10px !important;
+    }
+    
+    .driver-popover-custom .driver-popover-content {
+        padding: 12px !important;
+        font-size: 13px !important;
+    }
+    
+    .driver-popover-custom .driver-popover-title {
+        font-size: 15px !important;
+    }
+    
+    .driver-popover-custom .driver-popover-description {
+        font-size: 13px !important;
+    }
+    
+    .driver-popover-custom .driver-popover-footer {
+        flex-direction: column !important;
+    }
+    
+    .driver-popover-custom .driver-popover-footer button {
+        width: 100% !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .driver-popover-custom .driver-popover-footer button:last-child {
+        margin-bottom: 0 !important;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .driver-popover-custom {
+        max-width: 98vw !important;
+        margin: 5px !important;
+    }
+    
+    .driver-popover-custom .driver-popover-content {
+        padding: 10px !important;
+        font-size: 12px !important;
+    }
+    
+    .driver-popover-custom .driver-popover-title {
+        font-size: 14px !important;
+    }
+    
+    .driver-popover-custom .driver-popover-description {
+        font-size: 12px !important;
+    }
+}
+
+/* Ensure tour elements are visible on mobile */
+@media (max-width: 768px) {
+    [data-tour] {
+        position: relative !important;
+        z-index: 1000 !important;
+    }
+}
+
+/* Custom highlight for tour elements */
+.driver-highlighted-element {
+    position: relative !important;
+    z-index: 1001 !important;
+}
+
+/* Smooth transitions */
+.driver-popover-custom,
+.driver-popover-custom * {
+    transition: all 0.3s ease !important;
+}

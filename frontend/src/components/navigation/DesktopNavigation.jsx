@@ -13,12 +13,14 @@ function DesktopNavigation() {
             alignItems="center"
             spacing={1}
             sx={{ display: { xs: "none", sm: "flex" } }}
+            data-tour="navigation"
         >
             <Link
                 to="/"
                 sx={{
                     display: { xs: "none", sm: "inline-flex" },
                 }}
+                data-tour="logo"
             >
                 <AspectRatio
                     ratio={3 / 1}
@@ -38,6 +40,20 @@ function DesktopNavigation() {
                 if (others?.logged && !token) return null;
                 // if the link is not protected and the user is logged in, don't show the link
                 if (others.nonLogged && token) return null;
+                
+                // Map specific links to tour targets
+                const getTourTarget = (name) => {
+                    switch (name) {
+                        case 'Crop Recommendation': return 'crop-recommendation';
+                        case 'Market': return 'marketplace';
+                        case 'Messages': return 'chat';
+                        case 'Profile': return 'profile';
+                        default: return null;
+                    }
+                };
+                
+                const tourTarget = getTourTarget(name);
+                
                 return (
                     <NavLink
                         to={to}
@@ -52,6 +68,7 @@ function DesktopNavigation() {
                                     sx={{
                                         alignSelf: "center",
                                     }}
+                                    {...(tourTarget && { 'data-tour': tourTarget })}
                                 >
                                     {name}
                                 </Button>
