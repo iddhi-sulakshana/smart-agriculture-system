@@ -16,6 +16,9 @@ import chat from "../routes/chat.js";
 import feedback from "../routes/feedback.js";
 import payment from "../routes/payment.js";
 
+//import rate limit from configs folder
+import { publicLimiter, protectedLimiter, cropLimiter } from "./rateLimit.js";
+
 export default function (app) {
     // enable cross origin resource sharing middleware
     app.use(
@@ -36,17 +39,17 @@ export default function (app) {
     app.use(express.static("public"));
 
     // assign route paths
-    app.use("/api/users", users);
-    app.use("/api/crops", crops);
-    app.use("/api/categories", categories);
-    app.use("/api/locations", locations);
-    app.use("/api/news", news);
-    app.use("/api/informations", informations);
-    app.use("/api/covers", covers);
-    app.use("/api/predict", predict);
-    app.use("/api/chat", chat);
-    app.use("/api/feedback", feedback);
-    app.use("/api/payment/", payment);
+    app.use("/api/users", protectedLimiter, users);
+    app.use("/api/crops", cropLimiter, crops);
+    app.use("/api/categories", publicLimiter, categories);
+    app.use("/api/locations", publicLimiter, locations);
+    app.use("/api/news", publicLimiter, news);
+    app.use("/api/informations", publicLimiter, informations);
+    app.use("/api/covers", publicLimiter, covers);
+    app.use("/api/predict", publicLimiter, predict);
+    app.use("/api/chat", protectedLimiter, chat);
+    app.use("/api/feedback", publicLimiter, feedback);
+    app.use("/api/payment/", protectedLimiter, payment);
 
     // initialize error middleware
     app.use(error);
