@@ -2,7 +2,6 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import error from "../middlewares/error.js";
-import rateLimit from "express-rate-limit";
 
 // import routes from the routes folder
 import users from "../routes/users.js";
@@ -16,6 +15,9 @@ import predict from "../routes/predict.js";
 import chat from "../routes/chat.js";
 import feedback from "../routes/feedback.js";
 import payment from "../routes/payment.js";
+
+//import rate limit from configs folder
+import { publicLimiter, protectedLimiter, cropLimiter } from "./rateLimit.js";
 
 export default function (app) {
     // enable cross origin resource sharing middleware
@@ -36,28 +38,7 @@ export default function (app) {
     // serve static files from the public directory
     app.use(express.static("public"));
 
-    // Public routes: 1000 requests per 15 minutes
-    const publicLimiter = rateLimit({
-        windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 1000,
-        message: "Too many requests, please try again later."
-    });
-
-    // Protected routes: 2500 requests per 15 minutes
-    const protectedLimiter = rateLimit({
-        windowMs: 15 * 60 * 1000,
-        max: 2500,
-        message: "Too many requests, please try again later."
-    });
-
-    // Crop prediction: 5 requests per 15 minutes
-    const cropLimiter = rateLimit({
-        windowMs: 15 * 60 * 1000,
-        max: 5,
-        message: "Too many requests, please try again later."
-    });
-
-    // assign route paths with rate limit
+    // assign route paths
     app.use("/api/users", protectedLimiter, users);
     app.use("/api/crops", cropLimiter, crops);
     app.use("/api/categories", publicLimiter, categories);
