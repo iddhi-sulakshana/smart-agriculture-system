@@ -21,6 +21,11 @@ import Insights from "./pages/Insights";
 import Recommendation from "./pages/Recommendation";
 import About from "./pages/About";
 import { SocketProvider } from "./contexts/SocketContext";
+import { TourProvider } from "./contexts/TourContext";
+import TourGuide from "./components/common/TourGuide";
+import SimpleTourTest from "./components/common/SimpleTourTest";
+import DriverTest from "./components/common/DriverTest";
+import WorkingTourTest from "./components/common/WorkingTourTest";
 import TermsConditions from "./pages/TermsConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import HelpSupport from "./pages/HelpSupport";
@@ -31,7 +36,8 @@ function App() {
     return (
         <CssVarsProvider disableTransitionOnChange>
             <CssBaseline />
-            <Layout.Root>
+            <TourProvider>
+                <Layout.Root>
                 <Layout.Header>
                     <Header />
                 </Layout.Header>
@@ -94,6 +100,11 @@ function App() {
                 </Layout.Footer>
             </Layout.Root>
             <Notification />
+            <TourGuide />
+            <SimpleTourTest />
+            <DriverTest />
+            <WorkingTourTest />
+            </TourProvider>
         </CssVarsProvider>
     );
 }
