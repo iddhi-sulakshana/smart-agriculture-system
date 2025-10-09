@@ -1,4 +1,4 @@
-import React from "react";
+// React import not needed for this component
 import { Route, Routes } from "react-router-dom";
 // Joy components
 import { CssVarsProvider } from "@mui/joy/styles";
@@ -26,6 +26,7 @@ import TourGuide from "./components/common/TourGuide";
 import SimpleTourTest from "./components/common/SimpleTourTest";
 import DriverTest from "./components/common/DriverTest";
 import WorkingTourTest from "./components/common/WorkingTourTest";
+import DriverImportTest from "./components/common/DriverImportTest";
 import TermsConditions from "./pages/TermsConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import HelpSupport from "./pages/HelpSupport";
@@ -104,6 +105,7 @@ function App() {
             <SimpleTourTest />
             <DriverTest />
             <WorkingTourTest />
+            <DriverImportTest />
             </TourProvider>
         </CssVarsProvider>
     );
