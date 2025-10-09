@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import './TourGuide.css';
 import { Button, Stack, Typography, Box } from '@mui/joy';
 import { useTour } from '../../contexts/TourContext';
+import PropTypes from 'prop-types';
 
 const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
     const driverObj = useRef(null);
@@ -91,8 +92,9 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
     ];
 
     useEffect(() => {
-        // Initialize driver.js
+        // Initialize driver.js with simplified configuration
         try {
+            console.log('Initializing Driver.js...');
             driverObj.current = driver({
                 showProgress: true,
                 showButtons: ['next', 'previous', 'close'],
@@ -101,42 +103,25 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
                 doneBtnText: 'Finish Tour',
                 closeBtnText: 'Skip Tour',
                 progressText: 'Step {{current}} of {{total}}',
-                // Mobile responsive settings
                 allowClose: true,
                 disableActiveInteraction: true,
-                // Custom styling for mobile
                 popoverClass: 'driver-popover-custom',
                 stageBackground: '#000000',
                 stagePadding: 4,
                 stageRadius: 5,
-                onDestroyStarted: () => {
-                    setIsTourActive(false);
-                    markTourSkipped();
-                    onTourSkip && onTourSkip();
-                },
                 onDestroyed: () => {
+                    console.log('Tour destroyed');
                     setIsTourActive(false);
                     markTourCompleted();
                     onTourComplete && onTourComplete();
-                },
-                onNextClick: () => {
-                    // Check if this is the last step
-                    const currentStep = driverObj.current.getActiveIndex();
-                    if (currentStep === tourSteps.length - 1) {
-                        markTourCompleted();
-                        onTourComplete && onTourComplete();
-                    }
-                },
-                onHighlightStarted: (element) => {
-                    console.log('Highlighting element:', element);
                 },
                 onHighlighted: (element) => {
                     console.log('Element highlighted:', element);
                 }
             });
-            console.log('Driver.js initialized successfully');
+            console.log('✅ Driver.js initialized successfully');
         } catch (error) {
-            console.error('Failed to initialize Driver.js:', error);
+            console.error('❌ Failed to initialize Driver.js:', error);
         }
 
         return () => {
@@ -144,14 +129,14 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
                 driverObj.current.destroy();
             }
         };
-    }, [onTourComplete, onTourSkip, markTourCompleted, markTourSkipped]);
+    }, [markTourCompleted, onTourComplete]);
 
     const startTour = useCallback(() => {
-        console.log('startTour called');
+        console.log('🚀 startTour called');
         console.log('Driver object:', driverObj.current);
         
         if (!driverObj.current) {
-            console.error('Driver not initialized');
+            console.error('❌ Driver not initialized');
             return;
         }
 
@@ -160,7 +145,7 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
         const navElement = document.querySelector('[data-tour="navigation"], [data-tour="mobile-menu"]');
         const featuresElement = document.querySelector('[data-tour="features"]');
         
-        console.log('Tour elements found:');
+        console.log('🔍 Tour elements found:');
         console.log('- Logo:', logoElement);
         console.log('- Navigation:', navElement);
         console.log('- Features:', featuresElement);
@@ -169,23 +154,26 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
         const stepsToUse = logoElement ? tourSteps : fallbackTourSteps;
         
         if (!logoElement) {
-            console.warn('Main tour elements not found, using fallback tour');
+            console.warn('⚠️ Main tour elements not found, using fallback tour');
         }
 
         try {
-            console.log('Starting tour with steps:', stepsToUse);
+            console.log('📋 Starting tour with steps:', stepsToUse);
             setIsTourActive(true);
             driverObj.current.drive(stepsToUse);
+            console.log('✅ Tour started successfully');
         } catch (error) {
-            console.error('Error starting tour:', error);
+            console.error('❌ Error starting tour:', error);
             setIsTourActive(false);
         }
-    }, [tourSteps]);
+    }, [tourSteps, fallbackTourSteps]);
 
     const skipTour = () => {
+        console.log('⏭️ Skipping tour');
         if (driverObj.current) {
             driverObj.current.destroy();
         }
+        setIsTourActive(false);
         markTourSkipped();
         onTourSkip && onTourSkip();
     };
@@ -193,18 +181,24 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
     // Auto-start tour for first-time visitors
     useEffect(() => {
         if (shouldShowTour() && isVisible) {
+            console.log('🎯 Auto-starting tour for first-time visitor');
             const timer = setTimeout(() => {
                 // Check if tour elements exist before starting
                 const logoElement = document.querySelector('[data-tour="logo"]');
                 if (logoElement) {
+                    console.log('✅ Logo element found, starting tour');
                     startTour();
                 } else {
-                    console.log('Tour elements not found, retrying...');
+                    console.log('⚠️ Tour elements not found, retrying...');
                     // Retry after another 2 seconds
                     setTimeout(() => {
                         const retryElement = document.querySelector('[data-tour="logo"]');
                         if (retryElement) {
+                            console.log('✅ Logo element found on retry, starting tour');
                             startTour();
+                        } else {
+                            console.log('❌ Logo element still not found, using fallback tour');
+                            startTour(); // This will use fallback tour
                         }
                     }, 2000);
                 }
@@ -253,14 +247,25 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
                         variant="outlined"
                         color="success"
                         onClick={() => {
-                            console.log('Testing fallback tour...');
+                            console.log('🧪 Testing fallback tour...');
                             if (driverObj.current) {
                                 driverObj.current.drive(fallbackTourSteps);
+                            } else {
+                                console.error('❌ Driver not initialized');
                             }
                         }}
                         sx={{ fontSize: '10px' }}
                     >
                         Test Tour
+                    </Button>
+                    <Button
+                        size="sm"
+                        variant="outlined"
+                        color="primary"
+                        onClick={startTour}
+                        sx={{ fontSize: '10px' }}
+                    >
+                        Start Main Tour
                     </Button>
                 </Stack>
             </Box>
@@ -336,6 +341,12 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
             </Box>
         </>
     );
+};
+
+TourGuide.propTypes = {
+    onTourComplete: PropTypes.func,
+    onTourSkip: PropTypes.func,
+    isVisible: PropTypes.bool
 };
 
 export default TourGuide;
