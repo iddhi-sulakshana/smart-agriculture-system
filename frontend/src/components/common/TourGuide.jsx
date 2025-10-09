@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import './TourGuide.css';
@@ -11,8 +11,8 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
     const [isTourActive, setIsTourActive] = useState(false);
     const { shouldShowTour, markTourCompleted, markTourSkipped, isFirstVisit, resetTourState } = useTour();
 
-    // Tour steps configuration
-    const tourSteps = [
+    // Tour steps configuration - memoized to prevent re-renders
+    const tourSteps = useMemo(() => [
         {
             element: '[data-tour="logo"]',
             popover: {
@@ -76,10 +76,10 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
                 align: 'center'
             }
         }
-    ];
+    ], []);
 
-    // Fallback tour steps for testing
-    const fallbackTourSteps = [
+    // Fallback tour steps for testing - memoized to prevent re-renders
+    const fallbackTourSteps = useMemo(() => [
         {
             element: 'body',
             popover: {
@@ -89,12 +89,15 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
                 align: 'center'
             }
         }
-    ];
+    ], []);
 
     useEffect(() => {
         // Initialize driver.js with simplified configuration
         try {
-            console.log('Initializing Driver.js...');
+            console.log('🚀 Initializing Driver.js...');
+            console.log('Driver function type:', typeof driver);
+            console.log('Driver function:', driver);
+            
             driverObj.current = driver({
                 showProgress: true,
                 showButtons: ['next', 'previous', 'close'],
@@ -110,22 +113,44 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
                 stagePadding: 4,
                 stageRadius: 5,
                 onDestroyed: () => {
-                    console.log('Tour destroyed');
+                    console.log('✅ Tour destroyed');
                     setIsTourActive(false);
                     markTourCompleted();
                     onTourComplete && onTourComplete();
                 },
                 onHighlighted: (element) => {
-                    console.log('Element highlighted:', element);
+                    console.log('🎯 Element highlighted:', element);
+                },
+                onStarted: () => {
+                    console.log('🚀 Tour started');
+                },
+                onNextClick: () => {
+                    console.log('➡️ Next button clicked');
+                },
+                onPreviousClick: () => {
+                    console.log('⬅️ Previous button clicked');
+                },
+                onCloseClick: () => {
+                    console.log('❌ Close button clicked');
                 }
             });
+            
             console.log('✅ Driver.js initialized successfully');
+            console.log('Driver instance:', driverObj.current);
+            console.log('Driver instance methods:', Object.getOwnPropertyNames(driverObj.current || {}));
+            
         } catch (error) {
             console.error('❌ Failed to initialize Driver.js:', error);
+            console.error('Error details:', {
+                message: error.message,
+                stack: error.stack,
+                name: error.name
+            });
         }
 
         return () => {
             if (driverObj.current) {
+                console.log('🧹 Cleaning up Driver.js instance');
                 driverObj.current.destroy();
             }
         };
@@ -266,6 +291,24 @@ const TourGuide = ({ onTourComplete, onTourSkip, isVisible = true }) => {
                         sx={{ fontSize: '10px' }}
                     >
                         Start Main Tour
+                    </Button>
+                    <Button
+                        size="sm"
+                        variant="outlined"
+                        color="warning"
+                        onClick={() => {
+                            console.log('🔍 Testing DriverJS import...');
+                            console.log('Driver function:', driver);
+                            console.log('Driver type:', typeof driver);
+                            console.log('Driver instance:', driverObj.current);
+                            console.log('Driver instance type:', typeof driverObj.current);
+                            if (driverObj.current) {
+                                console.log('Driver instance methods:', Object.getOwnPropertyNames(driverObj.current));
+                            }
+                        }}
+                        sx={{ fontSize: '10px' }}
+                    >
+                        Test Import
                     </Button>
                 </Stack>
             </Box>
