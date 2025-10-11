@@ -22,6 +22,7 @@ import CustomAvatar from "../common/CustomAvatar";
 import axios from "axios";
 import { getURL } from "../../Utils/Url";
 import UserContext from "../../contexts/UserContext";
+import { useTour } from "../../contexts/TourContext";
 
 function PersonalCard({ role, setRole }) {
     const [name, setName] = useState("");
@@ -33,6 +34,7 @@ function PersonalCard({ role, setRole }) {
     const { userDetails, loading, error } = useUserDetails();
 
     const { token } = UserContext();
+    const { resetTourState } = useTour();
     useEffect(() => {
         if (!loading && !error && userDetails) {
             setName(userDetails.name);
@@ -191,6 +193,29 @@ function PersonalCard({ role, setRole }) {
                     </Button>
                 </CardActions>
             </CardOverflow>
+            
+            {/* Tour Restart Section */}
+            <Divider />
+            <Box sx={{ p: 2 }}>
+                <Typography level="title-sm" sx={{ mb: 1 }}>
+                    🎯 Platform Tour
+                </Typography>
+                <Typography level="body-sm" sx={{ mb: 2, color: 'text.secondary' }}>
+                    Restart the guided tour to learn about platform features
+                </Typography>
+                <Button
+                    size="sm"
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => {
+                        resetTourState();
+                        toast.success("Tour reset! Refresh the page to start the tour again.");
+                    }}
+                    sx={{ width: '100%' }}
+                >
+                    Restart Tutorial
+                </Button>
+            </Box>
         </Card>
     );
 }

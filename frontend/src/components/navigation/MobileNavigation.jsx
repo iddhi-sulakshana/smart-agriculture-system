@@ -31,6 +31,7 @@ function MobileNavigation() {
                 variant="plain"
                 color="neutral"
                 onClick={() => setOpen(true)}
+                data-tour="mobile-menu"
             >
                 <MenuRoundedIcon />
             </IconButton>

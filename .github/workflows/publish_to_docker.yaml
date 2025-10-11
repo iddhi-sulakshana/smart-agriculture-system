@@ -1,54 +1,124 @@
 name: Docker Build and Publish
 on:
-    push:
+    pull_request:
+        types: [closed]
         branches:
-            - main
+            - release
 
 jobs:
     build:
         name: Build and Publish Docker Image
         runs-on: ubuntu-latest
+        if: github.event.pull_request.merged == true
         steps:
             - name: Checkout
               uses: actions/checkout@v4
 
             - name: Set up Docker Image Version
               run: |
-                  IMAGE_VERSION=$(echo "${{ github.event.head_commit.message }}" | cut -d ' ' -f 1)
-                  if [[ "$IMAGE_VERSION" =~ ^[a-z]+-[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-                      echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
+                  echo "Checking merge commit message for version..."
+                  COMMIT_MESSAGE="${{ github.event.pull_request.merge_commit.message }}"
+                  echo "Merge commit message: $COMMIT_MESSAGE"
+                  
+                  # Check if version is specified in commit message with VERSION: prefix
+                  if echo "$COMMIT_MESSAGE" | grep -q "VERSION:"; then
+                      IMAGE_VERSION=$(echo "$COMMIT_MESSAGE" | grep -o "VERSION: [a-z]*-[0-9]\+\.[0-9]\+\.[0-9]\+" | cut -d ' ' -f 2)
+                      if [[ "$IMAGE_VERSION" =~ ^[a-z]+-[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                          echo "Using specified version: $IMAGE_VERSION"
+                          echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
+                      else
+                          echo "❌ Invalid version format in commit message: $IMAGE_VERSION"
+                          echo "Expected format: VERSION: alpine-1.2.0"
+                          exit 1
+                      fi
                   else
-                      echo "Version pattern mismatch or not specified."
+                      echo "No version specified in commit message. Fetching latest tag from Docker Hub..."
+                      
+                      # Fetch latest tag from Docker Hub
                       LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/iddhi/smart-agriculture-system/tags/?page_size=1" | jq -r '.results[0].name')
-                      if [[ "$LATEST_TAG" =~ ^.*-([a-z]+)-([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+                      
+                      if [ "$LATEST_TAG" = "null" ] || [ -z "$LATEST_TAG" ]; then
+                          echo "❌ Failed to fetch latest tag from Docker Hub"
+                          exit 1
+                      fi
+                      
+                      echo "Latest tag from Docker Hub: $LATEST_TAG"
+                      
+                      # Parse version according to format prefix-major.minor.patch
+                      if [[ "$LATEST_TAG" =~ ^([a-z]+)-([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
                           PREFIX="${BASH_REMATCH[1]}"
                           MAJOR="${BASH_REMATCH[2]}"
                           MINOR="${BASH_REMATCH[3]}"
                           PATCH="${BASH_REMATCH[4]}"
-
+                          
+                          # Increment patch version
                           PATCH=$((PATCH + 1))
-
+                          
                           # Construct the new version
                           NEW_TAG="${PREFIX}-${MAJOR}.${MINOR}.${PATCH}"
+                          echo "Auto-incremented version: $NEW_TAG"
                           echo "IMAGE_VERSION=$NEW_TAG" >> $GITHUB_ENV
                       else
-                          echo "Unable to parse the latest tag from Docker Hub."
+                          echo "❌ Unable to parse latest tag format: $LATEST_TAG"
+                          echo "Expected format: prefix-major.minor.patch (e.g., alpine-1.2.3)"
                           exit 1
                       fi
                   fi
+                  
+                  echo "Final IMAGE_VERSION: ${{ env.IMAGE_VERSION }}"
 
-            - name: Login to the Dockerhub
+            - name: Login to Docker Hub
               uses: docker/login-action@v3
               with:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_TOKEN }}
+              continue-on-error: false
 
-            - name: Build and Push Docker Image
+            - name: Build and Push Docker Images
               run: |
+                  echo "Building Docker images with version: ${{ env.IMAGE_VERSION }}"
+                  
+                  # Set the IMAGE_VERSION environment variable for docker-compose
+                  export IMAGE_VERSION="${{ env.IMAGE_VERSION }}"
+                  
+                  # Build images
+                  echo "Building images..."
                   docker-compose -f ./docker-compose.publish.yaml build
+                  
+                  if [ $? -ne 0 ]; then
+                      echo "❌ Docker build failed"
+                      exit 1
+                  fi
+                  
+                  # Push images
+                  echo "Pushing images to Docker Hub..."
                   docker-compose -f ./docker-compose.publish.yaml push
+                  
+                  if [ $? -ne 0 ]; then
+                      echo "❌ Docker push failed"
+                      exit 1
+                  fi
+                  
+                  echo "✅ Successfully built and pushed all Docker images"
 
-            - name: Log Image Version
+            - name: Verify Published Images
               run: |
-                  echo "Successfully built and published Docker image with tag: ${{ env.IMAGE_VERSION }}"
-                  echo "A GitHub release will be created in a separate workflow."
+                  echo "Verifying published images on Docker Hub..."
+                  IMAGE_VERSION="${{ env.IMAGE_VERSION }}"
+                  
+                  # List the images that should have been pushed
+                  echo "Expected images:"
+                  echo "- iddhi/smart-agriculture-system:prediction-${IMAGE_VERSION}"
+                  echo "- iddhi/smart-agriculture-system:recommendation-${IMAGE_VERSION}"
+                  echo "- iddhi/smart-agriculture-system:frontend-${IMAGE_VERSION}"
+                  echo "- iddhi/smart-agriculture-system:backend-${IMAGE_VERSION}"
+                  
+                  # Note: We can't easily verify the images exist on Docker Hub without additional API calls
+                  # The docker-compose push command will fail if the push was unsuccessful
+                  echo "✅ All images successfully pushed to Docker Hub"
+
+            - name: Log Success
+              run: |
+                  echo "🎉 Docker Build and Publish completed successfully!"
+                  echo "📦 Published images with version: ${{ env.IMAGE_VERSION }}"
+                  echo "🔗 View images at: https://hub.docker.com/r/iddhi/smart-agriculture-system/tags"

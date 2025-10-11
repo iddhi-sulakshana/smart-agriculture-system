@@ -1,4 +1,4 @@
-import React from "react";
+// React import not needed for this component
 import { Route, Routes } from "react-router-dom";
 // Joy components
 import { CssVarsProvider } from "@mui/joy/styles";
@@ -21,6 +21,12 @@ import Insights from "./pages/Insights";
 import Recommendation from "./pages/Recommendation";
 import About from "./pages/About";
 import { SocketProvider } from "./contexts/SocketContext";
+import { TourProvider } from "./contexts/TourContext";
+import TourGuide from "./components/common/TourGuide";
+import SimpleTourTest from "./components/common/SimpleTourTest";
+import DriverTest from "./components/common/DriverTest";
+import WorkingTourTest from "./components/common/WorkingTourTest";
+import DriverImportTest from "./components/common/DriverImportTest";
 import TermsConditions from "./pages/TermsConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import HelpSupport from "./pages/HelpSupport";
@@ -31,7 +37,8 @@ function App() {
     return (
         <CssVarsProvider disableTransitionOnChange>
             <CssBaseline />
-            <Layout.Root>
+            <TourProvider>
+                <Layout.Root>
                 <Layout.Header>
                     <Header />
                 </Layout.Header>
@@ -94,6 +101,12 @@ function App() {
                 </Layout.Footer>
             </Layout.Root>
             <Notification />
+            <TourGuide />
+            <SimpleTourTest />
+            <DriverTest />
+            <WorkingTourTest />
+            <DriverImportTest />
+            </TourProvider>
         </CssVarsProvider>
     );
 }

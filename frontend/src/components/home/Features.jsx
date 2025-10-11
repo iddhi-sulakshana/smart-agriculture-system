@@ -73,6 +73,7 @@ function Features() {
                     overflowX: "visible",
                     overflowY: "visible",
                 }}
+                data-tour="features"
             >
                 {featuresData.map(({ title, description, icon }, index) => (
                     <motion.div
