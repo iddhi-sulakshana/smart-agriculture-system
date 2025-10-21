@@ -158,11 +158,20 @@ function Footer() {
                             whileInView={{ opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
                         >
-                            <Typography textAlign="justify">
+                            <Typography textAlign="justify" sx={{ mb: 8 }}>
                                 <b>AgriVista</b> leverages cutting-edge technologies such as
                                 Artificial Intelligence (AI), Machine Learning (ML), and
                                 robust digital platforms to provide real-time, actionable
                                 data to farmers and agricultural stakeholders.
+                            </Typography>
+                        </motion.div>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
+                        >
+                            <Typography level="body-sm">
+                                <p>&copy; Copyright {new Date().getFullYear()} AgriVista</p>
                             </Typography>
                         </motion.div>
                     </Box>
